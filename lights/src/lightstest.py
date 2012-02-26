@@ -54,13 +54,10 @@ function setcolor(colordiv) {
 </BODY>
 """
 from colors import colors
-import digiweb
-import zigbee
-from socket import *
 import sys
 sys.path.append("WEB/python/HttpDrivers.zip")
 from urllib import unquote
-from rgbtohsv import rgbtohsv
+from rgbtohsv import RGBtoHSV
 
 def colorPage(type, path, headers, args):
     socketVal = {'r': 0, 'g':0, 'b':0}
@@ -96,49 +93,19 @@ def colorPage(type, path, headers, args):
                 print "Stopping server"
                 sys.exit()
             
-    sd = socket(AF_XBEE, SOCK_DGRAM, XBS_PROT_TRANSPORT)
-    sd.bind(("", 0xe8, 0, 0))
-    
-    if random_mode:
-        socketdata = "n"
-    else:
-        socketdata = "".join([k+str(v) for k,v in socketVal.items()])
-    
-    if change_speed_changed:
-        socketdata += "s"+str(change_speed)
-    
-    socketdata += "\n"
-        
-    print "sending "+socketdata
-    for node in nodelist:
-        try:
-            sd.sendto(socketdata, 0, (node, 0xe8, 0xc105, 0x11))
-        except:
-            print "Failed to send to "+node
-                
-    nodes = zigbee.get_node_list(False)
-    nodeList = ""
-    for node in nodes:
-        if node.type != "end": continue 
-        nodeList += "<OPTION value='"+node.addr_extended+"'>"+\
-            zigbee.ddo_get_param(node.addr_extended, "NI")+\
-            "</OPTION>"
-    
     colorList = ""
     ckeys = colors.keys()
-    ckeys.sort(cmp=lambda x,y:rgbtohsv(colors[x]['r'],colors[x]['g'],colors[x]['b'])[0] - colors[y]['r'],colors[y]['g'],colors[y]['b'])[0])
+    ckeys.sort(cmp=lambda x,y:RGBtoHSV(colors[x]['r'],colors[x]['g'],colors[x]['b'])[0] - RGBtoHSV(colors[y]['r'],colors[y]['g'],colors[y]['b'])[0])
     for c in ckeys:
         comps = colors[c]
         luma=comps['r']*.3 + comps['g']*.59 + comps['b']*.11
         if luma < 128: textcolor = 'white' 
         else: textcolor = 'black'
         colorList += "<DIV style=\"background-color:#%02x%02x%02x;color:%s;text-align:center;margin:2px 0px;cursor:pointer;\" onclick=\"setcolor(this)\">%s</DIV>" % (comps['r'], comps['g'], comps['b'], textcolor, c)
-    return (digiweb.TextHtml, web_template % {
+    return web_template % {
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
-            'nodes':nodeList, 'colors':colorList })
+            'nodes':[], 'colors':colorList }
 
 if __name__ == "__main__":
-    hnd = digiweb.Callback(colorPage)
-    print "ready"
-    while True: pass
+    print colorPage(None, None, None, None)
    
