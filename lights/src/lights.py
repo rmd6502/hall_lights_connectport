@@ -128,9 +128,13 @@ def colorPage(type, path, headers, args):
     nodeList = ""
     for node in nodes:
         if node.type != "end": continue 
-        nodeList += "<OPTION value='"+node.addr_extended+"'>"+\
-            zigbee.ddo_get_param(node.addr_extended, "NI")+\
-            "</OPTION>"
+		try:
+        	nodeline = "<OPTION value='"+node.addr_extended+"'>"+\
+            	zigbee.ddo_get_param(node.addr_extended, "NI")+\
+            	"</OPTION>"
+			nodeList += nodeline
+		except:
+			pass
     
     colorList = ""
     ckeys = colors.keys()
