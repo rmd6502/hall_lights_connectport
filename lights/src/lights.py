@@ -60,7 +60,7 @@ from socket import *
 import sys
 sys.path.append("WEB/python/HttpDrivers.zip")
 from urllib import unquote
-from rgbtohsv import rgbtohsv
+from rgbtohsv import RGBtoHSV
 
 def colorPage(type, path, headers, args):
     socketVal = {'r': 0, 'g':0, 'b':0}
@@ -126,7 +126,7 @@ def colorPage(type, path, headers, args):
     
     colorList = ""
     ckeys = colors.keys()
-    ckeys.sort(cmp=lambda x,y:rgbtohsv(colors[x]['r'],colors[x]['g'],colors[x]['b'])[0] - colors[y]['r'],colors[y]['g'],colors[y]['b'])[0])
+    ckeys.sort(cmp=lambda x,y:RGBtoHSV(colors[x]['r'],colors[x]['g'],colors[x]['b'])[0] - RGBtoHSV(colors[y]['r'],colors[y]['g'],colors[y]['b'])[0])
     for c in ckeys:
         comps = colors[c]
         luma=comps['r']*.3 + comps['g']*.59 + comps['b']*.11
