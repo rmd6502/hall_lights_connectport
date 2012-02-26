@@ -60,7 +60,13 @@ from socket import *
 import sys
 sys.path.append("WEB/python/HttpDrivers.zip")
 from urllib import unquote
-from rgbtohsv import RGBtoHSV
+import os
+import select
+import thread
+
+sd = None
+th = None
+recvData = {}
 
 def colorPage(type, path, headers, args):
     socketVal = {'r': 0, 'g':0, 'b':0}
@@ -68,19 +74,21 @@ def colorPage(type, path, headers, args):
     random_mode = False
     change_speed = 6
     change_speed_changed = False
+    
     if args is not None:
-        for arg in args.split("&"):
-            argsp = arg.split('=')
-            argkey = argsp[0].lower()
-            argval = ""
-            if len(argsp) > 1: argval = unquote(argsp[1])
+        if type == "POST": args = splitargs(args)
+        ignrgb = False
+        for arg in args.keys():
+            argkey = arg.lower()
+            argval = args[arg]
+            if argval is not None: argval = unquote(argval)
             argval = argval.replace('+', ' ')
             print "key: "+argkey+" val: "+argval
-            if argkey == "red":
+            if not ignrgb and argkey == "red":
                 socketVal['r'] = int(argval)
-            elif argkey == "green":
+            elif not ignrgb and argkey == "green":
                 socketVal['g'] = int(argval)
-            elif argkey == "blue":
+            elif not ignrgb and argkey == "blue":
                 socketVal['b'] = int(argval)
             elif argkey == "speed":
                 change_speed = int(argval)
@@ -88,16 +96,16 @@ def colorPage(type, path, headers, args):
             elif argkey == "color":
                 if colors.has_key(argval.lower()):
                     socketVal = colors[argval.lower()]
+                    ignrgb = True
             elif argkey == "node":
                 nodelist.append(argval)
             elif argkey == "random":
                 random_mode = True
             elif argkey == "quit":
                 print "Stopping server"
+                sd.close()
+                th.exit()
                 sys.exit()
-            
-    sd = socket(AF_XBEE, SOCK_DGRAM, XBS_PROT_TRANSPORT)
-    sd.bind(("", 0xe8, 0, 0))
     
     if random_mode:
         socketdata = "n"
@@ -126,7 +134,7 @@ def colorPage(type, path, headers, args):
     
     colorList = ""
     ckeys = colors.keys()
-    ckeys.sort(cmp=lambda x,y:RGBtoHSV(colors[x]['r'],colors[x]['g'],colors[x]['b'])[0] - RGBtoHSV(colors[y]['r'],colors[y]['g'],colors[y]['b'])[0])
+    ckeys.sort()
     for c in ckeys:
         comps = colors[c]
         luma=comps['r']*.3 + comps['g']*.59 + comps['b']*.11
@@ -137,8 +145,37 @@ def colorPage(type, path, headers, args):
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
             'nodes':nodeList, 'colors':colorList })
 
+def splitargs(arglist):
+    ret = {}
+    for arg in arglist.split("&"):
+        argsp = arg.split('=')
+        if len(argsp) == 1:argsp.append(None)
+        ret[argsp[0]] = argsp[1]
+    return ret
+    
+def monitor_read(sock):
+    rlist = [sock]
+    while True:
+        select.select(rlist, [], [])
+        payload, addr = sock.recvfrom(8192)
+        print "received "+payload+" from "+str(addr)+"\n"
+        if not recvData.has_key(addr[0]):
+            recvData[addr[0]] = payload
+        else:
+            recvData[addr[0]] += payload
+            
+        if len(recvData[addr[0]]) > 500:
+            recvData[addr[0]] = recvData[addr[0]][-500:]
+    
 if __name__ == "__main__":
+    sd = socket(AF_XBEE, SOCK_DGRAM, XBS_PROT_TRANSPORT)
+    sd.bind(("", 0xe8, 0, 0))
+    sd.setblocking(0)
+
+    th = thread.start_new(monitor_read, (sd,))
+    
     hnd = digiweb.Callback(colorPage)
+    
     print "ready"
     while True: pass
    
