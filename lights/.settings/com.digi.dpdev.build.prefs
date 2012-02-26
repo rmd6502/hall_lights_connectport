@@ -1,0 +1,9 @@
+#Fri Feb 24 23:20:10 EST 2012
+IP=192.168.0.110
+compile_sources=true
+device=ConnectPort X4
+eclipse.preferences.version=1
+entry_point=src/lights.py
+remote_config_name=New_configuration
+remove_docstrings=true
+use_current_remote_config=true
