@@ -91,6 +91,16 @@ void handleDefault(byte d) {
     case 'n': case 'N':
       random_mode = !random_mode;
       break;
+    case 'q': case 'Q':
+      Serial.print("Qr");
+      Serial.print(goal[0]);
+      Serial.print("g");
+      Serial.print(goal[1]);
+      Serial.print("b");
+      Serial.print(goal[2]);
+      Serial.print("s");
+      Serial.println(dly);
+      break;
     default:
       return;
   }
