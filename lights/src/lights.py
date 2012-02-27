@@ -182,6 +182,13 @@ if __name__ == "__main__":
     sd.setblocking(0)
 
     th = thread.start_new(monitor_read, (sd,))
+
+    nodes = zigbee.get_node_list(False)
+    for node in nodes:
+        try:
+            sd.sendto("Q", 0, (node.addr_extended, 0xe8, 0xc105, 0x11))
+        except:
+            print "Failed to send to "+node
     
     hnd = digiweb.Callback(colorPage)
     
