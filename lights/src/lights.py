@@ -58,15 +58,15 @@ import digiweb
 import zigbee
 from socket import *
 import sys
-sys.path.append("WEB/python/HttpDrivers.zip")
-from urllib import unquote
 import os
 import select
 import thread
+import re
 
 sd = None
 th = None
 recvData = {}
+exitRequest = False
 
 def colorPage(type, path, headers, args):
     socketVal = {'r': 0, 'g':0, 'b':0}
@@ -82,7 +82,6 @@ def colorPage(type, path, headers, args):
             argkey = arg.lower()
             argval = args[arg]
             if argval is not None: argval = unquote(argval)
-            argval = argval.replace('+', ' ')
             print "key: "+argkey+" val: "+argval
             if not ignrgb and argkey == "red":
                 socketVal['r'] = int(argval)
@@ -104,8 +103,9 @@ def colorPage(type, path, headers, args):
             elif argkey == "quit":
                 print "Stopping server"
                 sd.close()
-                th.exit()
+                exitRequest = True
                 sys.exit()
+                return (digiweb.TextHtml, "exiting")
     
     if random_mode:
         socketdata = "n"
@@ -128,13 +128,13 @@ def colorPage(type, path, headers, args):
     nodeList = ""
     for node in nodes:
         if node.type != "end": continue 
-		try:
-        	nodeline = "<OPTION value='"+node.addr_extended+"'>"+\
-            	zigbee.ddo_get_param(node.addr_extended, "NI")+\
-            	"</OPTION>"
-			nodeList += nodeline
-		except:
-			pass
+        try:
+            nodeline = "<OPTION value='"+node.addr_extended+"'>"+\
+                zigbee.ddo_get_param(node.addr_extended, "NI")+\
+                "</OPTION>"
+            nodeList += nodeline
+        except:
+            pass
     
     colorList = ""
     ckeys = colors.keys()
@@ -159,7 +159,7 @@ def splitargs(arglist):
     
 def monitor_read(sock):
     rlist = [sock]
-    while True:
+    while not exitRequest:
         select.select(rlist, [], [])
         payload, addr = sock.recvfrom(8192)
         print "received "+payload+" from "+str(addr)+"\n"
@@ -171,6 +171,11 @@ def monitor_read(sock):
         if len(recvData[addr[0]]) > 500:
             recvData[addr[0]] = recvData[addr[0]][-500:]
     
+def unquote(str):
+    str = str.replace('+',' ')
+    str = re.sub('%[\da-fA-F]{2}', lambda(x) : chr(int(x.group(0)[1:],16)), str)
+    return str
+
 if __name__ == "__main__":
     sd = socket(AF_XBEE, SOCK_DGRAM, XBS_PROT_TRANSPORT)
     sd.bind(("", 0xe8, 0, 0))
