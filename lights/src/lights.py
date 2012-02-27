@@ -1,7 +1,7 @@
 #####################################################################
 # This is the main project module
 # Created on: 24 February 2012
-# Author: rmd
+# Author: Robert Diamond
 # Description:
 #####################################################################
 
@@ -15,9 +15,11 @@ function setcolor(colordiv) {
     document.forms[0].color.value = colordiv.textContent;
     document.forms[0].submit();
 }
+function updateAjax() {
+}
 </SCRIPT>
 </HEAD>
-<BODY>
+<BODY onload="updateAjax()">
 <FORM METHOD="POST">
 <TABLE>
 <TR>
@@ -65,10 +67,22 @@ import re
 
 sd = None
 th = None
+th2 = None
 recvData = {}
 exitRequest = False
+nodeData = {}
 
-def colorPage(type, path, headers, args):
+def serverPage(type, path, headers, args):
+    if args is not None:
+        if type == "POST": args = splitargs(args)
+    if path == "/lights":
+        return colorPage(args)
+    elif path == "/query":
+        return query(args)
+    else:
+        return (digiweb.TextHtml,"<h1>Invalid URL</h1>")
+
+def colorPage(args):
     socketVal = {'r': 0, 'g':0, 'b':0}
     nodelist = []
     random_mode = False
@@ -76,7 +90,6 @@ def colorPage(type, path, headers, args):
     change_speed_changed = False
     
     if args is not None:
-        if type == "POST": args = splitargs(args)
         ignrgb = False
         for arg in args.keys():
             argkey = arg.lower()
@@ -110,6 +123,23 @@ def colorPage(type, path, headers, args):
     if random_mode:
         socketdata = "n"
     else:
+        if len(nodelist) > 0:
+            try:
+                nodeaddr = nodelist[0]
+                if not nodeData.has_key(nodeaddr):
+                    nodeData[nodeaddr] = {
+                        "red":0, "green":0, "blue":0, "speed":0,
+                        "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
+                    }
+                nodeData[nodeaddr]['red'] = socketVal['r']
+                nodeData[nodeaddr]['green'] = socketVal['g']
+                nodeData[nodeaddr]['blue'] = socketVal['b']
+                if change_speed_changed:
+                    nodeData[nodeaddr]['speed'] = change_speed
+            except:
+                exctype, value = sys.exc_info()[:2]
+                print "failed to update nodeData: "+str(exctype)+", "+str(value)
+
         socketdata = "".join([k+str(v) for k,v in socketVal.items()])
     
     if change_speed_changed:
@@ -149,6 +179,26 @@ def colorPage(type, path, headers, args):
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
             'nodes':nodeList, 'colors':colorList })
 
+xmlTemplate = """
+<lights>
+    %s
+</lights>
+"""
+lightTemplate = """
+<light node="%(nodeaddr)s">
+    <red>%(red)d</red>
+    <green>%(green)d</green>
+    <blue>%(blue)d</blue>
+    <speed>%(speed)d</speed>
+    <nodeId>%(nodeId)s</nodeId>
+</light>\n
+"""
+def query(args):
+    lightData = ""
+    for nodeInfo in nodeData.keys():
+        lightData += lightTemplate % nodeData[nodeInfo]
+    return (digiweb.TextXml, xmlTemplate % (lightData,))
+
 def splitargs(arglist):
     ret = {}
     for arg in arglist.split("&"):
@@ -157,6 +207,28 @@ def splitargs(arglist):
         ret[argsp[0]] = argsp[1]
     return ret
     
+def parseQ():
+    pat = "Qr(\d+)g(\d+)b(\d+)s(\d+)"
+    for nodeaddr,text in recvData.items():
+        match = re.search(pat, text)
+        if match is not None:
+            print "found match"
+            try:
+                if not nodeData.has_key(nodeaddr):
+                    nodeData[nodeaddr] = {
+                        "red":0, "green":0, "blue":0, "speed":0,
+                        "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
+                    }
+            except:
+                exctype, value = sys.exc_info()[:2]
+                print "failed to add node: "+str(exctype)+", "+str(value)
+                continue
+            recvData[nodeaddr] = ""
+            nodeData[nodeaddr]['red'] = int(match.group(1))
+            nodeData[nodeaddr]['green'] = int(match.group(2))
+            nodeData[nodeaddr]['blue'] = int(match.group(3))
+            nodeData[nodeaddr]['speed'] = int(match.group(4))
+
 def monitor_read(sock):
     rlist = [sock]
     while not exitRequest:
@@ -167,10 +239,27 @@ def monitor_read(sock):
             recvData[addr[0]] = payload
         else:
             recvData[addr[0]] += payload
+        parseQ()
             
         if len(recvData[addr[0]]) > 500:
             recvData[addr[0]] = recvData[addr[0]][-500:]
+    print "goodbye from monitor_read\n"
     
+def query_params(sock):
+    print "starting query params\n"
+    import time
+    nodes = zigbee.get_node_list(False)
+    while not exitRequest:
+        try:
+            for n in nodes:
+                print "sending query to "+n.addr_extended
+                sock.sendto("Q\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
+        except:
+            exctype, value = sys.exc_info()[:2]
+            print "failed to query node: "+str(exctype)+", "+str(value)
+        time.sleep(60)
+    print "goodbye from query_params\n"
+
 def unquote(str):
     str = str.replace('+',' ')
     str = re.sub('%[\da-fA-F]{2}', lambda(x) : chr(int(x.group(0)[1:],16)), str)
@@ -182,15 +271,9 @@ if __name__ == "__main__":
     sd.setblocking(0)
 
     th = thread.start_new(monitor_read, (sd,))
-
-    nodes = zigbee.get_node_list(False)
-    for node in nodes:
-        try:
-            sd.sendto("Q", 0, (node.addr_extended, 0xe8, 0xc105, 0x11))
-        except:
-            print "Failed to send to "+node
+    th2 = thread.start_new(query_params, (sd,))
     
-    hnd = digiweb.Callback(colorPage)
+    hnd = digiweb.Callback(serverPage)
     
     print "ready"
     while True: pass
