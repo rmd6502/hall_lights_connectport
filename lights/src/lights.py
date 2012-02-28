@@ -15,6 +15,7 @@ function setcolor(colordiv) {
     document.forms[0].color.value = colordiv.textContent;
     document.forms[0].submit();
 }
+HTMLElement.prototype.hasFocus = 0;
 function updateAjax(url) {
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
@@ -22,7 +23,6 @@ function updateAjax(url) {
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
     xmlhttp.onreadystatechange=function() {
-        var newstate = xmlhttp.readystate;
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var x = xmlhttp.responseXML;
             var sel = document.getElementsByName("node")[0];
@@ -31,20 +31,28 @@ function updateAjax(url) {
             for (var lightno=0; lightno < lights.length; ++lightno) {
                 var light = lights.item(lightno);
                 if (light.attributes.getNamedItem("node").nodeValue == selNode) {
-                    document.getElementsByName("red")[0].value = 
-                        x.getElementsByTagName("red")[0].firstChild.nodeValue;
-                    document.getElementsByName("green")[0].value = 
-                        x.getElementsByTagName("green")[0].firstChild.nodeValue;
-                    document.getElementsByName("blue")[0].value = 
-                        x.getElementsByTagName("blue")[0].firstChild.nodeValue;
-                    document.getElementsByName("speed")[0].value = 
-                        x.getElementsByTagName("speed")[0].firstChild.nodeValue;
+                    if (!document.getElementsByName("red")[0].hasFocus) {
+                        document.getElementsByName("red")[0].value = 
+                            x.getElementsByTagName("red")[0].firstChild.nodeValue;
+                    }
+                    if (!document.getElementsByName("green")[0].hasFocus) {
+                        document.getElementsByName("green")[0].value = 
+                            x.getElementsByTagName("green")[0].firstChild.nodeValue;
+                    }
+                    if (!document.getElementsByName("blue")[0].hasFocus) {
+                        document.getElementsByName("blue")[0].value = 
+                            x.getElementsByTagName("blue")[0].firstChild.nodeValue;
+                    }
+                    if (!document.getElementsByName("speed")[0].hasFocus) {
+                        document.getElementsByName("speed")[0].value = 
+                            x.getElementsByTagName("speed")[0].firstChild.nodeValue;
+                    }
                     break;
                 }
             }
         }
-        if (newstate == 4) {
-            window.setTimeout("updateAjax('"+url+"')", 30000);
+        if (xmlhttp.readyState == 4) {
+            window.setTimeout("updateAjax('"+url+"')", 7000);
         }
     }
     xmlhttp.open("GET",url,true);
@@ -61,16 +69,20 @@ function updateAjax(url) {
 </SELECT></TD>
 </TR>
 <TR>
-<TD>Red</TD><TD><INPUT TYPE="text" NAME="red" VALUE="%(red)d"/></TD>
+<TD>Red</TD><TD><INPUT TYPE="text" NAME="red" VALUE="%(red)d" 
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
-<TD>Green</TD><TD><INPUT TYPE="text" NAME="green" VALUE="%(green)d"/></TD>
+<TD>Green</TD><TD><INPUT TYPE="text" NAME="green" VALUE="%(green)d"
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
-<TD>Blue</TD><TD><INPUT TYPE="text" NAME="blue" VALUE="%(blue)d"/></TD>
+<TD>Blue</TD><TD><INPUT TYPE="text" NAME="blue" VALUE="%(blue)d"
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
-<TD>Change Delay</TD><TD><INPUT TYPE="text" NAME="speed" VALUE="%(speed)d"/></TD>
+<TD>Change Delay</TD><TD><INPUT TYPE="text" NAME="speed" VALUE="%(speed)d"
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
 <TD>Or Choose a Predefined Color:</TD><TD>
