@@ -15,11 +15,44 @@ function setcolor(colordiv) {
     document.forms[0].color.value = colordiv.textContent;
     document.forms[0].submit();
 }
-function updateAjax() {
+function updateAjax(url) {
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    } else {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function() {
+        var newstate = xmlhttp.readystate;
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            var x = xmlhttp.responseXML;
+            var sel = document.getElementsByName("node")[0];
+            var selNode = sel.options[sel.selectedIndex].value;
+            var lights = x.getElementsByTagName("light");
+            for (var lightno=0; lightno < lights.length; ++lightno) {
+                var light = lights.item(lightno);
+                if (light.attributes.getNamedItem("node").nodeValue == selNode) {
+                    document.getElementsByName("red")[0].value = 
+                        x.getElementsByTagName("red")[0].firstChild.nodeValue;
+                    document.getElementsByName("green")[0].value = 
+                        x.getElementsByTagName("green")[0].firstChild.nodeValue;
+                    document.getElementsByName("blue")[0].value = 
+                        x.getElementsByTagName("blue")[0].firstChild.nodeValue;
+                    document.getElementsByName("speed")[0].value = 
+                        x.getElementsByTagName("speed")[0].firstChild.nodeValue;
+                    break;
+                }
+            }
+        }
+        if (newstate == 4) {
+            window.setTimeout("updateAjax('"+url+"')", 30000);
+        }
+    }
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();
 }
 </SCRIPT>
 </HEAD>
-<BODY onload="updateAjax()">
+<BODY onload="updateAjax(location.origin+'/query')">
 <FORM METHOD="POST">
 <TABLE>
 <TR>
