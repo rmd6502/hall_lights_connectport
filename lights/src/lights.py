@@ -176,19 +176,21 @@ def colorPage(args):
                         "red":0, "green":0, "blue":0, "speed":0,
                         "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
                     }
-                nodeData[nodeaddr]['red'] = socketVal['r']
-                nodeData[nodeaddr]['green'] = socketVal['g']
-                nodeData[nodeaddr]['blue'] = socketVal['b']
-                if change_speed_changed:
-                    nodeData[nodeaddr]['speed'] = change_speed
+                    nodeData[nodeaddr]['red'] = socketVal['r']
+                    nodeData[nodeaddr]['green'] = socketVal['g']
+                    nodeData[nodeaddr]['blue'] = socketVal['b']
+                    if change_speed_changed:
+                        nodeData[nodeaddr]['speed'] = change_speed
+                else:
+                    socketVal['r'] = nodeData[nodeaddr]['red']
+                    socketVal['g'] = nodeData[nodeaddr]['green']
+                    socketVal['b'] = nodeData[nodeaddr]['blue']
+                    socketVal['s'] = nodeData[nodeaddr]['speed']
             except:
                 exctype, value = sys.exc_info()[:2]
                 print "failed to update nodeData: "+str(exctype)+", "+str(value)
 
         socketdata = "".join([k+str(v) for k,v in socketVal.items()])
-    
-    if change_speed_changed:
-        socketdata += "s"+str(change_speed)
     
     socketdata += "\n"
         
