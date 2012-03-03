@@ -129,6 +129,7 @@ def serverPage(type, path, headers, args):
 
 def colorPage(args):
     socketVal = {'r': 0, 'g':0, 'b':0}
+    currentVal = {'r': 0, 'g':0, 'b':0}
     nodelist = []
     random_mode = False
     change_speed = 6
@@ -153,6 +154,7 @@ def colorPage(args):
             elif argkey == "color":
                 if colors.has_key(argval.lower()):
                     socketVal = colors[argval.lower()]
+                    currentVal = socketVal
                     ignrgb = True
             elif argkey == "node":
                 nodelist.append(argval)
@@ -181,11 +183,12 @@ def colorPage(args):
                     nodeData[nodeaddr]['blue'] = socketVal['b']
                     if change_speed_changed:
                         nodeData[nodeaddr]['speed'] = change_speed
+                    currentVal = socketVal
                 else:
-                    socketVal['r'] = nodeData[nodeaddr]['red']
-                    socketVal['g'] = nodeData[nodeaddr]['green']
-                    socketVal['b'] = nodeData[nodeaddr]['blue']
-                    socketVal['s'] = nodeData[nodeaddr]['speed']
+                    currentVal = {'r' : nodeData[nodeaddr]['red'],
+                        'g' : nodeData[nodeaddr]['green'],
+                        'b' : nodeData[nodeaddr]['blue'],
+                        's' : nodeData[nodeaddr]['speed']}
             except:
                 exctype, value = sys.exc_info()[:2]
                 print "failed to update nodeData: "+str(exctype)+", "+str(value)
@@ -194,13 +197,20 @@ def colorPage(args):
     
     socketdata += "\n"
         
-    print "sending "+socketdata
+    print "sending "+socketdata+" to "+str(nodelist) + "\n"
     for node in nodelist:
         try:
             sd.sendto(socketdata, 0, (node, 0xe8, 0xc105, 0x11))
         except:
             print "Failed to send to "+node
                 
+    if len(nodelist) == 0 and len(nodeData) > 0:
+        nodeaddr = nodeData.keys()[0]
+        currentVal = {'r' : nodeData[nodeaddr]['red'],
+            'g' : nodeData[nodeaddr]['green'],
+            'b' : nodeData[nodeaddr]['blue'],
+            's' : nodeData[nodeaddr]['speed']}
+
     nodes = zigbee.get_node_list(False)
     nodeList = ""
     for node in nodes:
@@ -221,9 +231,10 @@ def colorPage(args):
         luma=comps['r']*.3 + comps['g']*.59 + comps['b']*.11
         if luma < 128: textcolor = 'white' 
         else: textcolor = 'black'
-        colorList += "<DIV style=\"background-color:#%02x%02x%02x;color:%s;text-align:center;margin:2px 0px;cursor:pointer;\" onclick=\"setcolor(this)\">%s</DIV>" % (comps['r'], comps['g'], comps['b'], textcolor, c)
+        colorEntry = "<DIV style=\"background-color:#%02x%02x%02x;color:%s;text-align:center;margin:2px 0px;cursor:pointer;\" onclick=\"setcolor(this)\">%s</DIV>" % (comps['r'], comps['g'], comps['b'], textcolor, c)
+        colorList += colorEntry
     return (digiweb.TextHtml, web_template % {
-            'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
+            'red':currentVal['r'], 'green':currentVal['g'], 'blue':currentVal['b'],'speed':change_speed,
             'nodes':nodeList, 'colors':colorList })
 
 xmlTemplate = """
@@ -295,16 +306,16 @@ def monitor_read(sock):
 def query_params(sock):
     print "starting query params\n"
     import time
-    nodes = zigbee.get_node_list(False)
     while not exitRequest:
         try:
+            nodes = zigbee.get_node_list(True)
             for n in nodes:
                 print "sending query to "+n.addr_extended
                 sock.sendto("Q\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
         except:
             exctype, value = sys.exc_info()[:2]
             print "failed to query node: "+str(exctype)+", "+str(value)
-        time.sleep(60)
+        time.sleep(10)
     print "goodbye from query_params\n"
 
 def unquote(str):
