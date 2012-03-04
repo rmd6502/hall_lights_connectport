@@ -169,6 +169,8 @@ def colorPage(args):
         socketdata = "n"
     else:
         socketdata = "".join([k+str(v) for k,v in socketVal.items()])
+        if change_speed_changed:
+            socketdata += "s"+str(change_speed)
     
     socketdata += "\n"
     print "sending "+socketdata+" to "+str(nodelist) + "\n"
