@@ -129,7 +129,6 @@ def serverPage(type, path, headers, args):
 
 def colorPage(args):
     socketVal = {'r': 0, 'g':0, 'b':0}
-    currentVal = {'r': 0, 'g':0, 'b':0}
     nodelist = []
     random_mode = False
     change_speed = 6
@@ -154,7 +153,6 @@ def colorPage(args):
             elif argkey == "color":
                 if colors.has_key(argval.lower()):
                     socketVal = colors[argval.lower()]
-                    currentVal = socketVal
                     ignrgb = True
             elif argkey == "node":
                 nodelist.append(argval)
@@ -170,54 +168,30 @@ def colorPage(args):
     if random_mode:
         socketdata = "n"
     else:
-        if len(nodelist) > 0:
-            try:
-                nodeaddr = nodelist[0]
-                if not nodeData.has_key(nodeaddr):
-                    nodeData[nodeaddr] = {
-                        "red":0, "green":0, "blue":0, "speed":0,
-                        "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
-                    }
-                    nodeData[nodeaddr]['red'] = socketVal['r']
-                    nodeData[nodeaddr]['green'] = socketVal['g']
-                    nodeData[nodeaddr]['blue'] = socketVal['b']
-                    if change_speed_changed:
-                        nodeData[nodeaddr]['speed'] = change_speed
-                    currentVal = socketVal
-                else:
-                    currentVal = {'r' : nodeData[nodeaddr]['red'],
-                        'g' : nodeData[nodeaddr]['green'],
-                        'b' : nodeData[nodeaddr]['blue'],
-                        's' : nodeData[nodeaddr]['speed']}
-            except:
-                exctype, value = sys.exc_info()[:2]
-                print "failed to update nodeData: "+str(exctype)+", "+str(value)
-
         socketdata = "".join([k+str(v) for k,v in socketVal.items()])
     
     socketdata += "\n"
-        
     print "sending "+socketdata+" to "+str(nodelist) + "\n"
+        
     for node in nodelist:
         try:
             sd.sendto(socketdata, 0, (node, 0xe8, 0xc105, 0x11))
         except:
             print "Failed to send to "+node
                 
-    if len(nodelist) == 0 and len(nodeData) > 0:
-        nodeaddr = nodeData.keys()[0]
-        currentVal = {'r' : nodeData[nodeaddr]['red'],
-            'g' : nodeData[nodeaddr]['green'],
-            'b' : nodeData[nodeaddr]['blue'],
-            's' : nodeData[nodeaddr]['speed']}
-
     nodes = zigbee.get_node_list(False)
     nodeList = ""
     for node in nodes:
         if node.type != "end": continue 
         try:
-            nodeline = "<OPTION value='"+node.addr_extended+"'>"+\
-                zigbee.ddo_get_param(node.addr_extended, "NI")+\
+            nodeaddr = node.addr_extended
+            if not nodeData.has_key(nodeaddr):
+                nodeData[nodeaddr] = {
+                    "red":0, "green":0, "blue":0, "speed":0,
+                    "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
+                }
+            nodeline = "<OPTION value='"+nodeaddr+"'>"+\
+                zigbee.ddo_get_param(nodeaddr, "NI")+\
                 "</OPTION>"
             nodeList += nodeline
         except:
@@ -233,8 +207,26 @@ def colorPage(args):
         else: textcolor = 'black'
         colorEntry = "<DIV style=\"background-color:#%02x%02x%02x;color:%s;text-align:center;margin:2px 0px;cursor:pointer;\" onclick=\"setcolor(this)\">%s</DIV>" % (comps['r'], comps['g'], comps['b'], textcolor, c)
         colorList += colorEntry
+
+    if len(nodelist) > 0:
+        try:
+            nodeaddr = nodelist[0]
+            nodeData[nodeaddr]['red'] = socketVal['r']
+            nodeData[nodeaddr]['green'] = socketVal['g']
+            nodeData[nodeaddr]['blue'] = socketVal['b']
+            if change_speed_changed:
+                nodeData[nodeaddr]['speed'] = change_speed
+        except:
+            exctype, value = sys.exc_info()[:2]
+            print "failed to update nodeData: "+str(exctype)+", "+str(value)
+    elif len(nodeData) > 0:
+        nodeaddr = nodeData.keys()[0]
+        socketVal = { 'r': nodeData[nodeaddr]['red'],
+            'g': nodeData[nodeaddr]['green'],
+            'b': nodeData[nodeaddr]['blue'] }
+
     return (digiweb.TextHtml, web_template % {
-            'red':currentVal['r'], 'green':currentVal['g'], 'blue':currentVal['b'],'speed':change_speed,
+            'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
             'nodes':nodeList, 'colors':colorList })
 
 xmlTemplate = """
