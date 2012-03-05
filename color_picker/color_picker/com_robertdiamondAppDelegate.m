@@ -7,11 +7,8 @@
 //
 
 #import "com_robertdiamondAppDelegate.h"
-
-@interface com_robertdiamondAppDelegate()
-- (void)loadNodes:(NSString *)req;
-- (void)loadFinished;
-@end
+#import "TBXML.h"
+#import "TBXML+HTTP.h"
 
 @implementation com_robertdiamondAppDelegate
 
@@ -31,14 +28,19 @@
     nodeList = [NSMutableArray array];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    self.viewController = [[[ColorPickerViewController alloc] initWithNibName:@"ColorPickerViewController" bundle:nil] autorelease];
-    self.viewController.delegate = self;
-    self.window.rootViewController = self.viewController;
+    ChooseLightViewController *clvc = [[[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil] autorelease];
+    //self.viewController.delegate = self;]
+    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:clvc] autorelease];
     [self.window makeKeyAndVisible];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"192.168.0.110", @"arduino", nil]];
-    NSString *req = [NSString stringWithFormat:@"http://%@/lights/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
-    [self performSelectorInBackground:@selector(loadNodes:) withObject:req];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"diamond.homelinux.com:2525", @"arduino", nil]];
+    NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
+    nodeList = [TBXML tbxmlWithURL:[NSURL URLWithString:req] success:^(TBXML *result) {
+        clvc.tbxml = nodeList;
+    } failure:^(TBXML *result, NSError *error) {
+        NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
+    }];
+    [nodeList retain];
     return YES;
 }
 
@@ -81,46 +83,4 @@
      */
 }
 
-- (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
-    CGFloat r,g,b;
-    const CGFloat *comps = CGColorGetComponents(color.CGColor);
-    r = comps[0]; g = comps[1]; b = comps[2];
-    //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-    NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d",host,(int)(r*255), (int)(g*255), (int)(b*255)];
-    NSURLResponse *response = nil;
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
-}
-
-- (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
-    NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@?random=Random",host];
-    NSURLResponse *response = nil;
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
-}
-
-- (void)loadNodes:(NSString *)reqString {
-    NSURLResponse *resp = nil;
-    NSError * error = nil;
-    
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:reqString]];
-    nodes = [NSURLConnection sendSynchronousRequest:req returningResponse:&resp error:&error];
-    
-    if (error) {
-        NSLog(@"Failed to load %@, error %@", reqString, error.localizedDescription);
-        nodes = nil;
-    } else {
-        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:nodes];
-        [parser setDelegate:self];
-        [parser parse];
-    }
-    
-    [self performSelectorOnMainThread:@selector(loadFinished) withObject:nil waitUntilDone:NO];
-}
-
-- (void)loadFinished {
-    
-}
 @end

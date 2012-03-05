@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "ColorPickerViewController.h"
+#import "ChooseLightViewController.h"
 
-@interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate,ColorPickerViewControllerDelegate, NSXMLParserDelegate> {
-    NSData *nodes;
-    NSMutableArray *nodeList;
+@class TBXML;
+@interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate> {
+    TBXML *nodeList;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) ColorPickerViewController *viewController;
+@property (strong, nonatomic) ChooseLightViewController *viewController;
 
 @end
