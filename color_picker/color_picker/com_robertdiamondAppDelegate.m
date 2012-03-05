@@ -17,7 +17,6 @@
 
 - (void)dealloc
 {
-    [nodeList release];
     [_window release];
     [_viewController release];
     [super dealloc];
@@ -25,7 +24,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    nodeList = [NSMutableArray array];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     ChooseLightViewController *clvc = [[[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil] autorelease];
@@ -34,13 +32,7 @@
     [self.window makeKeyAndVisible];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"diamond.homelinux.com:2525", @"arduino", nil]];
-    NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
-    nodeList = [TBXML tbxmlWithURL:[NSURL URLWithString:req] success:^(TBXML *result) {
-        clvc.tbxml = nodeList;
-    } failure:^(TBXML *result, NSError *error) {
-        NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
-    }];
-    [nodeList retain];
+    [clvc doRefresh:nil];
     return YES;
 }
 

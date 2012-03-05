@@ -10,11 +10,13 @@
 #import "ColorPickerViewController.h"
 #import "ColorPickerView.h"
 #import "TBXML.h"
+#import "TBXML+HTTP.h"
 
 @implementation ChooseLightViewController
 @synthesize tbxml;
 @synthesize tableView;
 @synthesize spinner;
+@synthesize refresh;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,17 +41,32 @@
 {
     [super viewDidLoad];
     spinner.hidden = NO;
-    // Do any additional setup after loading the view from its nib.
+    
+    refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doRefresh:)];
+    self.navigationItem.rightBarButtonItem = refresh;
+}
+
+- (IBAction)doRefresh:(id)sender {
+    NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
+    [TBXML tbxmlWithURL:[NSURL URLWithString:req] success:^(TBXML *result) {
+        NSLog(@"got result %@", result);
+        self.tbxml = result;
+    } failure:^(TBXML *result, NSError *error) {
+        NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
+    }]; 
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [refresh release];
+    refresh = nil;
 }
 
 - (void)dealloc {
     [node release];
     [tbxml release];
+    [refresh release];
     [super dealloc];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -60,9 +77,20 @@
 
 - (void)setTbxml:(TBXML *)tbxml_ {
     [tbxml release];
-    spinner.hidden = YES;
     tbxml = tbxml_;
+    [tbxml retain];
+    [self performSelectorOnMainThread:@selector(updateTable) withObject:self waitUntilDone:NO];
+}
+
+- (void)updateTable {
+    if (![NSThread isMainThread]) return;
+    spinner.hidden = YES;
     [tableView reloadData];
+    if ([self tableView:tableView numberOfRowsInSection:0] == 0) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"No Lights" message:@"No lights defined" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [av show];
+        [av release];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

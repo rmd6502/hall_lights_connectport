@@ -17,5 +17,10 @@
 @property (nonatomic, assign) IBOutlet UITableView *tableView;
 @property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) TBXML *tbxml;
+@property (nonatomic, retain) UIBarButtonItem *refresh;
+
+- (IBAction)doRefresh:(id)sender;
+
+- (void)updateTable;
 
 @end

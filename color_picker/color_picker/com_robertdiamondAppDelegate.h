@@ -12,7 +12,6 @@
 
 @class TBXML;
 @interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate> {
-    TBXML *nodeList;
 }
 
 @property (strong, nonatomic) UIWindow *window;
