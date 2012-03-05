@@ -47,8 +47,9 @@
 }
 
 - (IBAction)doRefresh:(id)sender {
-    NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
-    [TBXML tbxmlWithURL:[NSURL URLWithString:req] success:^(TBXML *result) {
+    __block NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
+    __block NSURL *url = [NSURL URLWithString:req];
+    [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         NSLog(@"got result %@", result);
         self.tbxml = result;
     } failure:^(TBXML *result, NSError *error) {

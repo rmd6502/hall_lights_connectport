@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
-		83ED0A7F15043E220096A20C /* TBXML+HTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 83ED0A7D15043D960096A20C /* TBXML+HTTP.h */; };
-		83ED0A8015043E220096A20C /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 83ED0A7E15043D960096A20C /* TBXML.h */; };
-		83ED0A8415044B3D0096A20C /* ChooseLightViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */; };
+		83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798815055860002AC1DA /* rainbow_lamp.png */; };
+		83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
 		9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED314CBA53300DFAD4A /* UIKit.framework */; };
@@ -71,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		83B4798815055860002AC1DA /* rainbow_lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp.png; sourceTree = "<group>"; };
+		83B4798915055860002AC1DA /* rainbow_lamp@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2.png"; sourceTree = "<group>"; };
 		83ED0A6415040A190096A20C /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
 		83ED0A7C15043D960096A20C /* TBXML+Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+Compression.h"; sourceTree = "<group>"; };
 		83ED0A7D15043D960096A20C /* TBXML+HTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+HTTP.h"; sourceTree = "<group>"; };
@@ -188,6 +189,8 @@
 		9CE4EEDA14CBA53300DFAD4A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83B4798815055860002AC1DA /* rainbow_lamp.png */,
+				83B4798915055860002AC1DA /* rainbow_lamp@2.png */,
 				9CE4EEF414CBA64E00DFAD4A /* UI Parts */,
 				9CE4EEDB14CBA53300DFAD4A /* color_picker-Info.plist */,
 				9CE4EEDC14CBA53300DFAD4A /* InfoPlist.strings */,
@@ -234,25 +237,11 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		83ED0A7A15043D6C0096A20C /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				83ED0A7F15043E220096A20C /* TBXML+HTTP.h in Headers */,
-				83ED0A8015043E220096A20C /* TBXML.h in Headers */,
-				83ED0A8415044B3D0096A20C /* ChooseLightViewController.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		9CE4EECE14CBA53300DFAD4A /* color_picker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9CE4EEED14CBA53300DFAD4A /* Build configuration list for PBXNativeTarget "color_picker" */;
 			buildPhases = (
-				83ED0A7A15043D6C0096A20C /* Headers */,
 				9CE4EECB14CBA53300DFAD4A /* Sources */,
 				9CE4EECC14CBA53300DFAD4A /* Frameworks */,
 				9CE4EECD14CBA53300DFAD4A /* Resources */,
@@ -341,6 +330,8 @@
 				9CE4EF1A14CBA74100DFAD4A /* ColorPickerViewController.xib in Resources */,
 				9CE4EF1C14CBB22700DFAD4A /* Settings.bundle in Resources */,
 				83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */,
+				83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */,
+				83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

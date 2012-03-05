@@ -9,7 +9,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
-	<array/>
+	<array>
+		<string>rainbow_lamp.png</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>Robert-M-Diamond.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
