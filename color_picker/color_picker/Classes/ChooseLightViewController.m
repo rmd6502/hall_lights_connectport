@@ -14,6 +14,7 @@
 @implementation ChooseLightViewController
 @synthesize tbxml;
 @synthesize tableView;
+@synthesize spinner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    spinner.hidden = NO;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -54,6 +56,7 @@
 }
 
 - (void)setTbxml:(TBXML *)tbxml_ {
+    spinner.hidden = YES;
     tbxml = tbxml_;
     [tableView reloadData];
 }
@@ -101,14 +104,15 @@
     if (element == nil) return;
     node = [TBXML valueOfAttributeNamed:@"node" forElement:element];
     CGFloat r,g,b;
-    r = [[TBXML valueOfAttributeNamed:@"node" forElement:element] floatValue]/255.;
-    g = [[TBXML valueOfAttributeNamed:@"node" forElement:element] floatValue]/255.;
-    b = [[TBXML valueOfAttributeNamed:@"node" forElement:element] floatValue]/255.;
+    r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
+    g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;;
+    b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;;
     UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+    //NSLog(@"color: %@", currentColor);
     
     ColorPickerViewController *cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
     cpvc.delegate = self;
-    [(ColorPickerView *)cpvc.view setColor:currentColor];
+    cpvc.defaultsColor = currentColor;
     [self.navigationController pushViewController:cpvc animated:YES];
     [cpvc release];
 }

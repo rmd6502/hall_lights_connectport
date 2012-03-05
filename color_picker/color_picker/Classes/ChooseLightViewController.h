@@ -15,6 +15,7 @@
 }
 
 @property (nonatomic, assign) IBOutlet UITableView *tableView;
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) TBXML *tbxml;
 
 @end
