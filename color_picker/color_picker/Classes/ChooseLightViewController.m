@@ -45,10 +45,13 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
+- (void)dealloc {
+    [node release];
+    [tbxml release];
+    [super dealloc];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -56,6 +59,7 @@
 }
 
 - (void)setTbxml:(TBXML *)tbxml_ {
+    [tbxml release];
     spinner.hidden = YES;
     tbxml = tbxml_;
     [tableView reloadData];
@@ -102,7 +106,8 @@
         ++count;
     }
     if (element == nil) return;
-    node = [TBXML valueOfAttributeNamed:@"node" forElement:element];
+    [node release];
+    node = [[TBXML valueOfAttributeNamed:@"node" forElement:element] retain];
     CGFloat r,g,b;
     r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
     g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;;
@@ -119,6 +124,7 @@
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
     CGFloat r,g,b;
+    colorPicker.defaultsColor = color;
     const CGFloat *comps = CGColorGetComponents(color.CGColor);
     r = comps[0]; g = comps[1]; b = comps[2];
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);

@@ -29,7 +29,7 @@
 //    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define kBrightnessGradientPlacent CGRectMake(10, 404, 300, 40)
+#define kBrightnessGradientPlacent CGRectMake(10, 364, 300, 40)
 
 #define kHueSatImage @"colormap.png"
 
@@ -37,7 +37,7 @@
 #define kYAxisOffset 120.0
 
 #define kMatrixWidth 298.0
-#define kMatrixHeight 257.0
+#define kMatrixHeight 237.0
 
 #define kHueSatFrame CGRectMake(kXAxisOffset, kYAxisOffset, kMatrixWidth, kMatrixHeight)
 #define kColorWindowFrame CGRectMake(66, 0, 188, 44)
@@ -50,5 +50,5 @@
 
 #define kAnimationDuration 0.4
 
-#define kBrightBarYCenter 423
+#define kBrightBarYCenter 388
 
