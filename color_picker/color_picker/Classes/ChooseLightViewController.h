@@ -12,6 +12,8 @@
 @class TBXML;
 @interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate> {
     NSMutableDictionary *lightColors;
+    NSTimer *refreshTimer;
+    ColorPickerViewController *cpvc;
 }
 
 @property (nonatomic, assign) IBOutlet UITableView *tableView;

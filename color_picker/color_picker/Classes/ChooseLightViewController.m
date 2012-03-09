@@ -25,6 +25,7 @@
     if (self) {
         self.navigationItem.title = @"Choose a Light";
         lightColors = [[NSMutableDictionary alloc] init];
+        cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
     }
     return self;
 }
@@ -46,6 +47,7 @@
     
     refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doRefresh:)];
     self.navigationItem.rightBarButtonItem = refresh;
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
 }
 
 - (IBAction)doRefresh:(id)sender {
@@ -63,6 +65,10 @@
 {
     [super viewDidUnload];
     [refresh release];
+    [cpvc release];
+    [refreshTimer invalidate];
+    [refreshTimer release];
+    refreshTimer = nil;
     refresh = nil;
 }
 
@@ -70,6 +76,7 @@
     [tbxml release];
     [refresh release];
     [lightColors release];
+    [cpvc release];
     [super dealloc];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -92,6 +99,9 @@
         g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;
         b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;
         UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+        if ([[node objectForKey:@"node"] isEqualToString:nodeId]) {
+            [(ColorPickerView *)cpvc.view setColor:currentColor];
+        }
         NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
         [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                currentColor, @"color", 
@@ -139,11 +149,9 @@
     self.node = (NSMutableDictionary *)[lightColors objectForKey:lightName];
     UIColor *currentColor = [node valueForKey:@"color"];
 
-    ColorPickerViewController *cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
     cpvc.delegate = self;
-    cpvc.defaultsColor = currentColor;
+    [(ColorPickerView *)cpvc.view setColor:currentColor];
     [self.navigationController pushViewController:cpvc animated:YES];
-    [cpvc release];
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
