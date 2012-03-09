@@ -11,13 +11,14 @@
 
 @class TBXML;
 @interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate> {
-    NSString *node;
+    NSMutableDictionary *lightColors;
 }
 
 @property (nonatomic, assign) IBOutlet UITableView *tableView;
 @property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) TBXML *tbxml;
 @property (nonatomic, retain) UIBarButtonItem *refresh;
+@property (nonatomic, retain) NSMutableDictionary *node;
 
 - (IBAction)doRefresh:(id)sender;
 

@@ -17,12 +17,14 @@
 @synthesize tableView;
 @synthesize spinner;
 @synthesize refresh;
+@synthesize node;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.navigationItem.title = @"Choose a Light";
+        lightColors = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -65,9 +67,9 @@
 }
 
 - (void)dealloc {
-    [node release];
     [tbxml release];
     [refresh release];
+    [lightColors release];
     [super dealloc];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -77,9 +79,27 @@
 }
 
 - (void)setTbxml:(TBXML *)tbxml_ {
+    CGFloat r,g,b;
+    
     [tbxml release];
     tbxml = tbxml_;
     [tbxml retain];
+    TBXMLElement *element = nil;
+    for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
+         element != nil; element = element->nextSibling) {
+        NSString *nodeId = [TBXML valueOfAttributeNamed:@"node" forElement:element];
+        r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
+        g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;
+        b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;
+        UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+        NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
+        [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                               currentColor, @"color", 
+                               nodeId, @"node", 
+                               nil] 
+                       forKey:lightName];
+    }
+    
     [self performSelectorOnMainThread:@selector(updateTable) withObject:self waitUntilDone:NO];
 }
 
@@ -95,55 +115,30 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count = 0;
-    if (tbxml != nil && tbxml.rootXMLElement != nil) {
-        for (TBXMLElement *element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
-             element != nil; element = element->nextSibling) {
-            ++count;
-        }
-    }
-    return count;
+    return [lightColors count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    int count = 0;
-    TBXMLElement *element = nil;
-    if (tbxml != nil && tbxml.rootXMLElement != nil) {
-        for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
-             element != nil; element = element->nextSibling) {
-            if (count == indexPath.row) break;
-            ++count;
-        }
-    }
-    if (element == nil) return nil;
+    NSArray *lights = [lightColors keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [(NSString *)obj1 compare:(NSString *)obj2 options:NSCaseInsensitiveSearch];
+    }];
+    NSString *lightName = [lights objectAtIndex:indexPath.row];
     
     UITableViewCell *ret = [tableView_ dequeueReusableCellWithIdentifier:@"lightCell"];
     if (ret == nil) {
         ret = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"lightCell"];
     }
     
-    ret.textLabel.text = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
+    ret.textLabel.text = lightName;
     return ret;
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    int count = 0;
-    TBXMLElement *element = nil;
-    for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
-         element != nil; element = element->nextSibling) {
-        if (count == indexPath.row) break;
-        ++count;
-    }
-    if (element == nil) return;
-    [node release];
-    node = [[TBXML valueOfAttributeNamed:@"node" forElement:element] retain];
-    CGFloat r,g,b;
-    r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
-    g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;;
-    b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;;
-    UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
     //NSLog(@"color: %@", currentColor);
-    
+    NSString *lightName = [tableView_ cellForRowAtIndexPath:indexPath].textLabel.text;
+    self.node = (NSMutableDictionary *)[lightColors objectForKey:lightName];
+    UIColor *currentColor = [node valueForKey:@"color"];
+
     ColorPickerViewController *cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
     cpvc.delegate = self;
     cpvc.defaultsColor = currentColor;
@@ -154,11 +149,12 @@
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
     CGFloat r,g,b;
     colorPicker.defaultsColor = color;
+    [node setValue:color forKey:@"color"];
     const CGFloat *comps = CGColorGetComponents(color.CGColor);
     r = comps[0]; g = comps[1]; b = comps[2];
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%@",host,(int)(r*255), (int)(g*255), (int)(b*255), node];
+    NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%@",host,(int)(r*255), (int)(g*255), (int)(b*255), [node objectForKey:@"node"]];
     NSURLResponse *response = nil;
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
@@ -166,7 +162,8 @@
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@/lights?random=Random&node=%@",host, node];
+    NSString *request = [NSString stringWithFormat:@"http://%@/lights?random=Random&node=%@",host, 
+                         [node objectForKey:@"node"]];
     NSURLResponse *response = nil;
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
