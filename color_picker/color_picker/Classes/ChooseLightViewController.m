@@ -53,6 +53,11 @@
 - (IBAction)doRefresh:(id)sender {
     __block NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
     __block NSURL *url = [NSURL URLWithString:req];
+    @synchronized (self) {
+        [refreshTimer invalidate];
+        [refreshTimer release];
+        refreshTimer = nil;
+    }
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         NSLog(@"got result %@", result);
         self.tbxml = result;
