@@ -92,6 +92,14 @@ NSString *keyForBright = @"bright";
     #endif
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [delegate colorPickerViewController:self didTouchColor:[self getSelectedColor]];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [delegate colorPickerViewController:self didTouchColor:[self getSelectedColor]];
+}
+
 - (IBAction) randomizeSelection {
     [delegate colorPickerViewControllerRandom:self];
 }

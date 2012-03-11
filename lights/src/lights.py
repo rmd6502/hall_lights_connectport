@@ -184,7 +184,7 @@ def colorPage(args):
     nodes = zigbee.get_node_list(False)
     nodeList = ""
     for node in nodes:
-        if node.type != "end": continue 
+        if node.type != "end" and node.type != "router": continue 
         try:
             nodeaddr = node.addr_extended
             if not nodeData.has_key(nodeaddr):
