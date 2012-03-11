@@ -109,6 +109,7 @@ import os
 import select
 import thread
 import re
+import time
 
 sd = None
 th = None
@@ -243,6 +244,7 @@ lightTemplate = """
     <blue>%(blue)d</blue>
     <speed>%(speed)d</speed>
     <nodeId>%(nodeId)s</nodeId>
+    <lastActive>%(active)f</lastActive>
 </light>\n
 """
 def query(args):
@@ -280,6 +282,7 @@ def parseQ():
             nodeData[nodeaddr]['green'] = int(match.group(2))
             nodeData[nodeaddr]['blue'] = int(match.group(3))
             nodeData[nodeaddr]['speed'] = int(match.group(4))
+            nodeData[nodeaddr]['active'] = time.time()
 
 def monitor_read(sock):
     rlist = [sock]
@@ -299,7 +302,6 @@ def monitor_read(sock):
     
 def query_params(sock):
     print "starting query params\n"
-    import time
     while not exitRequest:
         try:
             nodes = zigbee.get_node_list(True)

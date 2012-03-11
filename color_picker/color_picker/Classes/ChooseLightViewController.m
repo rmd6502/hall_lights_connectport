@@ -48,7 +48,7 @@
     
     refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doRefresh:)];
     self.navigationItem.rightBarButtonItem = refresh;
-    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
+    [self doRefresh:nil];
 }
 
 - (IBAction)doRefresh:(id)sender {
@@ -56,15 +56,17 @@
     __block NSURL *url = [NSURL URLWithString:req];
     @synchronized (self) {
         [refreshTimer invalidate];
-        [refreshTimer release];
         refreshTimer = nil;
     }
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         NSLog(@"got result %@", result);
         self.tbxml = result;
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
     } failure:^(TBXML *result, NSError *error) {
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
     }]; 
+    
 }
 
 - (void)viewDidUnload
@@ -73,7 +75,6 @@
     [refresh release];
     [cpvc release];
     [refreshTimer invalidate];
-    [refreshTimer release];
     refreshTimer = nil;
     refresh = nil;
 }
@@ -168,8 +169,10 @@
     NSURLResponse *response = nil;
     NSURLRequest *req = [treq userInfo];
     [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
-    [treq invalidate];
-    touchTimer = nil;
+    @synchronized(self) {
+        [treq invalidate];
+        touchTimer = nil;
+    }
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
     CGFloat r,g,b;
@@ -182,8 +185,9 @@
     NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%@",host,(int)(r*255), (int)(g*255), (int)(b*255), [node objectForKey:@"node"]];
    
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    if (touchTimer) {
+    if (touchTimer) @synchronized(self) {
         [touchTimer invalidate];
+        touchTimer = nil;
     }
     touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
 }
