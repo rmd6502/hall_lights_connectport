@@ -152,6 +152,7 @@
     cpvc.delegate = self;
     [(ColorPickerView *)cpvc.view setColor:currentColor];
     [self.navigationController pushViewController:cpvc animated:YES];
+    cpvc.navigationItem.title = lightName;
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
