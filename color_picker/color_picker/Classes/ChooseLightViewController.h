@@ -13,6 +13,7 @@
 @interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate> {
     NSMutableDictionary *lightColors;
     NSTimer *refreshTimer;
+    NSTimer *touchTimer;
     ColorPickerViewController *cpvc;
 }
 
@@ -23,7 +24,7 @@
 @property (nonatomic, retain) NSMutableDictionary *node;
 
 - (IBAction)doRefresh:(id)sender;
-
+- (void)doSetColor:(NSTimer *)req;
 - (void)updateTable;
 
 @end

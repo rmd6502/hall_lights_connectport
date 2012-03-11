@@ -15,6 +15,8 @@
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color;
 
+- (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color;
+
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker;
 
 @end

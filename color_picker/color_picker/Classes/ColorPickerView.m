@@ -159,13 +159,26 @@
 
 	for (UITouch *touch in touches){
 		[self dispatchTouchEvent:[touch locationInView:self]];
+        [[self nextResponder] touchesMoved:touches withEvent:event];
 	}
 	
 }
 
+// Handles the continuation of a touch.
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{  
+    
+	for (UITouch *touch in touches){
+		[self dispatchTouchEvent:[touch locationInView:self]];
+        [[self nextResponder] touchesEnded:touches withEvent:event];
+	}
+	
+}
+
+
 - (void)drawRect:(CGRect)rect {
     
-	CGFloat x = currentHue * kMatrixWidth;
+	//CGFloat x = currentHue * kMatrixWidth;
 	//CGFloat y = currentSaturation * kMatrixHeight;
 	
 	//crossHairs.center = CGPointMake(x,y);

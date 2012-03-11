@@ -11,6 +11,7 @@
 #import "ColorPickerView.h"
 #import "TBXML.h"
 #import "TBXML+HTTP.h"
+#import <objc/objc.h>
 
 @implementation ChooseLightViewController
 @synthesize tbxml;
@@ -156,6 +157,16 @@
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
+}
+
+- (void)doSetColor:(NSTimer *)treq {
+    NSURLResponse *response = nil;
+    NSURLRequest *req = [treq userInfo];
+    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
+    [treq invalidate];
+    touchTimer = nil;
+}
+- (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
     CGFloat r,g,b;
     colorPicker.defaultsColor = color;
     [node setValue:color forKey:@"color"];
@@ -164,9 +175,12 @@
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
     NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%@",host,(int)(r*255), (int)(g*255), (int)(b*255), [node objectForKey:@"node"]];
-    NSURLResponse *response = nil;
+   
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
+    if (touchTimer) {
+        [touchTimer invalidate];
+    }
+    touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
 }
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
