@@ -129,9 +129,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *lights = [lightColors keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [(NSString *)obj1 compare:(NSString *)obj2 options:NSCaseInsensitiveSearch];
-    }];
+    NSArray *lights = [[lightColors allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [(NSString *)obj1 compare:(NSString *)obj2];
+    } ];
     NSString *lightName = [lights objectAtIndex:indexPath.row];
     
     UITableViewCell *ret = [tableView_ dequeueReusableCellWithIdentifier:@"lightCell"];
