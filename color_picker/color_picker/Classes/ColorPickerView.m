@@ -97,7 +97,8 @@
 
 - (void) updateBrightnessWithMovement : (CGPoint) position {
 	
-	currentBrightness = 1.0-(position.x/gradientView.frame.size.width) + kBrightnessEpsilon;
+	CGFloat pos = position.x - gradientView.frame.origin.x;
+	currentBrightness = 1.0-(pos/(gradientView.frame.size.width-1));
 	
 	UIColor *forColorView  = [UIColor colorWithHue:currentHue 
 										saturation:currentSaturation 
