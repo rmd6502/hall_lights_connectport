@@ -52,21 +52,31 @@
 }
 
 - (IBAction)doRefresh:(id)sender {
+    NSLog(@"dorefresh enter sender %@", sender);
     __block NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
     __block NSURL *url = [NSURL URLWithString:req];
+    if (sender != nil) {
+        if ([sender class] != [NSTimer class]) {
+            spinner.hidden = NO;
+        } else {
+            refreshTimer = nil;
+        }
+    }
     @synchronized (self) {
         [refreshTimer invalidate];
+        [refreshTimer release];
         refreshTimer = nil;
+        NSLog(@"cleared timer");
     }
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         NSLog(@"got result %@", result);
         self.tbxml = result;
-        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
+        refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     } failure:^(TBXML *result, NSError *error) {
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
-        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:YES];
+        refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     }]; 
-    
+    NSLog(@"dorefresh exit");
 }
 
 - (void)viewDidUnload
@@ -74,8 +84,10 @@
     [super viewDidUnload];
     [refresh release];
     [cpvc release];
-    [refreshTimer invalidate];
-    refreshTimer = nil;
+    @synchronized(self) {
+        [refreshTimer invalidate];
+        refreshTimer = nil;
+    }
     refresh = nil;
 }
 
