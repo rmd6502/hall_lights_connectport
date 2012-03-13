@@ -20,14 +20,17 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        // Initialization code
+        CGRect bgrect = kBrightnessGradientPlacent;
+        kBrightBarYCenter = bgrect.origin.y + bgrect.size.height/2;
     }
     return self;
 }
 
 - (id)initWithCoder:(NSCoder*)coder  {
 	if (self = [super initWithCoder:coder]) {
-		
+		CGRect bgrect = kBrightnessGradientPlacent;
+        kBrightBarYCenter = bgrect.origin.y + bgrect.size.height/2;
+        
 		gradientView = [[GradientView alloc] initWithFrame:kBrightnessGradientPlacent];
 		//[gradientView setTheColor:[UIColor yellowColor]];
 		[self addSubview:gradientView];

@@ -50,5 +50,5 @@
 
 #define kAnimationDuration 0.4
 
-#define kBrightBarYCenter 388
+//#define kBrightBarYCenter 388
 

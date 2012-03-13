@@ -25,6 +25,8 @@
 	CGFloat currentSaturation;
 	
 	UIColor *currentColor;
+    
+    CGFloat kBrightBarYCenter;
 }
 
 @property (readwrite) CGFloat currentBrightness;
