@@ -110,11 +110,11 @@
             [(ColorPickerView *)cpvc.view setColor:currentColor];
         }
         NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
-        float lastActive = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue];
+        unsigned long lastActive = strtoul([[TBXML textForElement:[TBXML childElementNamed:@"lastActive" parentElement:element]] UTF8String], NULL, 10);
         [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                currentColor, @"color", 
                                nodeId, @"node", 
-                               [NSNumber numberWithFloat:lastActive], @"lastActive",
+                               [NSNumber numberWithLong:lastActive], @"lastActive",
                                nil] 
                        forKey:lightName];
     }
@@ -149,8 +149,10 @@
     }
     
     ret.textLabel.text = lightName;
-    float lastActive = [[[lightColors objectForKey:@"lightName"] objectForKey:@"lastActive"] floatValue];
-    if (lastActive > 0 && time(NULL) - lastActive > 60) {
+    long lastActive = [[[lightColors objectForKey:lightName] objectForKey:@"lastActive"] longValue];
+    time_t now = time(NULL);
+    time_t local = mktime(localtime(&now));
+    if (lastActive > 0 && local - lastActive > 60) {
         ret.textLabel.textColor = [UIColor redColor];
     } else {
         ret.textLabel.textColor = [UIColor blackColor];

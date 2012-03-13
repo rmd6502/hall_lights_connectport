@@ -55,7 +55,7 @@
     CGPoint brightnessPosition;
     hueSatPosition.x = (currentHue*kMatrixWidth)+kXAxisOffset;
     hueSatPosition.y = (1.0-currentSaturation)*kMatrixHeight+kYAxisOffset;
-    brightnessPosition.x = (1.0+kBrightnessEpsilon-currentBrightness)*gradientView.frame.size.width;
+    brightnessPosition.x = (1.0-currentBrightness)*gradientView.frame.size.width + gradientView.frame.origin.x;
     
     // Original input brightness code (from down below)
     // currentBrightness = 1.0-(position.x/gradientView.frame.size.width) + kBrightnessEpsilon;
