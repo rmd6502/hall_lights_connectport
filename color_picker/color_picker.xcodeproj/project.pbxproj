@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		83173CD6150FC31500227E21 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83173CD5150FC31500227E21 /* Entitlements.plist */; };
+		83201BEA1512619700F6CA42 /* lamp icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83201BE91512619700F6CA42 /* lamp icon.png */; };
 		83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
 		83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798815055860002AC1DA /* rainbow_lamp.png */; };
 		83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2.png */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		83173CD5150FC31500227E21 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		83201BE91512619700F6CA42 /* lamp icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lamp icon.png"; sourceTree = "<group>"; };
 		83B4798815055860002AC1DA /* rainbow_lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp.png; sourceTree = "<group>"; };
 		83B4798915055860002AC1DA /* rainbow_lamp@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2.png"; sourceTree = "<group>"; };
 		83ED0A6415040A190096A20C /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		9CE4EEDA14CBA53300DFAD4A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83201BE91512619700F6CA42 /* lamp icon.png */,
 				83173CD5150FC31500227E21 /* Entitlements.plist */,
 				83B4798815055860002AC1DA /* rainbow_lamp.png */,
 				83B4798915055860002AC1DA /* rainbow_lamp@2.png */,
@@ -336,6 +339,7 @@
 				83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */,
 				83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */,
 				83173CD6150FC31500227E21 /* Entitlements.plist in Resources */,
+				83201BEA1512619700F6CA42 /* lamp icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +440,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -454,6 +459,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

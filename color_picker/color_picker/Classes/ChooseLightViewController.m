@@ -160,15 +160,22 @@
         ret = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"lightCell"];
     }
     
-    ret.textLabel.text = lightName;
     long lastActive = [[[lightColors objectForKey:lightName] objectForKey:@"lastActive"] longValue];
     time_t now = time(NULL);
     time_t local = mktime(localtime(&now));
-    if (lastActive > 0 && local - lastActive > 60) {
+    if (lastActive > 0 && local - lastActive > 90) {
         ret.textLabel.textColor = [UIColor redColor];
+        ret.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", lightName, 
+                              [NSDateFormatter localizedStringFromDate:[NSDate dateWithTimeIntervalSince1970:lastActive] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle]];
     } else {
         ret.textLabel.textColor = [UIColor blackColor];
+        ret.textLabel.text = lightName;
     }
+    
+    ret.imageView.image = [UIImage imageNamed:@"lamp icon"];
+    ret.imageView.backgroundColor = [[lightColors objectForKey:lightName] objectForKey:@"color"];
+    
+    
     return ret;
 }
 
