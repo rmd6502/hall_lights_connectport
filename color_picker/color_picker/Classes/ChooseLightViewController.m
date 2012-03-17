@@ -157,7 +157,7 @@
     
     UITableViewCell *ret = [tableView_ dequeueReusableCellWithIdentifier:@"lightCell"];
     if (ret == nil) {
-        ret = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"lightCell"];
+        ret = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"lightCell"];
     }
     
     long lastActive = [[[lightColors objectForKey:lightName] objectForKey:@"lastActive"] longValue];
@@ -165,11 +165,16 @@
     time_t local = mktime(localtime(&now));
     if (lastActive > 0 && local - lastActive > 90) {
         ret.textLabel.textColor = [UIColor redColor];
-        ret.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", lightName, 
-                              [NSDateFormatter localizedStringFromDate:[NSDate dateWithTimeIntervalSince1970:lastActive] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle]];
+        ret.textLabel.text = lightName;
+        ret.detailTextLabel.text = [NSDateFormatter 
+                                    localizedStringFromDate:[NSDate 
+                                                             dateWithTimeIntervalSince1970:lastActive] 
+                                    dateStyle:NSDateFormatterShortStyle 
+                                    timeStyle:NSDateFormatterMediumStyle];
     } else {
         ret.textLabel.textColor = [UIColor blackColor];
         ret.textLabel.text = lightName;
+        ret.detailTextLabel.text = nil;
     }
     
     ret.imageView.image = [UIImage imageNamed:@"lamp icon"];
