@@ -26,13 +26,12 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    ChooseLightViewController *clvc = [[[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil] autorelease];
+    clvc = [[[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil] autorelease];
     //self.viewController.delegate = self;]
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:clvc] autorelease];
     [self.window makeKeyAndVisible];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"diamond.homelinux.com:2525", @"arduino", nil]];
-    [clvc doRefresh:nil];
+    //[clvc doRefresh:nil];
     return YES;
 }
 
@@ -54,16 +53,13 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    /*
-     Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-     */
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"diamond.homelinux.com:2525", @"arduino", nil]];
+    [clvc doRefresh:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

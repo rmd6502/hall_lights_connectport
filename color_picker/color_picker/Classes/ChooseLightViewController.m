@@ -68,6 +68,7 @@
         refreshTimer = nil;
         NSLog(@"cleared timer");
     }
+    NSLog(@"url %@", url);
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         NSLog(@"got result %@", result);
         self.tbxml = result;
@@ -101,7 +102,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (YES);
 }
 
 - (void)setTbxml:(TBXML *)tbxml_ {
@@ -113,6 +114,7 @@
     TBXMLElement *element = nil;
     for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
          element != nil; element = element->nextSibling) {
+        //NSLog(@"light %@", element);
         NSString *nodeId = [TBXML valueOfAttributeNamed:@"node" forElement:element];
         r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
         g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;
