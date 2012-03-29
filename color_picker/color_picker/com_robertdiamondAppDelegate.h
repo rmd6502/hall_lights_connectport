@@ -11,7 +11,9 @@
 #import "ChooseLightViewController.h"
 
 @class TBXML;
+@class ChooseLightViewController;
 @interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate> {
+    ChooseLightViewController *clvc;
 }
 
 @property (strong, nonatomic) UIWindow *window;
