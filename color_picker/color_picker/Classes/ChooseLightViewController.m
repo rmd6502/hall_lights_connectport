@@ -52,7 +52,7 @@
 }
 
 - (IBAction)doRefresh:(id)sender {
-    NSLog(@"dorefresh enter sender %@", sender);
+    //NSLog(@"dorefresh enter sender %@", sender);
     __block NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
     __block NSURL *url = [NSURL URLWithString:req];
     if (sender != nil) {
@@ -69,14 +69,14 @@
         NSLog(@"cleared timer");
     }
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
-        NSLog(@"got result %@", result);
+        //NSLog(@"got result %@", result);
         self.tbxml = result;
         refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     } failure:^(TBXML *result, NSError *error) {
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
         refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     }]; 
-    NSLog(@"dorefresh exit");
+    //NSLog(@"dorefresh exit");
 }
 
 - (void)viewDidUnload
@@ -166,11 +166,11 @@
     if (lastActive > 0 && local - lastActive > 90) {
         ret.textLabel.textColor = [UIColor redColor];
         ret.textLabel.text = lightName;
-        ret.detailTextLabel.text = [NSDateFormatter 
+        ret.detailTextLabel.text = [NSString stringWithFormat:@"Last Seen %@", [NSDateFormatter 
                                     localizedStringFromDate:[NSDate 
                                                              dateWithTimeIntervalSince1970:lastActive] 
                                     dateStyle:NSDateFormatterShortStyle 
-                                    timeStyle:NSDateFormatterMediumStyle];
+                                    timeStyle:NSDateFormatterMediumStyle]];
     } else {
         ret.textLabel.textColor = [UIColor blackColor];
         ret.textLabel.text = lightName;
@@ -197,21 +197,22 @@
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
+  [self colorPickerViewController:colorPicker didTouchColor:color];
 }
 
 - (void)doSetColor:(NSTimer *)treq {
-    NSURLResponse *response = nil;
-    NSURLRequest *req = [treq userInfo];
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
-    @synchronized(self) {
-        [treq invalidate];
-        touchTimer = nil;
-    }
+  NSURLRequest *req = [treq userInfo];
+  [self backgroundRequest:req];
+  @synchronized(self) {
+    [treq invalidate];
+    touchTimer = nil;
+  }
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
     CGFloat r,g,b;
     colorPicker.defaultsColor = color;
     [node setValue:color forKey:@"color"];
+  NSLog(@"setting color %@", color);
     const CGFloat *comps = CGColorGetComponents(color.CGColor);
     r = comps[0]; g = comps[1]; b = comps[2];
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
@@ -230,9 +231,42 @@
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
     NSString *request = [NSString stringWithFormat:@"http://%@/lights?random=Random&node=%@",host, 
                          [node objectForKey:@"node"]];
-    NSURLResponse *response = nil;
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
+    [self backgroundRequest:req];
+}
+
+- (void)backgroundRequest:(NSURLRequest *)req {
+  if ([NSThread isMainThread]) {
+    [self performSelectorInBackground:@selector(backgroundRequest:) withObject:req];
+    return;
+  }
+  //NSLog(@"performing request %@", req);
+  NSURLResponse *response = nil;
+  NSError *error = nil;
+  [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+  if (error) {
+    NSLog(@"error: %@", error.localizedDescription);
+  }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [tableView reloadData];
+}
+- (IBAction)allLightsOn:(id)sender {
+  UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
+  for (NSString *key in [lightColors allKeys]) {
+    self.node = (NSMutableDictionary *)[lightColors objectForKey:key];
+    [self colorPickerViewController:cpvc didTouchColor:newcolor];
+  }
+  [tableView reloadData];
+}
+- (IBAction)allLightsOff:(id)sender {
+  UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+  for (NSString *key in [lightColors allKeys]) {
+    self.node = (NSMutableDictionary *)[lightColors objectForKey:key];
+    [self colorPickerViewController:cpvc didTouchColor:newcolor];
+  }
+  [tableView reloadData];
 }
 
 @end

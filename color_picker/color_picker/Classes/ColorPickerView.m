@@ -70,6 +70,8 @@
     
     crossHairs.center = hueSatPosition;
     brightnessBar.center = brightnessPosition;
+  [gradientView setNeedsDisplay];
+  [showColor setNeedsDisplay];
 } 
 
 

@@ -73,23 +73,26 @@ NSString *keyForBright = @"bright";
 }
 
 - (IBAction) cancelColorSelection {
-    #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	if (defaultsKey==nil) {
-        defaultsKey = @"";
-        NSLog(@"problem 0 in ColorPickerViewController.viewDidLoad");
-    }
-    
-    NSData *colorData= [userDefaults objectForKey:defaultsKey];
-    UIColor *color;
-    if (colorData!=nil) {
-        color = (UIColor*)[NSKeyedUnarchiver unarchiveObjectWithData:colorData];
-    }
-    
-    [delegate colorPickerViewController:self didSelectColor:color];
-    #else
-    [self dismissModalViewControllerAnimated:YES];
-    #endif
+  UIColor *color = [UIColor colorWithRGBHex:0];
+//    #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//
+//	if (defaultsKey==nil) {
+//        defaultsKey = @"";
+//        NSLog(@"problem 0 in ColorPickerViewController.viewDidLoad");
+//    }
+//    
+//    NSData *colorData= [userDefaults objectForKey:defaultsKey];
+//    
+//    if (colorData!=nil) {
+//        color = (UIColor*)[NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+//    }
+//    
+//    #else
+//    [self dismissModalViewControllerAnimated:YES];
+//    #endif
+  [delegate colorPickerViewController:self didTouchColor:color];
+  [(ColorPickerView *) [self view] setColor:color];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

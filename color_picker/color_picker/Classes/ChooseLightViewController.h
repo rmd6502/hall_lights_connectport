@@ -10,7 +10,7 @@
 #import "ColorPickerViewController.h"
 
 @class TBXML;
-@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate> {
+@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate, UINavigationControllerDelegate> {
     NSMutableDictionary *lightColors;
     NSTimer *refreshTimer;
     NSTimer *touchTimer;
@@ -24,7 +24,11 @@
 @property (nonatomic, retain) NSMutableDictionary *node;
 
 - (IBAction)doRefresh:(id)sender;
+- (IBAction)allLightsOn:(id)sender;
+- (IBAction)allLightsOff:(id)sender;
+
 - (void)doSetColor:(NSTimer *)req;
 - (void)updateTable;
+- (void)backgroundRequest:(NSURLRequest *)req;
 
 @end

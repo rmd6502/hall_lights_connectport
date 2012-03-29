@@ -91,7 +91,7 @@
 					<object class="IBUIButton" id="861591739">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{59, 17}, {128, 37}}</string>
+						<string key="NSFrame">{{20, 17}, {167, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="840040565"/>
@@ -128,7 +128,7 @@
 					<object class="IBUIButton" id="840040565">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{59, 62}, {128, 37}}</string>
+						<string key="NSFrame">{{20, 62}, {167, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="204055690"/>
@@ -137,7 +137,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Cancel</string>
+						<string key="IBUINormalTitle">Off</string>
 						<reference key="IBUIHighlightedTitleColor" ref="1052845180"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
