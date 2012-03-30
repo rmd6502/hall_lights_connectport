@@ -176,6 +176,9 @@ def colorPage(args):
     socketdata += "\n"
     print "sending "+socketdata+" to "+str(nodelist) + "\n"
         
+    if 'all' in nodelist:
+        nodelist = nodeData.keys()
+
     for node in nodelist:
         try:
             sd.sendto(socketdata, 0, (node, 0xe8, 0xc105, 0x11))
