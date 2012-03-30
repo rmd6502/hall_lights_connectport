@@ -13,6 +13,12 @@
 #import "TBXML+HTTP.h"
 #import <objc/objc.h>
 
+@interface ChooseLightViewController(Private)
+
+- (NSString *)templateForColor:(UIColor *)color;
+
+@end
+
 @implementation ChooseLightViewController
 @synthesize tbxml;
 @synthesize tableView;
@@ -210,23 +216,30 @@
     touchTimer = nil;
   }
 }
+
+- (NSString *)templateForColor:(UIColor *)color {
+  CGFloat r,g,b;
+  const CGFloat *comps = CGColorGetComponents(color.CGColor);
+  r = comps[0]; g = comps[1]; b = comps[2];
+  NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
+  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%%@",
+                   host,(int)(r*255), (int)(g*255), (int)(b*255)];
+  return ret;
+}
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
-    CGFloat r,g,b;
-    colorPicker.defaultsColor = color;
-    [node setValue:color forKey:@"color"];
+  colorPicker.defaultsColor = color;
+  [node setValue:color forKey:@"color"];
   NSLog(@"setting color %@", color);
-    const CGFloat *comps = CGColorGetComponents(color.CGColor);
-    r = comps[0]; g = comps[1]; b = comps[2];
-    //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-    NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%@",host,(int)(r*255), (int)(g*255), (int)(b*255), [node objectForKey:@"node"]];
-   
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    if (touchTimer) @synchronized(self) {
-        [touchTimer invalidate];
-        touchTimer = nil;
-    }
-    touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
+  //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+  NSString *tmpl = [self templateForColor:color];
+  NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
+ 
+  NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+  if (touchTimer) @synchronized(self) {
+      [touchTimer invalidate];
+      touchTimer = nil;
+  }
+  touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
 }
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
@@ -256,17 +269,28 @@
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
+  NSString *tmpl = [self templateForColor:newcolor];
   for (NSString *key in [lightColors allKeys]) {
-    self.node = (NSMutableDictionary *)[lightColors objectForKey:key];
-    [self colorPickerViewController:cpvc didTouchColor:newcolor];
+    NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
+    NSString *nodeName = [nodeDict objectForKey:@"node"];
+    [nodeDict setObject:newcolor forKey:@"color"];
+    NSString *request = [NSString stringWithFormat:tmpl, nodeName];
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [self backgroundRequest:req];
   }
   [tableView reloadData];
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+  NSString *tmpl = [self templateForColor:newcolor];
+  
   for (NSString *key in [lightColors allKeys]) {
-    self.node = (NSMutableDictionary *)[lightColors objectForKey:key];
-    [self colorPickerViewController:cpvc didTouchColor:newcolor];
+    NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
+    [nodeDict setObject:newcolor forKey:@"color"];
+    NSString *nodeName = [nodeDict objectForKey:@"node"];
+    NSString *request = [NSString stringWithFormat:tmpl, nodeName];
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [self backgroundRequest:req];
   }
   [tableView reloadData];
 }
