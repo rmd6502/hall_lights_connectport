@@ -14,6 +14,7 @@
 		83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
+		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
 		9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED314CBA53300DFAD4A /* UIKit.framework */; };
 		9CE4EED614CBA53300DFAD4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED514CBA53300DFAD4A /* Foundation.framework */; };
 		9CE4EED814CBA53300DFAD4A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED714CBA53300DFAD4A /* CoreGraphics.framework */; };
@@ -83,6 +84,7 @@
 		83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLightViewController.h; sourceTree = "<group>"; };
 		83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLightViewController.m; sourceTree = "<group>"; };
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
+		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		9CE4EECF14CBA53300DFAD4A /* color_picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = color_picker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE4EED314CBA53300DFAD4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9CE4EED514CBA53300DFAD4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -193,6 +195,7 @@
 		9CE4EEDA14CBA53300DFAD4A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C7451ED1525512A000C8275 /* frame.png */,
 				83201BE91512619700F6CA42 /* lamp icon.png */,
 				83173CD5150FC31500227E21 /* Entitlements.plist */,
 				83B4798815055860002AC1DA /* rainbow_lamp.png */,
@@ -340,6 +343,7 @@
 				83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */,
 				83173CD6150FC31500227E21 /* Entitlements.plist in Resources */,
 				83201BEA1512619700F6CA42 /* lamp icon.png in Resources */,
+				9C7451EE1525512A000C8275 /* frame.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

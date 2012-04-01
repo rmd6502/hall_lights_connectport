@@ -1,32 +1,50 @@
-const byte r_control = 3;
-const byte g_control = 5;
-const byte b_control = 6;
+const byte r1_control = 6;
+const byte g1_control = 11;
+const byte b1_control = 9;
+
+const byte r2_control = 5;
+const byte g2_control = 3;
+const byte b2_control = 10;
 
 unsigned int buf = 0;
 byte bufPos = 0;
 unsigned int dly = 5;
 unsigned int random_mode = 0;
+// F = light 1, C = seCond light, A = all lights
+char mode = 'a';
 
 enum _colorStates { NONE, RED, GREEN, BLUE, SPEED };
 byte states = 0;
-byte current[3] = {0};
-byte goal[3] = {255, 200, 180};
-byte pins[3] = {0};
+byte current[6] = {0};
+byte goal[6] = {255, 200, 180, 255, 200, 180};
+byte pins[6] = {0};
 
 void setup() {
   Serial.begin(9600);
   Serial.println("setup begin\n");
-  analogWrite(r_control, 0);
-  analogWrite(g_control, 0);
-  analogWrite(b_control, 0);
+  analogWrite(r1_control, 0);
+  analogWrite(g1_control, 0);
+  analogWrite(b1_control, 0);
   
-  pinMode(r_control, OUTPUT);
-  pinMode(g_control, OUTPUT);
-  pinMode(b_control, OUTPUT);
+  pinMode(r1_control, OUTPUT);
+  pinMode(g1_control, OUTPUT);
+  pinMode(b1_control, OUTPUT);
   
-  pins[0] = r_control;
-  pins[1] = g_control;
-  pins[2] = b_control;
+  pins[0] = r1_control;
+  pins[1] = g1_control;
+  pins[2] = b1_control;
+
+  analogWrite(r2_control, 0);
+  analogWrite(g2_control, 0);
+  analogWrite(b2_control, 0);
+  
+  pinMode(r2_control, OUTPUT);
+  pinMode(g2_control, OUTPUT);
+  pinMode(b2_control, OUTPUT);
+  
+  pins[3] = r2_control;
+  pins[4] = g2_control;
+  pins[5] = b2_control;
     Serial.println("setup complete\n");
 }
 
@@ -56,7 +74,7 @@ void loop() {
     }
   }
   uint8_t bgoal = 1;
-  for (int j=0; j < 3; ++j) {
+  for (int j=0; j < 6; ++j) {
     if (goal[j] != current[j]) {
       bgoal = 0;
       int dir = goal[j] - current[j];
@@ -67,7 +85,7 @@ void loop() {
     }
   }
   if (random_mode && bgoal) {
-    for (int j=0; j < 3; ++j) {
+    for (int j=0; j < 6; ++j) {
       goal[j] = random() & 0xff;
     }
   }
@@ -91,15 +109,39 @@ void handleDefault(byte d) {
     case 'n': case 'N':
       random_mode = !random_mode;
       break;
-    case 'q': case 'Q':
+    case 'f': case 'F':
+    case 'c': case 'C':
+    case 'a': case 'A':
+      mode = tolower(d);
+      break;
+    case 'q': case 'Q': {
+      byte offs = (mode == 'c' ? 3 : 0);
       Serial.print("Qr");
-      Serial.print(goal[0]);
+      Serial.print(goal[0+offs]);
       Serial.print("g");
-      Serial.print(goal[1]);
+      Serial.print(goal[1+offs]);
       Serial.print("b");
-      Serial.print(goal[2]);
+      Serial.print(goal[2+offs]);
       Serial.print("s");
       Serial.println(dly);
+      if (mode == 'a') {
+        Serial.print("2r");
+        Serial.print(goal[3]);
+        Serial.print("g");
+        Serial.print(goal[4]);
+        Serial.print("b");
+        Serial.println(goal[5]);
+      }
+      break;
+    }
+    case 'h': case 'H':
+      Serial.println("HELP");
+      Serial.println("----");
+      Serial.println("rxxx - set red to xxx");
+      Serial.println("gxxx - set green to xxx");      
+      Serial.println("bxxx - set blue to xxx");
+      Serial.println("q - Query");
+      Serial.println("f=first, c=seCond,a=all lights");
       break;
     default:
       return;
@@ -120,16 +162,31 @@ void setColor() {
     case RED:
       Serial.print("setting red to "); Serial.println(buf);
       random_mode = 0;
-      goal[0] = buf;
+      if (mode == 'f' || mode == 'a') {
+        goal[0] = buf;
+      }
+      if (mode == 'c' || mode == 'a') {
+        goal[3] = buf;
+      }
       break;
     case GREEN:
       Serial.print("setting green to "); Serial.println(buf);
-      goal[1] = buf;
+      if (mode == 'f' || mode == 'a') {
+        goal[1] = buf;
+      }
+      if (mode == 'c' || mode == 'a') {
+        goal[4] = buf;
+      }
       random_mode = 0;
       break;
     case BLUE:
       Serial.print("setting blue to "); Serial.println(buf);
-      goal[2] = buf;
+      if (mode == 'f' || mode == 'a') {
+        goal[2] = buf;
+      }
+      if (mode == 'c' || mode == 'a') {
+        goal[5] = buf;
+      }
       random_mode = 0;
       break;
     case SPEED:
