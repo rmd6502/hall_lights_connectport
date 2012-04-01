@@ -185,19 +185,14 @@ def colorPage(args):
         except:
             print "Failed to send to "+node
                 
-    nodes = zigbee.get_node_list(False)
     nodeList = ""
-    for node in nodes:
-        if node.type != "end" and node.type != "router": continue 
+    for node in nodeData.keys():
         try:
-            nodeaddr = node.addr_extended
-            if not nodeData.has_key(nodeaddr):
-                nodeData[nodeaddr] = {
-                    "red":0, "green":0, "blue":0, "speed":0,
-                    "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
-                }
-            nodeline = "<OPTION value='"+nodeaddr+"'>"+\
-                zigbee.ddo_get_param(nodeaddr, "NI")+\
+            nodeline = "<OPTION value='"+node+"'"
+            if node in nodelist:
+                nodeline += " selected"
+            nodeline += ">"+\
+                nodeData[node]['nodeId']+\
                 "</OPTION>"
             nodeList += nodeline
         except:
