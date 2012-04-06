@@ -270,27 +270,24 @@
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
   NSString *tmpl = [self templateForColor:newcolor];
+  NSString *request = [NSString stringWithFormat:tmpl, @"all"];
+  NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [self backgroundRequest:req];
   for (NSString *key in [lightColors allKeys]) {
     NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
-    NSString *nodeName = [nodeDict objectForKey:@"node"];
     [nodeDict setObject:newcolor forKey:@"color"];
-    NSString *request = [NSString stringWithFormat:tmpl, nodeName];
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [self backgroundRequest:req];
   }
   [tableView reloadData];
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
   NSString *tmpl = [self templateForColor:newcolor];
-  
+  NSString *request = [NSString stringWithFormat:tmpl, @"all"];
+  NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+  [self backgroundRequest:req];
   for (NSString *key in [lightColors allKeys]) {
     NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
     [nodeDict setObject:newcolor forKey:@"color"];
-    NSString *nodeName = [nodeDict objectForKey:@"node"];
-    NSString *request = [NSString stringWithFormat:tmpl, nodeName];
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-    [self backgroundRequest:req];
   }
   [tableView reloadData];
 }

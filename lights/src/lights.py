@@ -69,15 +69,24 @@ function updateAjax(url) {
 </SELECT></TD>
 </TR>
 <TR>
-<TD>Red</TD><TD><INPUT TYPE="text" NAME="red" VALUE="%(red)d" 
+<TD>Red</TD>
+<TD><INPUT TYPE="text" NAME="red" VALUE="%(red)d" 
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
+<TD><INPUT TYPE="text" NAME="red2" VALUE="%(red2)d" 
     onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
-<TD>Green</TD><TD><INPUT TYPE="text" NAME="green" VALUE="%(green)d"
+<TD>Green</TD>
+<TD><INPUT TYPE="text" NAME="green" VALUE="%(green)d"
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
+<TD><INPUT TYPE="text" NAME="green2" VALUE="%(green2)d"
     onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
-<TD>Blue</TD><TD><INPUT TYPE="text" NAME="blue" VALUE="%(blue)d"
+<TD>Blue</TD>
+<TD><INPUT TYPE="text" NAME="blue" VALUE="%(blue)d"
+    onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
+<TD><INPUT TYPE="text" NAME="blue2" VALUE="%(blue2)d"
     onFocus="this.hasFocus = 1" onBlur="this.hasFocus=0"/></TD>
 </TR>
 <TR>
@@ -261,16 +270,21 @@ def splitargs(arglist):
     
 def parseQ():
     pat = "Qr(\d+)g(\d+)b(\d+)s(\d+)"
+    pat2 = "2r(\d+)g(\d+)b(\d+)"
     for nodeaddr,text in recvData.items():
         match = re.search(pat, text)
         if match is not None:
             print "found match"
             try:
+                nodeName = zigbee.ddo_get_param(nodeaddr, "NI")
                 if not nodeData.has_key(nodeaddr):
                     nodeData[nodeaddr] = {
                         "red":0, "green":0, "blue":0, "speed":0,
-                        "nodeaddr":nodeaddr, "nodeId":zigbee.ddo_get_param(nodeaddr, "NI")
+                        "red2":0, "green2":0, "blue2":0,
+                        "nodeaddr":nodeaddr, "nodeId":nodeName
                     }
+                else:
+                    nodeData[nodeaddr]["nodeId"] = nodeName
             except:
                 exctype, value = sys.exc_info()[:2]
                 print "failed to add node: "+str(exctype)+", "+str(value)
@@ -279,7 +293,18 @@ def parseQ():
             nodeData[nodeaddr]['red'] = int(match.group(1))
             nodeData[nodeaddr]['green'] = int(match.group(2))
             nodeData[nodeaddr]['blue'] = int(match.group(3))
+            nodeData[nodeaddr]['red2'] = int(match.group(1))
+            nodeData[nodeaddr]['green2'] = int(match.group(2))
+            nodeData[nodeaddr]['blue2'] = int(match.group(3))
             nodeData[nodeaddr]['speed'] = int(match.group(4))
+            nodeData[nodeaddr]['active'] = time.time()
+        match = re.search(pat2, text)
+        if match is not None:
+            print "found match2"
+            recvData[nodeaddr] = ""
+            nodeData[nodeaddr]['red2'] = int(match.group(1))
+            nodeData[nodeaddr]['green2'] = int(match.group(2))
+            nodeData[nodeaddr]['blue2'] = int(match.group(3))
             nodeData[nodeaddr]['active'] = time.time()
 
 def monitor_read(sock):
