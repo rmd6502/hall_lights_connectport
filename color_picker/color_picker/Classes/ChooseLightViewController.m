@@ -59,7 +59,9 @@
 
 - (IBAction)doRefresh:(id)sender {
     //NSLog(@"dorefresh enter sender %@", sender);
-    __block NSString *req = [NSString stringWithFormat:@"http://%@/query", [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"]];
+    NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
+    if (host == nil) return;
+    __block NSString *req = [NSString stringWithFormat:@"http://%@/query", host];
     __block NSURL *url = [NSURL URLWithString:req];
     if (sender != nil) {
         if ([sender class] != [NSTimer class]) {
@@ -117,6 +119,8 @@
     [tbxml release];
     tbxml = tbxml_;
     [tbxml retain];
+    NSMutableDictionary *hosts = [NSMutableDictionary dictionary];
+    
     TBXMLElement *element = nil;
     for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
          element != nil; element = element->nextSibling) {
@@ -131,6 +135,19 @@
         }
         NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
         unsigned long lastActive = strtoul([[TBXML textForElement:[TBXML childElementNamed:@"lastActive" parentElement:element]] UTF8String], NULL, 10);
+        unsigned long la = [[hosts valueForKey:nodeId] longValue];
+        if (la) {
+            NSLog(@"we have a dup");
+            if (la > lastActive) {
+                NSLog(@"current entry is older, skipping");
+                continue;
+            }
+            NSSet *k = [lightColors keysOfEntriesPassingTest:^BOOL(id key, id obj, BOOL *stop) {
+                return *stop = [[(NSDictionary *)obj valueForKey:@"node"] isEqualToString:nodeId];
+                }];
+            NSLog(@"removing object for key %@", k);
+            [lightColors removeObjectForKey:[k anyObject]];
+        }
         [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                currentColor, @"color", 
                                nodeId, @"node", 
@@ -229,7 +246,7 @@
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
   colorPicker.defaultsColor = color;
   [node setValue:color forKey:@"color"];
-  NSLog(@"setting color %@", color);
+  //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
   NSString *tmpl = [self templateForColor:color];
   NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
