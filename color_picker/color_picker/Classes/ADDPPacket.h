@@ -28,11 +28,26 @@ enum DataTypes {
     ADDP_DHCP_ENABLED,
     ADDP_ERROR,
     ADDP_SERIAL_PORTS,
-    ADDP_ENCRYPTED_PORT
+    ADDP_ENCRYPTED_PORT,
+    
+    ADDP_NUM_FIELDS
+};
+
+enum PacketTypes {
+    PACKET_TYPE_UNSET,
+    PACKET_TYPE_DISCOVERY_REQUEST,
+    PACKET_TYPE_DISCOVERY_RESPONSE,
+    PACKET_TYPE_NETCONFIG_REQUEST,
+    PACKET_TYPE_NETCONFIG_RESPONSE,
+    PACKET_TYPE_REBOOT_REQUEST,
+    PACKET_TYPE_REBOOT_RESPONSE,
+    PACKET_TYPE_DHCP_REQUEST,
+    PACKET_TYPE_DHCP_RESPONSE  
 };
 
 @interface ADDPPacket : NSObject {
     NSMutableDictionary *buffer;
+    uint16_t packet_type;
 }
 
 @property (nonatomic, assign) UInt16 packetType;
