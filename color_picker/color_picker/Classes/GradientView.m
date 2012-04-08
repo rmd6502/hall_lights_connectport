@@ -32,6 +32,9 @@
 #import "GradientView.h"
 #import "UIColor-HSVAdditions.h"
 
+CGPoint demoLGStart(CGRect bounds);
+CGPoint demoLGEnd(CGRect bounds);
+
 @implementation GradientView
 
 @synthesize theColor;

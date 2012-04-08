@@ -11,6 +11,7 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>rainbow_lamp.png</string>
+		<string>rainbow_lamp_ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>Robert-M-Diamond.${PRODUCT_NAME:rfc1034identifier}</string>

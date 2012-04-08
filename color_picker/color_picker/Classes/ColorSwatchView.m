@@ -9,6 +9,8 @@
 #import "ColorSwatchView.h"
 #import <QuartzCore/QuartzCore.h>
 
+void drawRoundRect(CGContextRef context, CGRect rect);
+
 // Fill and stroke a round-rect with corner-radius=7 in a context.
 // The context's current colors are used.
 void drawRoundRect(CGContextRef context, CGRect rect) {

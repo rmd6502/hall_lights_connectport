@@ -11,7 +11,7 @@
 		83201BEA1512619700F6CA42 /* lamp icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83201BE91512619700F6CA42 /* lamp icon.png */; };
 		83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
 		83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798815055860002AC1DA /* rainbow_lamp.png */; };
-		83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2.png */; };
+		83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2x.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
 		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
@@ -32,6 +32,9 @@
 		9CE4EF1814CBA68200DFAD4A /* UIColor-HSVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4EF1014CBA68200DFAD4A /* UIColor-HSVAdditions.m */; };
 		9CE4EF1A14CBA74100DFAD4A /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CE4EF1914CBA74100DFAD4A /* ColorPickerViewController.xib */; };
 		9CE4EF1C14CBB22700DFAD4A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9CE4EF1B14CBB22700DFAD4A /* Settings.bundle */; };
+		9CEEB794153202D100A7DBB8 /* ConnectportDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB793153202D100A7DBB8 /* ConnectportDiscovery.m */; };
+		9CEEB79815320ACB00A7DBB8 /* ADDPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB79715320ACB00A7DBB8 /* ADDPPacket.m */; };
+		9CEEB79B1532265F00A7DBB8 /* rainbow_lamp_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CEEB79A1532265F00A7DBB8 /* rainbow_lamp_ipad.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +79,7 @@
 		83173CD5150FC31500227E21 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		83201BE91512619700F6CA42 /* lamp icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lamp icon.png"; sourceTree = "<group>"; };
 		83B4798815055860002AC1DA /* rainbow_lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp.png; sourceTree = "<group>"; };
-		83B4798915055860002AC1DA /* rainbow_lamp@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2.png"; sourceTree = "<group>"; };
+		83B4798915055860002AC1DA /* rainbow_lamp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2x.png"; sourceTree = "<group>"; };
 		83ED0A6415040A190096A20C /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
 		83ED0A7C15043D960096A20C /* TBXML+Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+Compression.h"; sourceTree = "<group>"; };
 		83ED0A7D15043D960096A20C /* TBXML+HTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+HTTP.h"; sourceTree = "<group>"; };
@@ -113,6 +116,11 @@
 		9CE4EF1014CBA68200DFAD4A /* UIColor-HSVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor-HSVAdditions.m"; sourceTree = "<group>"; };
 		9CE4EF1914CBA74100DFAD4A /* ColorPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPickerViewController.xib; sourceTree = "<group>"; };
 		9CE4EF1B14CBB22700DFAD4A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		9CEEB792153202D100A7DBB8 /* ConnectportDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectportDiscovery.h; sourceTree = "<group>"; };
+		9CEEB793153202D100A7DBB8 /* ConnectportDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectportDiscovery.m; sourceTree = "<group>"; };
+		9CEEB79615320ACB00A7DBB8 /* ADDPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDPPacket.h; sourceTree = "<group>"; };
+		9CEEB79715320ACB00A7DBB8 /* ADDPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADDPPacket.m; sourceTree = "<group>"; };
+		9CEEB79A1532265F00A7DBB8 /* rainbow_lamp_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp_ipad.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,7 +207,8 @@
 				83201BE91512619700F6CA42 /* lamp icon.png */,
 				83173CD5150FC31500227E21 /* Entitlements.plist */,
 				83B4798815055860002AC1DA /* rainbow_lamp.png */,
-				83B4798915055860002AC1DA /* rainbow_lamp@2.png */,
+				83B4798915055860002AC1DA /* rainbow_lamp@2x.png */,
+				9CEEB79A1532265F00A7DBB8 /* rainbow_lamp_ipad.png */,
 				9CE4EEF414CBA64E00DFAD4A /* UI Parts */,
 				9CE4EEDB14CBA53300DFAD4A /* color_picker-Info.plist */,
 				9CE4EEDC14CBA53300DFAD4A /* InfoPlist.strings */,
@@ -223,6 +232,7 @@
 		9CE4EEFF14CBA68200DFAD4A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEB795153208FB00A7DBB8 /* Digi */,
 				9CE4EF1914CBA74100DFAD4A /* ColorPickerViewController.xib */,
 				9CE4EF0414CBA68200DFAD4A /* ColorPickerView.h */,
 				9CE4EF0514CBA68200DFAD4A /* ColorPickerView.m */,
@@ -242,6 +252,17 @@
 				83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		9CEEB795153208FB00A7DBB8 /* Digi */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEB792153202D100A7DBB8 /* ConnectportDiscovery.h */,
+				9CEEB793153202D100A7DBB8 /* ConnectportDiscovery.m */,
+				9CEEB79615320ACB00A7DBB8 /* ADDPPacket.h */,
+				9CEEB79715320ACB00A7DBB8 /* ADDPPacket.m */,
+			);
+			name = Digi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,10 +361,11 @@
 				9CE4EF1C14CBB22700DFAD4A /* Settings.bundle in Resources */,
 				83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */,
 				83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */,
-				83B4798B15055860002AC1DA /* rainbow_lamp@2.png in Resources */,
+				83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */,
 				83173CD6150FC31500227E21 /* Entitlements.plist in Resources */,
 				83201BEA1512619700F6CA42 /* lamp icon.png in Resources */,
 				9C7451EE1525512A000C8275 /* frame.png in Resources */,
+				9CEEB79B1532265F00A7DBB8 /* rainbow_lamp_ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +385,8 @@
 				9CE4EF1714CBA68200DFAD4A /* UIColor-Expanded.m in Sources */,
 				9CE4EF1814CBA68200DFAD4A /* UIColor-HSVAdditions.m in Sources */,
 				83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */,
+				9CEEB794153202D100A7DBB8 /* ConnectportDiscovery.m in Sources */,
+				9CEEB79815320ACB00A7DBB8 /* ADDPPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
