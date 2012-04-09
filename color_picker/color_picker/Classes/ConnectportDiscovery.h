@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ConnectportDiscoveryDelegate <NSObject>
+
+- (void)foundConnectports:(NSArray *) orError:(NSError *)error;
+
+@end
+
 //! Uses a subset of Digi's ADDP to find the local Connectports
 @interface ConnectportDiscovery : NSObject
 
-+ (NSArray *)findDigis;
++ (void)findDigis;
++ (CFDataRef)createDiscoveryPacket;
 
 @end

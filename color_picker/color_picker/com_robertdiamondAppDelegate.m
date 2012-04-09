@@ -9,6 +9,7 @@
 #import "com_robertdiamondAppDelegate.h"
 #import "TBXML.h"
 #import "TBXML+HTTP.h"
+#import "ConnectportDiscovery.h"
 
 @implementation com_robertdiamondAppDelegate
 
@@ -31,6 +32,7 @@
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:clvc] autorelease];
     [self.window makeKeyAndVisible];
     
+    [ConnectportDiscovery findDigis];
     //[clvc doRefresh:nil];
     return YES;
 }
