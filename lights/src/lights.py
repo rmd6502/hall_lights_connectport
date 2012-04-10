@@ -237,6 +237,7 @@ def colorPage(args):
 
     return (digiweb.TextHtml, web_template % {
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
+            'red2':socketVal['r'], 'green2':socketVal['g'], 'blue2':socketVal['b'],
             'nodes':nodeList, 'colors':colorList })
 
 xmlTemplate = """
