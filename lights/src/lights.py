@@ -16,6 +16,36 @@ function setcolor(colordiv) {
     document.forms[0].submit();
 }
 HTMLElement.prototype.hasFocus = 0;
+var lastXML;
+function updateInputs() {
+    var sel = document.getElementsByName("node")[0];
+    var selNode = sel.options[sel.selectedIndex].value;
+    var x = lastXML;
+    if (x == null) return;
+    var lights = x.getElementsByTagName("light");
+    for (var lightno=0; lightno < lights.length; ++lightno) {
+        var light = lights.item(lightno);
+        if (light.attributes.getNamedItem("node").nodeValue == selNode) {
+            if (!document.getElementsByName("red")[0].hasFocus) {
+                document.getElementsByName("red")[0].value = 
+                    x.getElementsByTagName("red")[0].firstChild.nodeValue;
+            }
+            if (!document.getElementsByName("green")[0].hasFocus) {
+                document.getElementsByName("green")[0].value = 
+                    x.getElementsByTagName("green")[0].firstChild.nodeValue;
+            }
+            if (!document.getElementsByName("blue")[0].hasFocus) {
+                document.getElementsByName("blue")[0].value = 
+                    x.getElementsByTagName("blue")[0].firstChild.nodeValue;
+            }
+            if (!document.getElementsByName("speed")[0].hasFocus) {
+                document.getElementsByName("speed")[0].value = 
+                    x.getElementsByTagName("speed")[0].firstChild.nodeValue;
+            }
+            break;
+        }
+    }
+}
 function updateAjax(url) {
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
@@ -24,32 +54,8 @@ function updateAjax(url) {
     }
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            var x = xmlhttp.responseXML;
-            var sel = document.getElementsByName("node")[0];
-            var selNode = sel.options[sel.selectedIndex].value;
-            var lights = x.getElementsByTagName("light");
-            for (var lightno=0; lightno < lights.length; ++lightno) {
-                var light = lights.item(lightno);
-                if (light.attributes.getNamedItem("node").nodeValue == selNode) {
-                    if (!document.getElementsByName("red")[0].hasFocus) {
-                        document.getElementsByName("red")[0].value = 
-                            x.getElementsByTagName("red")[0].firstChild.nodeValue;
-                    }
-                    if (!document.getElementsByName("green")[0].hasFocus) {
-                        document.getElementsByName("green")[0].value = 
-                            x.getElementsByTagName("green")[0].firstChild.nodeValue;
-                    }
-                    if (!document.getElementsByName("blue")[0].hasFocus) {
-                        document.getElementsByName("blue")[0].value = 
-                            x.getElementsByTagName("blue")[0].firstChild.nodeValue;
-                    }
-                    if (!document.getElementsByName("speed")[0].hasFocus) {
-                        document.getElementsByName("speed")[0].value = 
-                            x.getElementsByTagName("speed")[0].firstChild.nodeValue;
-                    }
-                    break;
-                }
-            }
+            lastXML = xmlhttp.responseXML;
+            updateInputs();
         }
         if (xmlhttp.readyState == 4) {
             window.setTimeout("updateAjax('"+url+"')", 7000);
@@ -64,7 +70,7 @@ function updateAjax(url) {
 <FORM METHOD="POST">
 <TABLE>
 <TR>
-<TD>Choose Node</TD><TD><SELECT NAME="node">
+<TD>Choose Node</TD><TD><SELECT NAME="node" onchange="updateInputs()">
 %(nodes)s
 </SELECT></TD>
 </TR>
@@ -237,6 +243,7 @@ def colorPage(args):
 
     return (digiweb.TextHtml, web_template % {
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
+            'red2':socketVal['r'], 'green2':socketVal['g'], 'blue2':socketVal['b'],
             'nodes':nodeList, 'colors':colorList })
 
 xmlTemplate = """
@@ -258,7 +265,9 @@ def query(args):
     lightData = ""
     for nodeInfo in nodeData.keys():
         lightData += lightTemplate % nodeData[nodeInfo]
-    return (digiweb.TextXml, xmlTemplate % (lightData,))
+    ret = (digiweb.TextXml, xmlTemplate % (lightData,))
+    print "returning query data "+ret[1]+"\n"
+    return ret
 
 def splitargs(arglist):
     ret = {}
