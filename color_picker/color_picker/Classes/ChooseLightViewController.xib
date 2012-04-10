@@ -83,6 +83,7 @@
 						<string key="NSFrame">{{0, 379}, {320, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -97,10 +98,6 @@
 						<object class="NSColor" key="IBUINormalTitleShadowColor" id="150661759">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
-						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="304518128">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">frame.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="21713264">
 							<int key="type">2</int>
@@ -131,7 +128,6 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="150661759"/>
-						<reference key="IBUINormalBackgroundImage" ref="304518128"/>
 						<reference key="IBUIFontDescription" ref="21713264"/>
 						<reference key="IBUIFont" ref="580570602"/>
 					</object>
@@ -10169,10 +10165,6 @@ AAEAAQABA</bytes>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">frame.png</string>
-			<string key="NS.object.0">{1200, 600}</string>
-		</object>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
 </archive>

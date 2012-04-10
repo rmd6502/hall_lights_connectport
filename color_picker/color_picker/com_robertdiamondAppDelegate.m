@@ -5,10 +5,12 @@
 //  Created by Robert Diamond on 1/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
-
+#import <arpa/inet.h>
 #import "com_robertdiamondAppDelegate.h"
 #import "TBXML.h"
 #import "TBXML+HTTP.h"
+#import "ConnectportDiscovery.h"
+#import "ADDPPacket.h"
 
 @implementation com_robertdiamondAppDelegate
 
@@ -58,7 +60,21 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"diamond.homelinux.com:2525", @"arduino", nil]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"arduino"] == nil) {
+        [ConnectportDiscovery setDelegate:self];
+        [ConnectportDiscovery findDigis];
+    } else {
+        [clvc doRefresh:nil];
+    }
+}
+
+- (void)foundConnectports:(ADDPPacket *)packet orError:(NSError *)error {
+    struct in_addr ina;
+    ina.s_addr = packet.ip;
+    NSString *ip = [NSString stringWithUTF8String:inet_ntoa(ina)];
+    [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [clvc doRefresh:nil];
 }
 

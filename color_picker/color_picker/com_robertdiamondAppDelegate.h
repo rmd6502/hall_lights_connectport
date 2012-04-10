@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ColorPickerViewController.h"
 #import "ChooseLightViewController.h"
+#import "ConnectportDiscovery.h"
 
 @class TBXML;
 @class ChooseLightViewController;
-@interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate> {
+@interface com_robertdiamondAppDelegate : UIResponder <UIApplicationDelegate, ConnectportDiscoveryDelegate> {
     ChooseLightViewController *clvc;
 }
 
