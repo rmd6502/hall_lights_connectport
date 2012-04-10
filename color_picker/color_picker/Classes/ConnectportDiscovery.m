@@ -3,13 +3,15 @@
 //  color_picker
 //
 //  Created by Robert Diamond on 4/8/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Robert M Diamond. All rights reserved.
 //
 
 #import <sys/socket.h>
 #import <netinet/in.h>
+#import <arpa/inet.h>
 #import <netdb.h>
 #import "ConnectportDiscovery.h"
+#import "ADDPPacket.h"
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
@@ -21,26 +23,37 @@ void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const 
     Byte loop = 0;
     setsockopt(s, IPPROTO_IP, IP_MULTICAST_LOOP, &loop, sizeof(loop));
     uint32_t any = INADDR_ANY;
-    struct addrinfo hint, *res=nil;
-    memset(&hint, 0, sizeof(hint));
-    hint.ai_flags = AI_NUMERICHOST | AI_NUMERICSERV;
-    hint.ai_family = PF_UNSPEC;
-    getaddrinfo("224.0.5.128", "2362", &hint, &res);
+    struct sockaddr_in dest;
+    memset(&dest, 0, sizeof(dest));
+    dest.sin_port = htons(2362);
+    dest.sin_family = AF_INET;
+    in_addr_t dest_addr = inet_addr("224.0.5.128");
+    memcpy(&dest.sin_addr, &dest_addr, sizeof(dest.sin_addr));
     struct ip_mreq mreq;
     memcpy(&mreq.imr_interface, &any, sizeof(mreq.imr_interface));
-    memcpy(&mreq.imr_multiaddr, &res->ai_addr[0].sa_data[2], sizeof(mreq.imr_multiaddr));
+    memcpy(&mreq.imr_multiaddr, &dest_addr, sizeof(mreq.imr_multiaddr));
     setsockopt(s, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
     
-    CFDataRef sendAddr = CFDataCreate(nil, (const uint8_t *)&res->ai_addr[0].sa_data[2], sizeof(in_addr_t));
+    CFDataRef sendAddr = CFDataCreate(nil, (const uint8_t *)&dest, sizeof(dest));
     CFDataRef packet = [ConnectportDiscovery createDiscoveryPacket];
     CFSocketSendData(sock, sendAddr, packet, 5);
     CFRelease(packet);
     CFRelease(sendAddr);
+    
+    CFRunLoopSourceRef rlr = CFSocketCreateRunLoopSource(nil, sock, 1);
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), rlr, kCFRunLoopCommonModes);
+    CFRelease(rlr);
 }
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
-    CFDataRef recv = (CFDataRef)data;
-    NSLog(@"received %@", recv);
+    CFDataRef rcvd = (CFDataRef)data;
+    //NSLog(@"received %@", rcvd);
+    ADDPPacket *p = [[ADDPPacket alloc] init];
+    p.bytes = (NSData *)rcvd;
+    struct in_addr ina;
+    ina.s_addr = p.ip;
+    NSLog(@"Found %s name %@ netname %@", inet_ntoa(ina), p.deviceName, p.netName);
+    [p release];
 }
 
 + (CFDataRef)createDiscoveryPacket {

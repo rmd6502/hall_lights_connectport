@@ -15,7 +15,7 @@
 @dynamic mac;
 @dynamic ip;
 @dynamic netmask;
-@dynamic netname;
+@dynamic netName;
 @dynamic fwVersion;
 @dynamic result;
 @dynamic resultFlag;
@@ -110,4 +110,30 @@
     }
 }
 
+- (UInt32)ip {
+    NSData *ipValue = [buffer objectForKey:[NSNumber numberWithUnsignedChar:ADDP_IP]];
+    if (ipValue == nil) {
+        return (UInt32)-1;
+    }
+    UInt32 ret = 0;
+    memcpy(&ret, ipValue.bytes, sizeof(ret));
+    ret = CFSwapInt32LittleToHost(ret);
+    return ret;
+}
+
+- (NSString *)deviceName {
+    NSData *dnValue = [buffer objectForKey:[NSNumber numberWithUnsignedChar:ADDP_DEVICE_NAME]];
+    if (dnValue == nil) {
+        return nil;
+    }
+    return [[NSString alloc] initWithBytes:dnValue.bytes length:dnValue.length encoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)netName {
+    NSData *dnValue = [buffer objectForKey:[NSNumber numberWithUnsignedChar:ADDP_NETNAME]];
+    if (dnValue == nil) {
+        return nil;
+    }
+    return [[NSString alloc] initWithBytes:dnValue.bytes length:dnValue.length encoding:NSUTF8StringEncoding];
+}
 @end

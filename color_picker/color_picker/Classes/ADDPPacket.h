@@ -55,7 +55,7 @@ enum PacketTypes {
 @property (nonatomic, assign) UInt64 mac;
 @property (nonatomic, assign) UInt32 ip;
 @property (nonatomic, assign) UInt32 netmask;
-@property (nonatomic, assign) NSString *netname;
+@property (nonatomic, assign) NSString *netName;
 @property (nonatomic, assign) NSString *fwVersion;
 @property (nonatomic, assign) NSString *result;
 @property (nonatomic, assign) UInt8 resultFlag;
