@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADDPPacket;
 @protocol ConnectportDiscoveryDelegate <NSObject>
 
-- (void)foundConnectports:(NSArray *) orError:(NSError *)error;
+- (void)foundConnectports:(ADDPPacket *)packet orError:(NSError *)error;
 
 @end
 
@@ -19,5 +20,6 @@
 
 + (void)findDigis;
 + (CFDataRef)createDiscoveryPacket;
++ (void)setDelegate:(id<ConnectportDiscoveryDelegate>)newDel;
 
 @end

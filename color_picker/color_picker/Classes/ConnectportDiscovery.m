@@ -15,6 +15,8 @@
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
+id<ConnectportDiscoveryDelegate> delegate = nil;
+
 @implementation ConnectportDiscovery
 
 + (void)findDigis {
@@ -48,17 +50,23 @@ void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
     CFDataRef rcvd = (CFDataRef)data;
     //NSLog(@"received %@", rcvd);
-    ADDPPacket *p = [[ADDPPacket alloc] init];
+    ADDPPacket *p = [[[ADDPPacket alloc] init] autorelease];
     p.bytes = (NSData *)rcvd;
     struct in_addr ina;
     ina.s_addr = p.ip;
     NSLog(@"Found %s name %@ netname %@", inet_ntoa(ina), p.deviceName, p.netName);
-    [p release];
+    if (delegate) {
+        [delegate performSelector:@selector(foundConnectports:orError:) withObject:p withObject:nil];
+    }
 }
 
 + (CFDataRef)createDiscoveryPacket {
     uint8_t packet[] = { 'D','I','G','I', 0,1, 0,6, 0xff,0xff,0xff,0xff,0xff,0xff };
     return CFDataCreate(nil, packet, sizeof(packet));
     
+}
+
++ (void)setDelegate:(id<ConnectportDiscoveryDelegate>)newDel {
+    delegate = newDel;
 }
 @end
