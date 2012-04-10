@@ -33,7 +33,6 @@
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:clvc] autorelease];
     [self.window makeKeyAndVisible];
     
-    [ConnectportDiscovery findDigis];
     //[clvc doRefresh:nil];
     return YES;
 }
@@ -61,6 +60,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [[NSUserDefaults standardUserDefaults] synchronize];
     if ([[NSUserDefaults standardUserDefaults] valueForKey:@"arduino"] == nil) {
         [ConnectportDiscovery setDelegate:self];
         [ConnectportDiscovery findDigis];
@@ -74,6 +74,7 @@
     ina.s_addr = packet.ip;
     NSString *ip = [NSString stringWithUTF8String:inet_ntoa(ina)];
     [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [clvc doRefresh:nil];
 }
 

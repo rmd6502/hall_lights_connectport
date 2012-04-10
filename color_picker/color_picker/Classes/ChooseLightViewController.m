@@ -59,6 +59,7 @@
 
 - (IBAction)doRefresh:(id)sender {
     //NSLog(@"dorefresh enter sender %@", sender);
+    // TODO: Handle if the URL open fails
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
     if (host == nil) return;
     __block NSString *req = [NSString stringWithFormat:@"http://%@/query", host];
