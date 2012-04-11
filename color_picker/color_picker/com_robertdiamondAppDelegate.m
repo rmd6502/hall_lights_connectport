@@ -61,7 +61,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"arduino"] == nil) {
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"arduino"] length] == 0) {
         [ConnectportDiscovery setDelegate:self];
         [ConnectportDiscovery findDigis];
     } else {
