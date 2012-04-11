@@ -32,19 +32,19 @@ function updateAjax(url) {
                 var light = lights.item(lightno);
                 if (light.attributes.getNamedItem("node").nodeValue == selNode) {
                     if (!document.getElementsByName("red")[0].hasFocus) {
-                        document.getElementsByName("red")[0].value = 
+                        document.getElementsByName("red")[0].text = 
                             x.getElementsByTagName("red")[0].firstChild.nodeValue;
                     }
                     if (!document.getElementsByName("green")[0].hasFocus) {
-                        document.getElementsByName("green")[0].value = 
+                        document.getElementsByName("green")[0].text = 
                             x.getElementsByTagName("green")[0].firstChild.nodeValue;
                     }
                     if (!document.getElementsByName("blue")[0].hasFocus) {
-                        document.getElementsByName("blue")[0].value = 
+                        document.getElementsByName("blue")[0].text = 
                             x.getElementsByTagName("blue")[0].firstChild.nodeValue;
                     }
                     if (!document.getElementsByName("speed")[0].hasFocus) {
-                        document.getElementsByName("speed")[0].value = 
+                        document.getElementsByName("speed")[0].text = 
                             x.getElementsByTagName("speed")[0].firstChild.nodeValue;
                     }
                     break;
