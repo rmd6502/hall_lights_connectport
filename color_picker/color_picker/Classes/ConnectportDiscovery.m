@@ -16,11 +16,20 @@
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
 id<ConnectportDiscoveryDelegate> delegate = nil;
+CFSocketRef sock = nil;
+
+@interface ConnectportDiscovery(Private)
++ (void)timeoutFinished:(NSTimer *)t;
+@end
 
 @implementation ConnectportDiscovery
 
 + (void)findDigis {
-    CFSocketRef sock = CFSocketCreate(nil, AF_INET, SOCK_DGRAM, 0, kCFSocketDataCallBack, gotData, nil);
+    if (sock) {
+        CFSocketInvalidate(sock);
+        CFRelease(sock);
+    }
+    sock = CFSocketCreate(nil, AF_INET, SOCK_DGRAM, 0, kCFSocketDataCallBack, gotData, nil);
     int s = CFSocketGetNative(sock);
     Byte loop = 0;
     setsockopt(s, IPPROTO_IP, IP_MULTICAST_LOOP, &loop, sizeof(loop));
@@ -38,13 +47,24 @@ id<ConnectportDiscoveryDelegate> delegate = nil;
     
     CFDataRef sendAddr = CFDataCreate(nil, (const uint8_t *)&dest, sizeof(dest));
     CFDataRef packet = [ConnectportDiscovery createDiscoveryPacket];
-    CFSocketSendData(sock, sendAddr, packet, 5);
+    CFSocketSendData(sock, sendAddr, packet, 2.5);
     CFRelease(packet);
     CFRelease(sendAddr);
     
     CFRunLoopSourceRef rlr = CFSocketCreateRunLoopSource(nil, sock, 1);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), rlr, kCFRunLoopCommonModes);
     CFRelease(rlr);
+    
+    [NSTimer scheduledTimerWithTimeInterval:3.0 target:[ConnectportDiscovery class] selector:@selector(timeoutFinished:) userInfo:nil repeats:NO];
+}
+
++ (void)timeoutFinished:(NSTimer *)t {
+    [t invalidate];
+    if (sock) {
+        CFSocketInvalidate(sock);
+        CFRelease(sock);
+        sock = nil;
+    }
 }
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
