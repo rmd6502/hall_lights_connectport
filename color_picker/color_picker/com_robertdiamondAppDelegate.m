@@ -61,7 +61,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"arduino"] length] == 0) {
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
         [ConnectportDiscovery setDelegate:self];
         [ConnectportDiscovery findDigis];
     } else {
@@ -73,8 +73,11 @@
     struct in_addr ina;
     ina.s_addr = packet.ip;
     NSString *ip = [NSString stringWithUTF8String:inet_ntoa(ina)];
-    [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"address: %@", ip);
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
+        [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     [clvc doRefresh:nil];
 }
 
