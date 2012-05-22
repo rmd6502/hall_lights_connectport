@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 const byte r1_control = 6;
 const byte g1_control = 11;
 const byte b1_control = 9;
@@ -13,11 +15,15 @@ unsigned int random_mode = 0;
 // F = light 1, C = seCond light, A = all lights
 char mode = 'a';
 
-enum _colorStates { NONE, RED, GREEN, BLUE, SPEED };
+enum _colorStates { NONE, RED, GREEN, BLUE, SPEED, SEQNO,SEQCOL,SEQDELAY, PLAYNO };
 byte states = 0;
 byte current[6] = {0};
 byte goal[6] = {255, 200, 180, 255, 200, 180};
 byte pins[6] = {0};
+
+uint16_t numsequences = 0;
+uint16_t seqIndexes[10];
+uint32_t seqData[64];
 
 void setup() {
   Serial.begin(9600);
@@ -55,16 +61,36 @@ void loop() {
     while (handled == 0) {
       switch(states) {
         case RED:
-          handled = handleNumber(b);
-          break;
         case GREEN:
-          handled = handleNumber(b);
-          break;
         case BLUE:
+        case SPEED:
+        case PLAYNO:
           handled = handleNumber(b);
           break;
-        case SPEED:
+        case SEQNO:
           handled = handleNumber(b);
+          if (!handled) {
+            states = SEQCOL;
+            handled = 1;
+          }
+          break;
+        case SEQCOL:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQDELAY;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQDELAY:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQCOL;
+            }
+            handled = 1;
+          }
           break;
         default:
           handleDefault(b);
@@ -109,9 +135,9 @@ void handleDefault(byte d) {
     case 'n': case 'N':
       random_mode = !random_mode;
       break;
-    case 'f': case 'F':
-    case 'c': case 'C':
-    case 'a': case 'A':
+    case 'f': case 'F':  // color settings apply to first light only
+    case 'c': case 'C':  // color settings apply to second light only
+    case 'a': case 'A':  // color settings apply to both lights
       mode = tolower(d);
       break;
     case 'q': case 'Q': {
@@ -134,6 +160,12 @@ void handleDefault(byte d) {
       }
       break;
     }
+    case 'm': case 'M':
+      states = SEQNO;
+      break;
+    case 'p': case 'P':
+      states = PLAYNO;
+      break;
     case 'h': case 'H':
       Serial.println("HELP");
       Serial.println("----");
@@ -142,6 +174,8 @@ void handleDefault(byte d) {
       Serial.println("bxxx - set blue to xxx");
       Serial.println("q - Query");
       Serial.println("f=first, c=seCond,a=all lights");
+      Serial.println("mx,aaa,bbbb,ccc,dddd,... - define sequence x as color aaa, delay bbbb ms, color ccc, delay dddd ms, ...");
+      Serial.println("px - play sequence x.  X ranges from 0 to 9");
       break;
     default:
       return;
@@ -193,6 +227,10 @@ void setColor() {
       Serial.print("setting speed to "); Serial.println(buf);
       dly = buf;
       break;
+    case SEQNO:
+    case SEQCOL:
+    case SEQDELAY:
+    case PLAYNO:
     default:
       break;
   }

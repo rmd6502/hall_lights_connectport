@@ -70,15 +70,24 @@
 }
 
 - (void)foundConnectports:(ADDPPacket *)packet orError:(NSError *)error {
-    struct in_addr ina;
-    ina.s_addr = packet.ip;
-    NSString *ip = [NSString stringWithUTF8String:inet_ntoa(ina)];
-    NSLog(@"address: %@", ip);
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
-        [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    if (packet) {
+        struct in_addr ina;
+        ina.s_addr = packet.ip;
+        NSString *ip = [NSString stringWithUTF8String:inet_ntoa(ina)];
+        NSLog(@"address: %@", ip);
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
+            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"arduino"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        [clvc doRefresh:nil];
+    } else {
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Discovery" message:@"No Connectports Found" delegate:clvc cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+            [av release];
+            clvc.spinner.hidden = YES;
+        }
     }
-    [clvc doRefresh:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

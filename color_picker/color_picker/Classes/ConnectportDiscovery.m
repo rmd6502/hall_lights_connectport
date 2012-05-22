@@ -65,6 +65,13 @@ CFSocketRef sock = nil;
         CFRelease(sock);
         sock = nil;
     }
+    if (delegate) {
+        NSError *err = [NSError errorWithDomain:@"Discovery" 
+                                           code:-3141 
+                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 @"Hit Timeout", NSLocalizedDescriptionKey, nil]];
+        [delegate performSelector:@selector(foundConnectports:orError:) withObject:nil withObject:err];
+    }
 }
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
