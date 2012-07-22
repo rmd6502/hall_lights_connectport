@@ -50,6 +50,7 @@
 - (IBAction) chooseSelectedColor;
 - (IBAction) cancelColorSelection;
 - (IBAction) randomizeSelection;
+- (IBAction) valueChosen:(id)sender;
 - (UIColor *) getSelectedColor;
 
 @end
