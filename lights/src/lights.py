@@ -192,11 +192,17 @@ def colorPage(args):
     if random_mode:
         socketdata = "n"
     else:
-        socketdata = "F"+"".join([k+str(socketVal[k]) for k in ('r','g','b')])
-        try:
-            socketdata += "C"+"".join([k[0]+str(socketVal[k]) for k in ('r2','g2','b2')])
-        except:
-            pass
+        if args is None or not args.has_key("red2"):
+            socketdata = "A"+"".join([k+str(socketVal[k]) for k in ('r','g','b')])
+        else:
+            try:
+                socketdata = "F"+"".join([k+str(socketVal[k]) for k in ('r','g','b')])
+            except:
+                pass
+            try:
+                socketdata += "C"+"".join([k[0]+str(socketVal[k]) for k in ('r2','g2','b2')])
+            except:
+                pass
 
         if change_speed_changed:
             socketdata += "s"+str(change_speed)
@@ -275,6 +281,9 @@ lightTemplate = """
     <red>%(red)d</red>
     <green>%(green)d</green>
     <blue>%(blue)d</blue>
+    <red2>%(red2)d</red2>
+    <green2>%(green2)d</green2>
+    <blue2>%(blue2)d</blue2>
     <speed>%(speed)d</speed>
     <nodeId>%(nodeId)s</nodeId>
     <lastActive>%(active)f</lastActive>
@@ -358,7 +367,7 @@ def query_params(sock):
             nodes = zigbee.get_node_list(True)
             for n in nodes:
                 print "sending query to "+n.addr_extended
-                sock.sendto("Q\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
+                sock.sendto("AQ\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
         except:
             exctype, value = sys.exc_info()[:2]
             print "failed to query node: "+str(exctype)+", "+str(value)
