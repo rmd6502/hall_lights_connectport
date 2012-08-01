@@ -261,11 +261,31 @@ lightTemplate = """
     <lastActive>%(active)f</lastActive>
 </light>\n
 """
+jsonTemplate="""
+{"lights": [%s]"}
+"""
+jsonLightTemplate="""
+{"red":%(red)d, "green":%(green)d, "blue":%(blue)d, "speed":%(speed)d,
+ "nodeId":"%(nodeId)s", "lastActive":%(active)f}
+"""
 def query(args):
     lightData = ""
+    template = ""
+    itemplate = ""
+    fmt = "xml"
+    if args.haskey('fmt') and args['fmt'] == 'json':
+    	fmt = args['fmt']
+    	template = jsonTemplate
+	itemplate = jsonLightTemplate
+    else:
+    	template = xmlTemplate
+	itemplate = lightTemplate
+
     for nodeInfo in nodeData.keys():
-        lightData += lightTemplate % nodeData[nodeInfo]
-    ret = (digiweb.TextXml, xmlTemplate % (lightData,))
+    	if fmt == 'json' and lightData.length > 0:
+	    lightData += ","
+        lightData += itemplate % nodeData[nodeInfo]
+    ret = (digiweb.TextXml, template % (lightData,))
     print "returning query data "+ret[1]+"\n"
     return ret
 
