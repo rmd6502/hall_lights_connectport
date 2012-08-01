@@ -10,7 +10,7 @@
 #import "ColorPickerViewController.h"
 
 @class TBXML;
-@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate, UINavigationControllerDelegate> {
+@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate, UINavigationControllerDelegate,UIAlertViewDelegate> {
     NSMutableDictionary *lightColors;
     NSTimer *refreshTimer;
     NSTimer *touchTimer;

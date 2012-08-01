@@ -141,23 +141,20 @@ void handleDefault(byte d) {
       mode = tolower(d);
       break;
     case 'q': case 'Q': {
-      byte offs = (mode == 'c' ? 3 : 0);
       Serial.print("Qr");
-      Serial.print(goal[0+offs]);
+      Serial.print(goal[0]);
       Serial.print("g");
-      Serial.print(goal[1+offs]);
+      Serial.print(goal[1]);
       Serial.print("b");
-      Serial.print(goal[2+offs]);
+      Serial.print(goal[2]);
       Serial.print("s");
       Serial.println(dly);
-      if (mode == 'a') {
-        Serial.print("2r");
-        Serial.print(goal[3]);
-        Serial.print("g");
-        Serial.print(goal[4]);
-        Serial.print("b");
-        Serial.println(goal[5]);
-      }
+      Serial.print("2r");
+      Serial.print(goal[3]);
+      Serial.print("g");
+      Serial.print(goal[4]);
+      Serial.print("b");
+      Serial.println(goal[5]);
       break;
     }
     case 'm': case 'M':

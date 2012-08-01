@@ -11,11 +11,13 @@
 #import "ColorPickerView.h"
 #import "TBXML.h"
 #import "TBXML+HTTP.h"
+#import "com_robertdiamondAppDelegate.h"
 #import <objc/objc.h>
 
 @interface ChooseLightViewController(Private)
 
 - (NSString *)templateForColor:(UIColor *)color;
+- (void)hideSpinner;
 
 @end
 
@@ -83,12 +85,23 @@
         self.tbxml = result;
         refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     } failure:^(TBXML *result, NSError *error) {
+        [self performSelectorOnMainThread:@selector(hideSpinner) withObject:nil waitUntilDone:NO];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Problem" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Retry", nil];
+        [av show];
+        [av release];
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
         refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
     }]; 
     //NSLog(@"dorefresh exit");
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"arduino"];
+        com_robertdiamondAppDelegate *app = (com_robertdiamondAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [app applicationDidBecomeActive:[UIApplication sharedApplication]];
+    }
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -101,6 +114,9 @@
     refresh = nil;
 }
 
+- (void)hideSpinner {
+    [spinner setHidden:YES];
+}
 - (void)dealloc {
     [tbxml release];
     [refresh release];

@@ -144,7 +144,7 @@ def serverPage(type, path, headers, args):
         return (digiweb.TextHtml,"<h1>Invalid URL</h1>")
 
 def colorPage(args):
-    socketVal = {'r': 0, 'g':0, 'b':0}
+    socketVal = {'r': 0, 'g':0, 'b':0, 'r2':0, 'g2':0, 'b2':0}
     nodelist = []
     random_mode = False
     change_speed = 6
@@ -163,12 +163,20 @@ def colorPage(args):
                 socketVal['g'] = int(argval)
             elif not ignrgb and argkey == "blue":
                 socketVal['b'] = int(argval)
+            elif not ignrgb and argkey == "red2":
+                socketVal['r2'] = int(argval)
+            elif not ignrgb and argkey == "green2":
+                socketVal['g2'] = int(argval)
+            elif not ignrgb and argkey == "blue2":
+                socketVal['b2'] = int(argval)
             elif argkey == "speed":
                 change_speed = int(argval)
                 change_speed_changed = True
             elif argkey == "color":
                 if colors.has_key(argval.lower()):
                     socketVal = colors[argval.lower()]
+                    for k in ('r','g','b'):
+                        socketVal[k+"2"] = socketVal[k]
                     ignrgb = True
             elif argkey == "node":
                 nodelist.append(argval)
@@ -184,7 +192,18 @@ def colorPage(args):
     if random_mode:
         socketdata = "n"
     else:
-        socketdata = "".join([k+str(v) for k,v in socketVal.items()])
+        if args is None or not args.has_key("red2"):
+            socketdata = "A"+"".join([k+str(socketVal[k]) for k in ('r','g','b')])
+        else:
+            try:
+                socketdata = "F"+"".join([k+str(socketVal[k]) for k in ('r','g','b')])
+            except:
+                pass
+            try:
+                socketdata += "C"+"".join([k[0]+str(socketVal[k]) for k in ('r2','g2','b2')])
+            except:
+                pass
+
         if change_speed_changed:
             socketdata += "s"+str(change_speed)
     
@@ -230,6 +249,9 @@ def colorPage(args):
             nodeData[nodeaddr]['red'] = socketVal['r']
             nodeData[nodeaddr]['green'] = socketVal['g']
             nodeData[nodeaddr]['blue'] = socketVal['b']
+            nodeData[nodeaddr]['red2'] = socketVal['r2']
+            nodeData[nodeaddr]['green2'] = socketVal['g2']
+            nodeData[nodeaddr]['blue2'] = socketVal['b2']
             if change_speed_changed:
                 nodeData[nodeaddr]['speed'] = change_speed
         except:
@@ -239,11 +261,14 @@ def colorPage(args):
         nodeaddr = nodeData.keys()[0]
         socketVal = { 'r': nodeData[nodeaddr]['red'],
             'g': nodeData[nodeaddr]['green'],
-            'b': nodeData[nodeaddr]['blue'] }
+            'b': nodeData[nodeaddr]['blue'],
+            'r2': nodeData[nodeaddr]['red2'],
+            'g2': nodeData[nodeaddr]['green2'],
+            'b2': nodeData[nodeaddr]['blue2'] }
 
     return (digiweb.TextHtml, web_template % {
             'red':socketVal['r'], 'green':socketVal['g'], 'blue':socketVal['b'],'speed':change_speed,
-            'red2':socketVal['r'], 'green2':socketVal['g'], 'blue2':socketVal['b'],
+            'red2':socketVal['r2'], 'green2':socketVal['g2'], 'blue2':socketVal['b2'],
             'nodes':nodeList, 'colors':colorList })
 
 xmlTemplate = """
@@ -256,6 +281,9 @@ lightTemplate = """
     <red>%(red)d</red>
     <green>%(green)d</green>
     <blue>%(blue)d</blue>
+    <red2>%(red2)d</red2>
+    <green2>%(green2)d</green2>
+    <blue2>%(blue2)d</blue2>
     <speed>%(speed)d</speed>
     <nodeId>%(nodeId)s</nodeId>
     <lastActive>%(active)f</lastActive>
@@ -359,7 +387,7 @@ def query_params(sock):
             nodes = zigbee.get_node_list(True)
             for n in nodes:
                 print "sending query to "+n.addr_extended
-                sock.sendto("Q\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
+                sock.sendto("AQ\n", 0, (n.addr_extended, 0xe8, 0xc105, 0x11))
         except:
             exctype, value = sys.exc_info()[:2]
             print "failed to query node: "+str(exctype)+", "+str(value)

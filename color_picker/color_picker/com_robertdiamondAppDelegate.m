@@ -64,9 +64,7 @@
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
         [ConnectportDiscovery setDelegate:self];
         [ConnectportDiscovery findDigis];
-    } else {
-        [clvc doRefresh:nil];
-    }
+    } 
 }
 
 - (void)foundConnectports:(ADDPPacket *)packet orError:(NSError *)error {
