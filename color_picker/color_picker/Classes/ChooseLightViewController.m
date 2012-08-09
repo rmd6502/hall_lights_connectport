@@ -16,7 +16,7 @@
 
 @interface ChooseLightViewController(Private)
 
-- (NSString *)templateForColor:(UIColor *)color;
+- (NSString *)templateForColor:(UIColor *)color andNode:(NSUInteger)node;
 - (void)hideSpinner;
 
 @end
@@ -132,6 +132,7 @@
 
 - (void)setTbxml:(TBXML *)tbxml_ {
     CGFloat r,g,b;
+    CGFloat r2,g2,b2;
     
     [tbxml release];
     tbxml = tbxml_;
@@ -146,9 +147,13 @@
         r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
         g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;
         b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;
+        r2 = [[TBXML textForElement:[TBXML childElementNamed:@"red2" parentElement:element]] floatValue]/255.;
+        g2 = [[TBXML textForElement:[TBXML childElementNamed:@"green2" parentElement:element]] floatValue]/255.;
+        b2 = [[TBXML textForElement:[TBXML childElementNamed:@"blue2" parentElement:element]] floatValue]/255.;
         UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+        UIColor *currentColor2 = [UIColor colorWithRed:r2 green:g2 blue:b2 alpha:1.0];
         if ([[node objectForKey:@"node"] isEqualToString:nodeId]) {
-            [(ColorPickerView *)cpvc.view setColor:currentColor];
+            [(ColorPickerView *)cpvc.view setColor:cpvc.node == 2 ? currentColor2 : currentColor];
         }
         NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
         unsigned long lastActive = strtoul([[TBXML textForElement:[TBXML childElementNamed:@"lastActive" parentElement:element]] UTF8String], NULL, 10);
@@ -166,8 +171,9 @@
             [lightColors removeObjectForKey:[k anyObject]];
         }
         [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               currentColor, @"color", 
-                               nodeId, @"node", 
+                               currentColor, @"color",
+                              currentColor2, @"color2",
+                               nodeId, @"node",
                                [NSNumber numberWithLong:lastActive], @"lastActive",
                                nil] 
                        forKey:lightName];
@@ -251,13 +257,17 @@
   }
 }
 
-- (NSString *)templateForColor:(UIColor *)color {
+- (NSString *)templateForColor:(UIColor *)color andNode:(NSUInteger)node_ {
   CGFloat r,g,b;
   const CGFloat *comps = CGColorGetComponents(color.CGColor);
+    NSString *nodeStr = @"";
+    if (node_ != 1) {
+        nodeStr = [NSString stringWithFormat:@"%d",node_];
+    }
   r = comps[0]; g = comps[1]; b = comps[2];
   NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&node=%%@",
-                   host,(int)(r*255), (int)(g*255), (int)(b*255)];
+  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red%@=%d&green%@=%d&blue%@=%d&node=%%@",
+                   host,nodeStr,(int)(r*255),nodeStr, (int)(g*255),nodeStr, (int)(b*255)];
   return ret;
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
@@ -265,7 +275,7 @@
   [node setValue:color forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-  NSString *tmpl = [self templateForColor:color];
+  NSString *tmpl = [self templateForColor:color andNode:colorPicker.node];
   NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
  
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
@@ -282,6 +292,10 @@
                          [node objectForKey:@"node"]];
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
+}
+
+- (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectValue:(NSUInteger)value {
+    [(ColorPickerView *)cpvc.view setColor:[node objectForKey:value == 2 ? @"color2" : @"color"]];
 }
 
 - (void)backgroundRequest:(NSURLRequest *)req {
@@ -303,7 +317,7 @@
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
-  NSString *tmpl = [self templateForColor:newcolor];
+  NSString *tmpl = [self templateForColor:newcolor andNode:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
@@ -315,7 +329,7 @@
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-  NSString *tmpl = [self templateForColor:newcolor];
+  NSString *tmpl = [self templateForColor:newcolor andNode:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
   [self backgroundRequest:req];
