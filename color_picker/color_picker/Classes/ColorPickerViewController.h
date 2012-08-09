@@ -19,6 +19,8 @@
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker;
 
+- (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectValue:(NSUInteger)value;
+
 @end
 
 @interface ColorPickerViewController : UIViewController {
@@ -40,6 +42,8 @@
 
 
 @property(nonatomic,assign)	id<ColorPickerViewControllerDelegate> delegate;
+@property(nonatomic,assign) NSUInteger node;
+
 #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
   @property(readwrite,nonatomic,retain) NSString *defaultsKey;
 #else
