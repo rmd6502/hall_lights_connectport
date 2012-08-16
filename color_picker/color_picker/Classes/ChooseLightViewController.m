@@ -16,7 +16,7 @@
 
 @interface ChooseLightViewController(Private)
 
-- (NSString *)templateForColor:(UIColor *)color andNode:(NSUInteger)node;
+- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node;
 - (void)hideSpinner;
 
 @end
@@ -257,17 +257,19 @@
   }
 }
 
-- (NSString *)templateForColor:(UIColor *)color andNode:(NSUInteger)node_ {
-  CGFloat r,g,b;
+- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node_ {
+  CGFloat r,g,b,r2,g2,b2;
   const CGFloat *comps = CGColorGetComponents(color.CGColor);
+    const CGFloat *comps2 = CGColorGetComponents(color2.CGColor);
     NSString *nodeStr = @"";
     if (node_ != 1) {
         nodeStr = [NSString stringWithFormat:@"%d",node_];
     }
   r = comps[0]; g = comps[1]; b = comps[2];
+    r2 = comps2[0]; g2 = comps2[1]; b2 = comps2[2];
   NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red%@=%d&green%@=%d&blue%@=%d&node=%%@",
-                   host,nodeStr,(int)(r*255),nodeStr, (int)(g*255),nodeStr, (int)(b*255)];
+  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&red2=%d&green2=%d&blue2=%d&node=%%@",
+                   host,(int)(r*255), (int)(g*255), (int)(b*255),(int)(r2*255), (int)(g2*255), (int)(b2*255)];
   return ret;
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
@@ -275,7 +277,7 @@
   [node setValue:color forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-  NSString *tmpl = [self templateForColor:color andNode:colorPicker.node];
+    NSString *tmpl = [self templateForColor:color color2:color andNode:colorPicker.node];
   NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
  
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
@@ -317,7 +319,7 @@
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
-  NSString *tmpl = [self templateForColor:newcolor andNode:1];
+    NSString *tmpl = [self templateForColor:newcolor color2:newcolor andNode:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
@@ -329,7 +331,7 @@
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-  NSString *tmpl = [self templateForColor:newcolor andNode:1];
+  NSString *tmpl = [self templateForColor:newcolor color2:newcolor andNode:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
   [self backgroundRequest:req];
