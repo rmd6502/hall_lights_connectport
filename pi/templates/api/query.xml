@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lights>
+    {% if nodes %}
+    <light node={{node.id}}>
+        <nodeId>{{node.name}}</nodeId>
+        <lastActive>{{node.lastActive}}</lastActive>
+    </light>
+    {% endif %}
+</lights>
