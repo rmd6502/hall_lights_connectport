@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lights>
+    {% for node in nodes %}
+    <light node="{{node.nodeId}}">
+        <nodeId>{{node.nodeName}}</nodeId>
+        <lastActive>{{ node.lastActive|date:"U" }}</lastActive>
+    </light>
+    {% endfor %}
+</lights>
