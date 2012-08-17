@@ -5,9 +5,9 @@
         <nodeId>{{node.nodeName}}</nodeId>
         <lastActive>{{ node.lastActive|date:"U" }}</lastActive>
         {% for light in node.light_set %}
-            <red{{light.controller}}>{{light.color|slice:"0"}}</red{{light.controller}}>
-            <green{{light.controller}}>{{light.color|slice:"1"}}</green{{light.controller}}>
-            <blue{{light.controller}}>{{light.color|slice:"2"}}</blue{{light.controller}}>
+            <red{{light.controller}}>{{light.color.0}}</red{{light.controller}}>
+            <green{{light.controller}}>{{light.color.1}}</green{{light.controller}}>
+            <blue{{light.controller}}>{{light.color.2}}</blue{{light.controller}}>
         {% endfor %}
     </light>
     {% endfor %}
