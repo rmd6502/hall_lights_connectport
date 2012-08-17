@@ -1,13 +1,14 @@
+{% load api_utils %}
 <?xml version="1.0" encoding="utf-8"?>
 <lights>
     {% for node in nodes %}
     <light node="{{node.nodeId}}">
         <nodeId>{{node.nodeName}}</nodeId>
         <lastActive>{{ node.lastActive|date:"U" }}</lastActive>
-        {% for light in node.light_set %}
-            <red{{light.controller}}>{{light.color.0}}</red{{light.controller}}>
-            <green{{light.controller}}>{{light.color.1}}</green{{light.controller}}>
-            <blue{{light.controller}}>{{light.color.2}}</blue{{light.controller}}>
+        {% for light in node.light_set.all %}
+            <red{{light.controller}}>{{light.color|listify|slice:"0:1"}}</red{{light.controller}}>
+            <green{{light.controller}}>{{light.color|listify|slice:"1:2"}}</green{{light.controller}}>
+            <blue{{light.controller}}>{{light.color|listify|slice:"2:"}}</blue{{light.controller}}>
         {% endfor %}
     </light>
     {% endfor %}
