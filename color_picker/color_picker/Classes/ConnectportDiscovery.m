@@ -80,6 +80,15 @@ void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const 
     ADDPPacket *p = [[[ADDPPacket alloc] init] autorelease];
     p.bytes = (NSData *)rcvd;
     struct in_addr ina;
+    if (p.ip == (uint32_t)-1) {
+        NSLog(@"invalid ip address - skipping");
+        if (delegate) {
+            [delegate performSelector:@selector(foundConnectports:orError:)
+                           withObject:nil
+                           withObject:[NSError errorWithDomain:@"Discovery" code:1111 userInfo:@{NSLocalizedDescriptionKey:@"invalid ip address in response"}]];
+        }
+        return;
+    }
     ina.s_addr = p.ip;
     NSLog(@"Found %s name %@ netname %@", inet_ntoa(ina), p.deviceName, p.netName);
     if (delegate) {
