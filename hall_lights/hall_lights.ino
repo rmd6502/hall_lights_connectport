@@ -1,12 +1,12 @@
 #include <stdint.h>
 
-const byte r1_control = 6;
-const byte g1_control = 11;
-const byte b1_control = 9;
+const byte r1_control = 3;
+const byte g1_control = 5;
+const byte b1_control = 6;
 
-const byte r2_control = 5;
-const byte g2_control = 3;
-const byte b2_control = 10;
+const byte r2_control = 9;
+const byte g2_control = 10;
+const byte b2_control = 11;
 
 unsigned int buf = 0;
 byte bufPos = 0;
@@ -15,7 +15,7 @@ unsigned int random_mode = 0;
 // F = light 1, C = seCond light, A = all lights
 char mode = 'a';
 
-enum _colorStates { NONE, RED, GREEN, BLUE, SPEED, SEQNO,SEQCOL,SEQDELAY, PLAYNO };
+enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOL,SEQDELAY, PLAYNO };
 byte states = 0;
 byte current[6] = {0};
 byte goal[6] = {255, 200, 180, 255, 200, 180};
@@ -26,7 +26,7 @@ uint16_t seqIndexes[10];
 uint32_t seqData[64];
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(19200);
   Serial.println("setup begin\n");
   analogWrite(r1_control, 0);
   analogWrite(g1_control, 0);
@@ -60,10 +60,10 @@ void loop() {
     byte handled = 0;
     while (handled == 0) {
       switch(states) {
-        case RED:
-        case GREEN:
-        case BLUE:
-        case SPEED:
+        case STATE_RED:
+        case STATE_GREEN:
+        case STATE_BLUE:
+        case STATE_SPEED:
         case PLAYNO:
           handled = handleNumber(b);
           break;
@@ -121,16 +121,16 @@ void loop() {
 void handleDefault(byte d) {
   switch(d) {
     case 'r': case 'R':
-      states = RED;
+      states = STATE_RED;
       return;
     case 'b': case 'B':
-      states = BLUE;
+      states = STATE_BLUE;
       return;
     case 'g': case 'G':
-      states = GREEN;
+      states = STATE_GREEN;
       return;
     case 's': case 'S':
-      states = SPEED;
+      states = STATE_SPEED;
       return;
     case 'n': case 'N':
       random_mode = !random_mode;
@@ -190,7 +190,7 @@ byte handleNumber(byte r) {
 
 void setColor() {
   switch (states) {
-    case RED:
+    case STATE_RED:
       Serial.print("setting red to "); Serial.println(buf);
       random_mode = 0;
       if (mode == 'f' || mode == 'a') {
@@ -200,7 +200,7 @@ void setColor() {
         goal[3] = buf;
       }
       break;
-    case GREEN:
+    case STATE_GREEN:
       Serial.print("setting green to "); Serial.println(buf);
       if (mode == 'f' || mode == 'a') {
         goal[1] = buf;
@@ -210,7 +210,7 @@ void setColor() {
       }
       random_mode = 0;
       break;
-    case BLUE:
+    case STATE_BLUE:
       Serial.print("setting blue to "); Serial.println(buf);
       if (mode == 'f' || mode == 'a') {
         goal[2] = buf;
@@ -220,7 +220,7 @@ void setColor() {
       }
       random_mode = 0;
       break;
-    case SPEED:
+    case STATE_SPEED:
       Serial.print("setting speed to "); Serial.println(buf);
       dly = buf;
       break;
@@ -232,7 +232,7 @@ void setColor() {
       break;
   }
   buf = 0;
-  states = NONE;
+  states = STATE_NONE;
 }
 
 

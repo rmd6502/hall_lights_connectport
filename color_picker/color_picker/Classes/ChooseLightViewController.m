@@ -87,7 +87,7 @@
     } failure:^(TBXML *result, NSError *error) {
         [self performSelectorOnMainThread:@selector(hideSpinner) withObject:nil waitUntilDone:NO];
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Problem" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Retry", nil];
-        [av show];
+        [av performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
         [av release];
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
         refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
