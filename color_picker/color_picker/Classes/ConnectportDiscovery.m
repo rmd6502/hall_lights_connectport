@@ -46,7 +46,7 @@ CFSocketRef sock = nil;
     setsockopt(s, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
     
     CFDataRef sendAddr = CFDataCreate(nil, (const uint8_t *)&dest, sizeof(dest));
-    CFDataRef packet = [ConnectportDiscovery createDiscoveryPacket];
+    CFDataRef packet = [ConnectportDiscovery newDiscoveryPacket];
     CFSocketSendData(sock, sendAddr, packet, 2.5);
     CFRelease(packet);
     CFRelease(sendAddr);
@@ -96,7 +96,7 @@ void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const 
     }
 }
 
-+ (CFDataRef)createDiscoveryPacket {
++ (CFDataRef)newDiscoveryPacket {
     uint8_t packet[] = { 'D','I','G','I', 0,1, 0,6, 0xff,0xff,0xff,0xff,0xff,0xff };
     return CFDataCreate(nil, packet, sizeof(packet));
     

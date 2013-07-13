@@ -247,10 +247,10 @@
   CGFloat r,g,b,r2,g2,b2;
   const CGFloat *comps = CGColorGetComponents(color.CGColor);
     const CGFloat *comps2 = CGColorGetComponents(color2.CGColor);
-    NSString *nodeStr = @"";
-    if (node_ != 1) {
-        nodeStr = [NSString stringWithFormat:@"%d",node_];
-    }
+//    NSString *nodeStr = @"";
+//    if (node_ != 1) {
+//        nodeStr = [NSString stringWithFormat:@"%d",node_];
+//    }
   r = comps[0]; g = comps[1]; b = comps[2];
     r2 = comps2[0]; g2 = comps2[1]; b2 = comps2[2];
   NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];

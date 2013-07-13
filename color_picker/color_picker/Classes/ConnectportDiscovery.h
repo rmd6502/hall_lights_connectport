@@ -19,7 +19,7 @@
 @interface ConnectportDiscovery : NSObject
 
 + (void)findDigis;
-+ (CFDataRef)createDiscoveryPacket;
++ (CFDataRef)newDiscoveryPacket;
 + (void)setDelegate:(id<ConnectportDiscoveryDelegate>)newDel;
 
 @end
