@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>14672C8A-289C-4DE9-B2FF-AC34E61A53E5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>color_picker</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>72DD8D42-C603-42B0-802A-463486ABCC14</key>
+		<string>https://github.com/71squared/TBXML.git</string>
+		<key>9B93545D-D089-4A1F-B5F3-A4CED985E888</key>
+		<string>ssh://github.com/rmd6502/hall_lights_connectport.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>color_picker/color_picker.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>72DD8D42-C603-42B0-802A-463486ABCC14</key>
+		<string>../../../TBXML</string>
+		<key>9B93545D-D089-4A1F-B5F3-A4CED985E888</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/rmd6502/hall_lights_connectport.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9B93545D-D089-4A1F-B5F3-A4CED985E888</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>72DD8D42-C603-42B0-802A-463486ABCC14</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TBXML</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9B93545D-D089-4A1F-B5F3-A4CED985E888</string>
+			<key>IDESourceControlWCCName</key>
+			<string>hall_lights_connectport</string>
+		</dict>
+	</array>
+</dict>
+</plist>

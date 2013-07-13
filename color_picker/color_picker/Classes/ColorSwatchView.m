@@ -79,10 +79,6 @@ void drawRoundRect(CGContextRef context, CGRect rect) {
 }
 
 
-- (void)dealloc {
-    self.swatchColor = nil;
-    [super dealloc];
-}
 
 
 @end

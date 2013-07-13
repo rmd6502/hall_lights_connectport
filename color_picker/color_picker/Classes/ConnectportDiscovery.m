@@ -77,8 +77,8 @@ CFSocketRef sock = nil;
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
     CFDataRef rcvd = (CFDataRef)data;
     //NSLog(@"received %@", rcvd);
-    ADDPPacket *p = [[[ADDPPacket alloc] init] autorelease];
-    p.bytes = (NSData *)rcvd;
+    ADDPPacket *p = [[ADDPPacket alloc] init];
+    p.bytes = (__bridge NSData *)rcvd;
     struct in_addr ina;
     if (p.ip == (uint32_t)-1) {
         NSLog(@"invalid ip address - skipping");

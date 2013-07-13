@@ -36,10 +36,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [buffer release];
-    [super dealloc];
-}
 
 - (void)addField:(NSData *)data ofType:(Byte)dataType {
     [buffer setObject:data forKey:[NSNumber numberWithUnsignedChar:dataType]];

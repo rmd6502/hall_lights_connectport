@@ -14,6 +14,7 @@
 		83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2x.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
+		9C6CBD19179211B500D3D21C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CBD18179211B500D3D21C /* Default-568h@2x.png */; };
 		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
 		9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED314CBA53300DFAD4A /* UIKit.framework */; };
 		9CE4EED614CBA53300DFAD4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED514CBA53300DFAD4A /* Foundation.framework */; };
@@ -87,6 +88,7 @@
 		83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLightViewController.h; sourceTree = "<group>"; };
 		83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLightViewController.m; sourceTree = "<group>"; };
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
+		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		9CE4EECF14CBA53300DFAD4A /* color_picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = color_picker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE4EED314CBA53300DFAD4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -163,6 +165,7 @@
 		9CE4EEC414CBA53200DFAD4A = {
 			isa = PBXGroup;
 			children = (
+				9C6CBD18179211B500D3D21C /* Default-568h@2x.png */,
 				83ED0A7B15043D960096A20C /* TBXML-Headers */,
 				9CE4EED914CBA53300DFAD4A /* color_picker */,
 				9CE4EED214CBA53300DFAD4A /* Frameworks */,
@@ -358,6 +361,7 @@
 				9CE4EEFB14CBA64E00DFAD4A /* colormap.png in Resources */,
 				9CE4EEFC14CBA64E00DFAD4A /* crosshair.png in Resources */,
 				9CE4EF1A14CBA74100DFAD4A /* ColorPickerViewController.xib in Resources */,
+				9C6CBD19179211B500D3D21C /* Default-568h@2x.png in Resources */,
 				9CE4EF1C14CBB22700DFAD4A /* Settings.bundle in Resources */,
 				83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */,
 				83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */,
@@ -466,6 +470,7 @@
 		9CE4EEEE14CBA53300DFAD4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
@@ -479,6 +484,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -487,6 +493,7 @@
 		9CE4EEEF14CBA53300DFAD4A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = color_picker/Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -501,6 +508,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

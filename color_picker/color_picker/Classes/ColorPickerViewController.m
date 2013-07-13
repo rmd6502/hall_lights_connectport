@@ -132,15 +132,5 @@ NSString *keyForBright = @"bright";
 
 
 
-- (void)dealloc {
-    // Release claimed resources also
-#ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
-    [defaultsKey release];
-#else
-    [defaultsColor release];
-#endif
-
-    [super dealloc];
-}
 
 @end

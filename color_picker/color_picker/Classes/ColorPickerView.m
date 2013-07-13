@@ -41,7 +41,6 @@
 		[hueSatImage setImage:[UIImage imageNamed:kHueSatImage]];
 		[self addSubview:hueSatImage];
 		[self sendSubviewToBack:hueSatImage];
-		[hueSatImage release];
 		currentBrightness = kInitialBrightness;
 		
 		currentColor = [[UIColor alloc]init];
@@ -202,9 +201,5 @@
 	return [UIColor colorWithHue:currentHue saturation:currentSaturation brightness:currentBrightness alpha:1.0];
 }
 
-- (void)dealloc {
-    [super dealloc];
-	
-}
 
 @end

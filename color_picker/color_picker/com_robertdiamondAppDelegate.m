@@ -17,20 +17,14 @@
 @synthesize window = _window;
 @synthesize viewController = _viewController;
 
-- (void)dealloc
-{
-    [_window release];
-    [_viewController release];
-    [super dealloc];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    clvc = [[[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil] autorelease];
+    clvc = [[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil];
     //self.viewController.delegate = self;]
-    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:clvc] autorelease];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:clvc];
     [self.window makeKeyAndVisible];
     
     //[clvc doRefresh:nil];
@@ -82,7 +76,6 @@
         if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Discovery" message:@"No Connectports Found" delegate:clvc cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
-            [av release];
             clvc.spinner.hidden = YES;
         }
     }

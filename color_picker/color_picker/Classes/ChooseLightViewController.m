@@ -75,7 +75,6 @@
     }
     @synchronized (self) {
         [refreshTimer invalidate];
-        [refreshTimer release];
         refreshTimer = nil;
         NSLog(@"cleared timer");
     }
@@ -83,14 +82,13 @@
     [TBXML tbxmlWithURL:url success:^(TBXML *result) {
         //NSLog(@"got result %@", result);
         self.tbxml = result;
-        refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
     } failure:^(TBXML *result, NSError *error) {
         [self performSelectorOnMainThread:@selector(hideSpinner) withObject:nil waitUntilDone:NO];
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Problem" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Retry", nil];
         [av performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-        [av release];
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
-        refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO] retain];
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
     }]; 
     //NSLog(@"dorefresh exit");
 }
@@ -105,8 +103,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [refresh release];
-    [cpvc release];
     @synchronized(self) {
         [refreshTimer invalidate];
         refreshTimer = nil;
@@ -116,13 +112,6 @@
 
 - (void)hideSpinner {
     [spinner setHidden:YES];
-}
-- (void)dealloc {
-    [tbxml release];
-    [refresh release];
-    [lightColors release];
-    [cpvc release];
-    [super dealloc];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -134,9 +123,7 @@
     CGFloat r,g,b;
     CGFloat r2,g2,b2;
     
-    [tbxml release];
     tbxml = tbxml_;
-    [tbxml retain];
     NSMutableDictionary *hosts = [NSMutableDictionary dictionary];
     
     TBXMLElement *element = nil;
@@ -189,7 +176,6 @@
     if ([self tableView:tableView numberOfRowsInSection:0] == 0) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"No Lights" message:@"No lights defined" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [av show];
-        [av release];
     }
 }
 

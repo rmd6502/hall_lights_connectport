@@ -37,6 +37,6 @@
 	UIColor *theColor;
 }
 
-@property (readwrite,nonatomic,retain) UIColor *theColor;
+@property (readwrite,nonatomic,strong) UIColor *theColor;
 - (void) setupGradient;
 @end

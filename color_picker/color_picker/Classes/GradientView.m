@@ -118,8 +118,6 @@ CGPoint demoLGEnd(CGRect bounds)
 
 - (void)dealloc {
 	CGGradientRelease(gradient);
-    theColor = nil;
-    [super dealloc];
 }
 
 @end

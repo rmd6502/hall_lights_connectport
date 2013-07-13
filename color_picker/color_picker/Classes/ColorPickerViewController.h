@@ -24,7 +24,7 @@
 @end
 
 @interface ColorPickerViewController : UIViewController {
-    id<ColorPickerViewControllerDelegate> delegate;
+    id<ColorPickerViewControllerDelegate> __unsafe_unretained delegate;
 #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
     NSString *defaultsKey;
 #else
@@ -41,15 +41,15 @@
 -(void) moveToDefault;
 
 
-@property(nonatomic,assign)	id<ColorPickerViewControllerDelegate> delegate;
+@property(nonatomic,unsafe_unretained)	id<ColorPickerViewControllerDelegate> delegate;
 @property(nonatomic,assign) NSUInteger node;
 
 #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
   @property(readwrite,nonatomic,retain) NSString *defaultsKey;
 #else
-  @property(readwrite,nonatomic,retain) UIColor *defaultsColor;
+  @property(readwrite,nonatomic,strong) UIColor *defaultsColor;
 #endif
-@property(readwrite,nonatomic,retain) IBOutlet UIButton *chooseButton;
+@property(readwrite,nonatomic,strong) IBOutlet UIButton *chooseButton;
 
 - (IBAction) chooseSelectedColor;
 - (IBAction) cancelColorSelection;

@@ -51,17 +51,17 @@ enum PacketTypes {
 }
 
 @property (nonatomic, assign) UInt16 packetType;
-@property (nonatomic, assign) NSData *bytes;
+@property (nonatomic, unsafe_unretained) NSData *bytes;
 @property (nonatomic, assign) UInt64 mac;
 @property (nonatomic, assign) UInt32 ip;
 @property (nonatomic, assign) UInt32 netmask;
-@property (nonatomic, assign) NSString *netName;
-@property (nonatomic, assign) NSString *fwVersion;
-@property (nonatomic, assign) NSString *result;
+@property (nonatomic, unsafe_unretained) NSString *netName;
+@property (nonatomic, unsafe_unretained) NSString *fwVersion;
+@property (nonatomic, unsafe_unretained) NSString *result;
 @property (nonatomic, assign) UInt8 resultFlag;
 @property (nonatomic, assign) UInt32 gateway;
 @property (nonatomic, assign) UInt16 configError;
-@property (nonatomic, assign) NSString *deviceName;
+@property (nonatomic, unsafe_unretained) NSString *deviceName;
 @property (nonatomic, assign) UInt32 portNumber;
 @property (nonatomic, assign) UInt32 unknownIP;
 @property (nonatomic, assign) UInt8 dhcpEnabled;

@@ -13,6 +13,6 @@
     UIColor *swatchColor;
 }
 
-@property (readwrite, retain, nonatomic) UIColor *swatchColor;
+@property (readwrite, strong, nonatomic) UIColor *swatchColor;
 
 @end

@@ -17,11 +17,11 @@
     ColorPickerViewController *cpvc;
 }
 
-@property (nonatomic, assign) IBOutlet UITableView *tableView;
-@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, retain) TBXML *tbxml;
-@property (nonatomic, retain) UIBarButtonItem *refresh;
-@property (nonatomic, retain) NSMutableDictionary *node;
+@property (nonatomic, unsafe_unretained) IBOutlet UITableView *tableView;
+@property (nonatomic, unsafe_unretained) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) TBXML *tbxml;
+@property (nonatomic, strong) UIBarButtonItem *refresh;
+@property (nonatomic, strong) NSMutableDictionary *node;
 
 - (IBAction)doRefresh:(id)sender;
 - (IBAction)allLightsOn:(id)sender;
