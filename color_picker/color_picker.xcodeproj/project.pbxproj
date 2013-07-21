@@ -478,6 +478,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -503,6 +504,7 @@
 				CODE_SIGN_ENTITLEMENTS = color_picker/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;

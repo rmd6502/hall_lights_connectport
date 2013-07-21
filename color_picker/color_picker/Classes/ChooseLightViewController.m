@@ -3,7 +3,7 @@
 //  color_picker
 //
 //  Created by Robert Diamond on 3/4/12.
-//  Copyright (c) 2012 America Online. All rights reserved.
+//  Copyright (c) 2012 Robert Diamond. All rights reserved.
 //
 
 #import "ChooseLightViewController.h"
