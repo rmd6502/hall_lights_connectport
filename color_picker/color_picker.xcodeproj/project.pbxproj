@@ -88,6 +88,8 @@
 		83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLightViewController.h; sourceTree = "<group>"; };
 		83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLightViewController.m; sourceTree = "<group>"; };
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
+		9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleVendor.framework; sourceTree = "<group>"; };
+		9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleKit.framework; sourceTree = "<group>"; };
 		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		9CE4EECF14CBA53300DFAD4A /* color_picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = color_picker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +186,8 @@
 		9CE4EED214CBA53300DFAD4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */,
+				9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */,
 				83ED0A6415040A190096A20C /* TBXML.xcodeproj */,
 				9CE4EED314CBA53300DFAD4A /* UIKit.framework */,
 				9CE4EED514CBA53300DFAD4A /* Foundation.framework */,
@@ -478,6 +482,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
@@ -504,6 +512,10 @@
 				CODE_SIGN_ENTITLEMENTS = color_picker/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";

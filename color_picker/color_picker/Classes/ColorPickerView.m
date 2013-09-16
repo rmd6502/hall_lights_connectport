@@ -180,6 +180,11 @@
 	
 }
 
+- (void)layoutSubviews
+{
+    
+}
+
 - (void)drawRect:(CGRect)rect {
     
 	//CGFloat x = currentHue * kMatrixWidth;
