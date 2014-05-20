@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <avr/eeprom.h>
 
 const byte r1_control = 3;
 const byte g1_control = 5;
@@ -15,15 +16,40 @@ unsigned int random_mode = 0;
 // F = light 1, C = seCond light, A = all lights
 char mode = 'a';
 
-enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOL,SEQDELAY, PLAYNO };
+#define SIGNATURE 0xcafebabe
+
+enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOLR,SEQCOLG,SEQCOLB,SEQDELAY, PLAYNO };
 byte states = 0;
 byte current[6] = {0};
 byte goal[6] = {255, 200, 180, 255, 200, 180};
 byte pins[6] = {0};
+byte isPlaying = 0;
+uint32_t lastPlaytime = 0;
+
+struct SequenceEntry {
+  byte rgb1[3];
+  byte rgb2[3];
+  uint16_t duration;
+  SequenceEntry *nextEntry;
+  
+  SequenceEntry() : duration(0), nextEntry(NULL) { memset(rgb1, 0, 3); memset(rgb2, 0, 3); }
+  ~SequenceEntry();
+};
+
+struct SequenceHeader {
+  byte sequenceNumber;
+  SequenceEntry *entries;
+  
+  SequenceHeader(byte _seqNumber) : sequenceNumber(_seqNumber), entries(NULL) {}
+  virtual ~SequenceHeader();
+};
 
 uint16_t numsequences = 0;
 uint16_t seqIndexes[10];
 uint32_t seqData[64];
+
+SequenceHeader *currentSequence = NULL;
+SequenceEntry *currentEntry = NULL;
 
 void setup() {
   Serial.begin(19200);
@@ -70,11 +96,29 @@ void loop() {
         case SEQNO:
           handled = handleNumber(b);
           if (!handled) {
-            states = SEQCOL;
+            states = SEQCOLR;
             handled = 1;
           }
           break;
-        case SEQCOL:
+        case SEQCOLR:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQCOLG;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQCOLG:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQCOLB;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQCOLB:
           handled = handleNumber(b);
           if (!handled) {
             if (b == ',') {
@@ -87,9 +131,12 @@ void loop() {
           handled = handleNumber(b);
           if (!handled) {
             if (b == ',') {
-              states = SEQCOL;
+              states = SEQCOLR;
+              handled = 1;
+            } else {
+              commitSequence();
+              states = STATE_NONE;
             }
-            handled = 1;
           }
           break;
         default:
@@ -108,6 +155,21 @@ void loop() {
       //Serial.print("dir "); Serial.println((short)dir);
       current[j] += dir;
       analogWrite(pins[j], current[j]);
+    }
+  }
+  if (isPlaying && bgoal && currentEntry) {
+    if (millis() - lastPlaytime >= currentEntry->duration) {
+      if (lastPlaytime > 0) {
+        currentEntry = currentEntry->nextEntry;
+        if (!currentEntry) {
+          currentEntry = currentSequence->entries;
+        }
+      }
+      for(int j=0; j < 3; ++j) {
+        goal[j] = currentEntry->rgb1[j];
+        goal[j+3] = currentEntry->rgb2[j];
+      }
+      lastPlaytime = millis();
     }
   }
   if (random_mode && bgoal) {
@@ -134,6 +196,7 @@ void handleDefault(byte d) {
       return;
     case 'n': case 'N':
       random_mode = !random_mode;
+      isPlaying = 0;
       break;
     case 'f': case 'F':  // color settings apply to first light only
     case 'c': case 'C':  // color settings apply to second light only
@@ -181,7 +244,56 @@ void handleDefault(byte d) {
 
 byte handleNumber(byte r) {
   if (!isdigit(r)) {
-    setColor();
+    switch (states) {
+      case STATE_RED: case STATE_GREEN: case STATE_BLUE: case STATE_SPEED:
+        isPlaying = 0;
+        setColor();
+        break;
+      case SEQNO:
+        isPlaying = 0;
+        currentEntry = NULL;
+        startSequence();
+        break;
+      case SEQCOLR: {
+        SequenceEntry *newEntry = new SequenceEntry;
+        if (!currentEntry) {
+          currentSequence->entries = newEntry;
+        } else {
+          currentEntry->nextEntry = newEntry;
+        }
+        currentEntry = newEntry;
+        currentEntry->rgb1[0] = buf;
+      }
+        break;
+      case SEQCOLG:
+        if (currentEntry) {
+          currentEntry->rgb1[1] = buf;
+        }
+        break;
+      case SEQCOLB:
+        if (currentEntry) {
+          currentEntry->rgb1[2] = buf;
+        }
+        break;
+      case SEQDELAY:
+        if (currentEntry) {
+          currentEntry->duration = buf;
+        }
+        break;
+      case PLAYNO:
+        if (buf > 0) {
+          if (!currentSequence) {
+            readSequence();
+          }
+          currentEntry = currentSequence->entries;
+          isPlaying = 1;
+        } else {
+          isPlaying = 0;
+        }
+        states = STATE_NONE;
+        break;
+    }
+    buf = 0;
     return 0;
   }
   buf = buf * 10 + (r-'0');
@@ -224,10 +336,6 @@ void setColor() {
       Serial.print("setting speed to "); Serial.println(buf);
       dly = buf;
       break;
-    case SEQNO:
-    case SEQCOL:
-    case SEQDELAY:
-    case PLAYNO:
     default:
       break;
   }
@@ -235,4 +343,79 @@ void setColor() {
   states = STATE_NONE;
 }
 
+void startSequence()
+{
+  if (currentSequence) {
+    delete currentSequence;
+  }
+  currentSequence = new SequenceHeader(buf);
+}
+
+void commitSequence()
+{
+  if (!currentSequence) {
+    return;
+  }
+  Serial.println("saving");
+  byte *addr = (byte *)0;
+  eeprom_busy_wait();
+  eeprom_write_dword((uint32_t *)addr, SIGNATURE);
+  addr += 4;
+  eeprom_busy_wait();
+  eeprom_write_block(currentSequence, addr, sizeof(SequenceHeader));
+  addr += sizeof(SequenceHeader);
+  for (SequenceEntry *entry = currentSequence->entries; entry; entry = entry->nextEntry) {
+    eeprom_busy_wait();
+    eeprom_write_block(entry, addr, sizeof(SequenceEntry));
+    addr += sizeof(SequenceEntry);
+  }
+  Serial.println("Saved");
+}
+
+void readSequence()
+{
+  delete currentSequence;
+  currentSequence = NULL;
+  byte *addr = (byte *)0;
+  eeprom_busy_wait();
+  if (eeprom_read_dword((uint32_t *)addr) != SIGNATURE) {
+    Serial.println("bad sig");
+    return;
+  }
+  addr += 4;
+  currentSequence = new SequenceHeader(0);
+  eeprom_busy_wait();
+  eeprom_read_block(currentSequence, addr, sizeof(SequenceHeader));
+  addr += sizeof(SequenceHeader);
+  bool first = true;
+  for (currentEntry = currentSequence->entries; currentEntry; ) {
+    SequenceEntry *newEntry = new SequenceEntry;
+    eeprom_busy_wait();
+    eeprom_read_block(newEntry, addr, sizeof(SequenceEntry));
+    addr += sizeof(SequenceEntry);
+    if (first) {
+      currentSequence->entries = newEntry;
+      first = false;
+    } else {
+      currentEntry->nextEntry = newEntry;
+    }
+    currentEntry = newEntry;
+    if (currentEntry->nextEntry == NULL) {
+      break;
+    }
+  }
+  Serial.println("read sequence");
+}
+
+SequenceHeader::~SequenceHeader()
+{
+  delete entries;
+}
+  
+SequenceEntry::~SequenceEntry()
+{
+  if (this->nextEntry) {
+    delete this->nextEntry;
+  }
+}
 
