@@ -227,15 +227,19 @@ void handleDefault(byte d) {
       states = PLAYNO;
       break;
     case 'h': case 'H':
-      Serial.println("HELP");
+      Serial.println("\nHELP");
       Serial.println("----");
-      Serial.println("rxxx - set red to xxx");
+      Serial.println("All commands are case-insensitive");
+      Serial.println("rxxx - set red to xxx, xxx ranges from 0 to 255");
       Serial.println("gxxx - set green to xxx");      
       Serial.println("bxxx - set blue to xxx");
+      Serial.println("sxxx - set change speed to xxx");
       Serial.println("q - Query");
+      Serial.println("n - raNdom (party) mode");
       Serial.println("f=first, c=seCond,a=all lights");
-      Serial.println("mx,aaa,bbbb,ccc,dddd,... - define sequence x as color aaa, delay bbbb ms, color ccc, delay dddd ms, ...");
-      Serial.println("px - play sequence x.  X ranges from 0 to 9");
+      Serial.println("m1,ar,ag,ab,bbbb,cr,cg,cb,dddd,... - define sequence x as color aaa, delay bbbb ms, color ccc, delay dddd ms, ...");
+      Serial.println("p1 - play sequence x.  X ranges from 0 to 9");
+      Serial.println("p0 - stop playing sequence");
       break;
     default:
       return;
