@@ -286,8 +286,10 @@ byte handleNumber(byte r) {
             readSequence();
           }
           currentEntry = currentSequence->entries;
+          Serial.println("Playing sequence");
           isPlaying = 1;
         } else {
+          Serial.println("Stopping sequence");
           isPlaying = 0;
         }
         states = STATE_NONE;
