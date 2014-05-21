@@ -238,7 +238,7 @@ void handleDefault(byte d) {
       Serial.println("n - raNdom (party) mode");
       Serial.println("f=first, c=seCond,a=all lights");
       Serial.println("m1,ar,ag,ab,bbbb,cr,cg,cb,dddd,... - define sequence x as color aaa, delay bbbb ms, color ccc, delay dddd ms, ...");
-      Serial.println("p1 - play sequence x.  X ranges from 0 to 9");
+      Serial.println("p1 - play sequence.");
       Serial.println("p0 - stop playing sequence");
       break;
     default:
