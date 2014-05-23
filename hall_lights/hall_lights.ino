@@ -16,7 +16,7 @@ unsigned int random_mode = 0;
 // F = light 1, C = seCond light, A = all lights
 char mode = 'a';
 
-#define SIGNATURE 0xcafebabe
+#define SIGNATURE 0xcafebabf
 
 enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOLR,SEQCOLG,SEQCOLB,SEQDELAY, PLAYNO };
 byte states = 0;
@@ -52,7 +52,7 @@ SequenceHeader *currentSequence = NULL;
 SequenceEntry *currentEntry = NULL;
 
 void setup() {
-  Serial.begin(19200);
+  Serial.begin(9600);
   Serial.println("setup begin\n");
   analogWrite(r1_control, 0);
   analogWrite(g1_control, 0);
@@ -368,6 +368,9 @@ void commitSequence()
   eeprom_write_dword((uint32_t *)addr, SIGNATURE);
   addr += 4;
   eeprom_busy_wait();
+  eeprom_write_word((uint16_t *)addr, dly);
+  addr += 2;
+  eeprom_busy_wait();
   eeprom_write_block(currentSequence, addr, sizeof(SequenceHeader));
   addr += sizeof(SequenceHeader);
   for (SequenceEntry *entry = currentSequence->entries; entry; entry = entry->nextEntry) {
@@ -389,6 +392,10 @@ void readSequence()
     return;
   }
   addr += 4;
+  eeprom_busy_wait();
+  dly = eeprom_read_word((uint16_t *)addr));
+  addr += 2;
+  eeprom_busy_wait();
   currentSequence = new SequenceHeader(0);
   eeprom_busy_wait();
   eeprom_read_block(currentSequence, addr, sizeof(SequenceHeader));

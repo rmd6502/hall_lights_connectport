@@ -55,6 +55,7 @@ function updateAjax(url) {
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             lastXML = xmlhttp.responseXML;
+            alert(lastXML);
             updateInputs();
         }
         if (xmlhttp.readyState == 4) {
