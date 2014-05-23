@@ -96,7 +96,11 @@ void loop() {
         case SEQNO:
           handled = handleNumber(b);
           if (!handled) {
-            states = SEQCOLR;
+            if (b == ',') {
+              states = SEQCOLR;
+            } else {
+              states = STATE_NONE;
+            }
             handled = 1;
           }
           break;
@@ -105,6 +109,8 @@ void loop() {
           if (!handled) {
             if (b == ',') {
               states = SEQCOLG;
+            } else {
+              states = STATE_NONE;
             }
             handled = 1;
           }
@@ -114,6 +120,8 @@ void loop() {
           if (!handled) {
             if (b == ',') {
               states = SEQCOLB;
+            } else {
+              states = STATE_NONE;
             }
             handled = 1;
           }
@@ -123,6 +131,8 @@ void loop() {
           if (!handled) {
             if (b == ',') {
               states = SEQDELAY;
+            } else {
+              states = STATE_NONE;
             }
             handled = 1;
           }
@@ -133,6 +143,9 @@ void loop() {
             if (b == ',') {
               states = SEQCOLR;
               handled = 1;
+            } else if (b == 'x') {
+              states = STATE_NONE;
+              handles = 1;
             } else {
               commitSequence();
               states = STATE_NONE;
@@ -393,9 +406,8 @@ void readSequence()
   }
   addr += 4;
   eeprom_busy_wait();
-  dly = eeprom_read_word((uint16_t *)addr));
+  dly = eeprom_read_word((uint16_t *)addr);
   addr += 2;
-  eeprom_busy_wait();
   currentSequence = new SequenceHeader(0);
   eeprom_busy_wait();
   eeprom_read_block(currentSequence, addr, sizeof(SequenceHeader));
