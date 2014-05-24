@@ -18,7 +18,7 @@ char mode = 'a';
 
 #define SIGNATURE 0xcafebabf
 
-enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOLR,SEQCOLG,SEQCOLB,SEQDELAY, PLAYNO };
+enum _colorStates { STATE_NONE, STATE_RED, STATE_GREEN, STATE_BLUE, STATE_SPEED, SEQNO,SEQCOLR,SEQCOLG,SEQCOLB,SEQCOLR2,SEQCOLG2,SEQCOLB2,SEQDELAY, PLAYNO };
 byte states = 0;
 byte current[6] = {0};
 byte goal[6] = {255, 200, 180, 255, 200, 180};
@@ -109,6 +109,8 @@ void loop() {
           if (!handled) {
             if (b == ',') {
               states = SEQCOLG;
+            } else if (b == '/') {
+              states = SEQCOLR2;
             } else {
               states = STATE_NONE;
             }
@@ -120,6 +122,8 @@ void loop() {
           if (!handled) {
             if (b == ',') {
               states = SEQCOLB;
+            } else if (b == '/') {
+              states = SEQCOLG2;
             } else {
               states = STATE_NONE;
             }
@@ -127,6 +131,41 @@ void loop() {
           }
           break;
         case SEQCOLB:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQDELAY;
+            } else if (b == '/') {
+              states = SEQCOLB2;
+            } else {
+              states = STATE_NONE;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQCOLR2:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQCOLG;
+            } else {
+              states = STATE_NONE;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQCOLG2:
+          handled = handleNumber(b);
+          if (!handled) {
+            if (b == ',') {
+              states = SEQCOLB;
+            } else {
+              states = STATE_NONE;
+            }
+            handled = 1;
+          }
+          break;
+        case SEQCOLB2:
           handled = handleNumber(b);
           if (!handled) {
             if (b == ',') {
@@ -145,7 +184,7 @@ void loop() {
               handled = 1;
             } else if (b == 'x') {
               states = STATE_NONE;
-              handles = 1;
+              handled = 1;
             } else {
               commitSequence();
               states = STATE_NONE;
@@ -279,17 +318,33 @@ byte handleNumber(byte r) {
           currentEntry->nextEntry = newEntry;
         }
         currentEntry = newEntry;
-        currentEntry->rgb1[0] = buf;
+        currentEntry->rgb1[0] = currentEntry->rgb2[0] =buf;
       }
         break;
       case SEQCOLG:
         if (currentEntry) {
-          currentEntry->rgb1[1] = buf;
+          currentEntry->rgb1[1] = currentEntry->rgb2[1] = buf;
         }
         break;
       case SEQCOLB:
         if (currentEntry) {
-          currentEntry->rgb1[2] = buf;
+          currentEntry->rgb1[2] = currentEntry->rgb2[2] = buf;
+        }
+        break;
+      case SEQCOLR2: {
+        if (currentEntry) {
+          currentEntry->rgb2[0] =buf;
+        }
+      }
+        break;
+      case SEQCOLG2:
+        if (currentEntry) {
+          currentEntry->rgb2[1] = buf;
+        }
+        break;
+      case SEQCOLB2:
+        if (currentEntry) {
+          currentEntry->rgb2[2] = buf;
         }
         break;
       case SEQDELAY:
