@@ -1,0 +1,15 @@
+<!doctype html>
+<head>
+<title>Lights</title>
+<script type="text/javascript" src='static/jscolor/jscolor.js'></script>
+</head>
+<body bgcolor=black text='gray'>
+<form>
+<table>
+{% for node in nodes %}
+<tr><td>{{ node['name'] }}</td><td><input class="color" name="{{ node['name'] }}_color" onchange='document.forms[0].submit();'></td><td>{{ node['string_address'] }}</td></tr>
+{% endfor %}
+</table>
+</form>
+</body>
+
