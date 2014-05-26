@@ -27,20 +27,20 @@ function updateInputs() {
         var light = lights.item(lightno);
         if (light.attributes.getNamedItem("node").nodeValue == selNode) {
             if (!document.getElementsByName("red")[0].hasFocus) {
-                document.getElementsByName("red")[0].text = 
-                    x.getElementsByTagName("red")[0].firstChild.nodeValue;
+                document.getElementsByName("red")[0].value = 
+                    light.getElementsByTagName("red")[0].firstChild.nodeValue;
             }
             if (!document.getElementsByName("green")[0].hasFocus) {
-                document.getElementsByName("green")[0].text = 
-                    x.getElementsByTagName("green")[0].firstChild.nodeValue;
+                document.getElementsByName("green")[0].value = 
+                    light.getElementsByTagName("green")[0].firstChild.nodeValue;
             }
             if (!document.getElementsByName("blue")[0].hasFocus) {
-                document.getElementsByName("blue")[0].text = 
-                    x.getElementsByTagName("blue")[0].firstChild.nodeValue;
+                document.getElementsByName("blue")[0].value = 
+                    light.getElementsByTagName("blue")[0].firstChild.nodeValue;
             }
             if (!document.getElementsByName("speed")[0].hasFocus) {
-                document.getElementsByName("speed")[0].text = 
-                    x.getElementsByTagName("speed")[0].firstChild.nodeValue;
+                document.getElementsByName("speed")[0].value = 
+                    light.getElementsByTagName("speed")[0].firstChild.nodeValue;
             }
             break;
         }
@@ -55,7 +55,6 @@ function updateAjax(url) {
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             lastXML = xmlhttp.responseXML;
-            alert(lastXML);
             updateInputs();
         }
         if (xmlhttp.readyState == 4) {
@@ -302,17 +301,17 @@ def query(args):
     template = ""
     itemplate = ""
     fmt = "xml"
-    if args.haskey('fmt') and args['fmt'] == 'json':
-    	fmt = args['fmt']
-    	template = jsonTemplate
-	itemplate = jsonLightTemplate
+    if args is not None and args.haskey('fmt') and args['fmt'] == 'json':
+        fmt = args['fmt']
+        template = jsonTemplate
+        itemplate = jsonLightTemplate
     else:
-    	template = xmlTemplate
-	itemplate = lightTemplate
+        template = xmlTemplate
+        itemplate = lightTemplate
 
     for nodeInfo in nodeData.keys():
-    	if fmt == 'json' and lightData.length > 0:
-	    lightData += ","
+        if fmt == 'json' and lightData.length > 0:
+            lightData += ","
         lightData += itemplate % nodeData[nodeInfo]
     ret = (digiweb.TextXml, template % (lightData,))
     print "returning query data "+ret[1]+"\n"
@@ -379,6 +378,7 @@ def monitor_read(sock):
             
         if len(recvData[addr[0]]) > 500:
             recvData[addr[0]] = recvData[addr[0]][-500:]
+        time.sleep(1)
     print "goodbye from monitor_read\n"
     
 def query_params(sock):
@@ -392,7 +392,7 @@ def query_params(sock):
         except:
             exctype, value = sys.exc_info()[:2]
             print "failed to query node: "+str(exctype)+", "+str(value)
-        time.sleep(10)
+        time.sleep(30)
     print "goodbye from query_params\n"
 
 def unquote(str):
@@ -411,5 +411,7 @@ if __name__ == "__main__":
     hnd = digiweb.Callback(serverPage)
     
     print "ready"
-    while True: pass
+    while True: 
+        time.sleep(60)
+        pass
    
