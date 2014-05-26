@@ -7,7 +7,7 @@
 <form>
 <table>
 {% for node in nodes %}
-<tr><td>{{ node['name'] }}</td><td><input class="color" name="{{ node['name'] }}_color" onchange='document.forms[0].submit();'></td><td>{{ node['string_address'] }}</td></tr>
+<tr><td>{{ node['name'] }}</td><td><input class="color" name="{{ node['name'] }}_color" value="{{ node['colorvalue'] }}" onchange='document.forms[0].submit();'></td><td>{{ node['string_address'] }}</td></tr>
 {% endfor %}
 </table>
 </form>
