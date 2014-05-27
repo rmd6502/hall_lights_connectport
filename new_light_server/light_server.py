@@ -11,7 +11,7 @@ from flask import request,redirect,url_for
 import struct, re, threading, time, logging
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 logger.addHandler(ch)
@@ -67,7 +67,8 @@ def add_node(data):
     if data['id'] == 'at_response' and data['command'] == 'ND':
         key = '{0:016x}'.format(struct.unpack('>Q',data['parameter']['source_addr_long'])[0])
         if key not in nodes:
-            nodes[key] = ({'address': data['parameter']['source_addr_long'], 'string_address': key, 'name': data['parameter']['node_identifier'], 'colorvalue': '000000'})
+            nodes[key] = ({'address': data['parameter']['source_addr_long'], 'string_address': key, 'name': data['parameter']['node_identifier'], 'colorvalue': '000000','colorvalue2': '000000'})
+            logger.info(nodes[key])
     elif data['id'] == 'at_response' and data['command'] == 'SH':
         localNodeH[0:] = struct.unpack('4B',data['parameter'])
     elif data['id'] == 'at_response' and data['command'] == 'SL':

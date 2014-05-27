@@ -2,13 +2,28 @@
 <head>
 <title>Lights</title>
 <script type="text/javascript" src='static/jscolor/jscolor.js'></script>
+<script type="text/javascript">
+function updateColor(name) {
+    var cb = document.getElementById(name+"_check");
+    if (!cb || !cb.checked) {
+        return;
+    }
+    var in1=document.getElementById(name+"_color");
+    var in2=document.getElementById(name+"_color2");
+    in2.color = in1.color;
+}
+</script>
 </head>
 <body bgcolor=black text='gray'>
 <form>
 <table>
 {% for key in nodes.keys() -%}
 {% set node = nodes[key] -%}
-<tr><td>{{ node['name'] }}</td><td><input class="color" name="{{ node['name'] }}_color" value="{{ node['colorvalue'] }}" onchange='document.forms[0].submit();'></td><td>{{ node['string_address'] }}</td></tr>
+<tr><td>{{ node['name'] }}</td>
+    <td><input class="color" id="{{ node['name'] }}_color" value="{{ node['colorvalue'] }}" onchange='document.forms[0].submit();' onImmediateChange='updateColor("{{ node['name'] }}");'></td>
+    <td><input type='checkbox' id="{{ node['name'] }}_check" checked onchange='updateColor("{{ node['name'] }}");'></td>
+    <td><input class="color" id="{{ node['name'] }}_color2" value="{{ node['colorvalue2'] }}" onchange='document.forms[0].submit();' onImmediateChange='updateColor("{{ node['name'] }}");'></td>
+    <td>{{ node['string_address'] }}</td></tr>
 {% endfor -%}
 </table>
 </form>
