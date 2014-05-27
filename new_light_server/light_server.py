@@ -19,8 +19,9 @@ logger.addHandler(ch)
 app = Flask(__name__)
 nodes = {}
 xbee = None
-localnodeH = None
-localnodeL = None
+localNodeH = []
+localNodeL = []
+
 expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n.*r(\d+)g(\d+)b(\d+)\r\n', re.M)
 
 def sendToNode(node,data,frame_id='A'):
@@ -68,9 +69,9 @@ def add_node(data):
         if key not in nodes:
             nodes[key] = ({'address': data['parameter']['source_addr_long'], 'string_address': key, 'name': data['parameter']['node_identifier'], 'colorvalue': '000000'})
     elif data['id'] == 'at_response' and data['command'] == 'SH':
-        localnodeH = data['parameter']
+        localNodeH[0:] = struct.unpack('4B',data['parameter'])
     elif data['id'] == 'at_response' and data['command'] == 'SL':
-        localnodeL = data['parameter']
+        localNodeL[0:] = struct.unpack('4B',data['parameter'])
     elif data['id'] == 'rx':
         parse_query_response(data['source_addr_long'], data['rf_data'])
 
@@ -80,26 +81,31 @@ def parse_query_response(source_addr, data):
     if key not in nodes: return
     m = expr.match(data)
     if not m: return
-    g = map(int, m.groups())
     node = nodes[key]
+    atToNode(node, command='DH', parameter=struct.pack(">L", 0))
+    atToNode(node, command='DL', parameter=struct.pack(">L", 0))
+    g = map(int, m.groups())
     node['color'] = g[0:3]
     node['colorvalue'] = '{0[0]:02x}{0[1]:02x}{0[2]:02x}'.format(g)
     node['color2'] = g[4:7]
     node['colorvalue2'] = '{0[4]:02x}{0[5]:02x}{0[6]:02x}'.format(g)
     node['speed'] = g[3]
-    logger.debug(node)
+    logger.info(node)
 
 def do_queries():
     time.sleep(5)
     while True:
         xbee.send("at",command='ND',frame_id='1')
-        if localnodeH and localnodeL:
+        if len(localNodeH) and len(localNodeL):
             for key in nodes.keys():
                 node = nodes[key]
                 logger.debug("Querying %s", node['string_address'])
-                atToNode(node,'DH',localnodeH);
-                atToNode(node,'DL',localnodeL);
+                atToNode(node,'DH',bytearray(localNodeH))
+                atToNode(node,'DL',bytearray(localNodeL))
                 sendToNode(node,'AQ')
+        else:
+            xbee.send("at",command='SH',frame_id='2')
+            xbee.send("at",command='SL',frame_id='2')
         time.sleep(30)
 
 def start_callback(xbee):
@@ -109,8 +115,6 @@ if __name__ == '__main__':
     serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600)
     xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
     xbee.start()
-    xbee.send("at",command='SH',frame_id='2')
-    xbee.send("at",command='SL',frame_id='2')
     queryThread = threading.Thread(target=do_queries)
     queryThread.daemon = True
     queryThread.start()

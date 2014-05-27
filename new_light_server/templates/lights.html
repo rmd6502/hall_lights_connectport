@@ -6,9 +6,10 @@
 <body bgcolor=black text='gray'>
 <form>
 <table>
-{% for node in nodes %}
+{% for key in nodes.keys() -%}
+{% set node = nodes[key] -%}
 <tr><td>{{ node['name'] }}</td><td><input class="color" name="{{ node['name'] }}_color" value="{{ node['colorvalue'] }}" onchange='document.forms[0].submit();'></td><td>{{ node['string_address'] }}</td></tr>
-{% endfor %}
+{% endfor -%}
 </table>
 </form>
 </body>
