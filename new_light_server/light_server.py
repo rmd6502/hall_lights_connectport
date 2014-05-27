@@ -16,7 +16,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.WARN)
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARN)
+ch.setLevel(logging.DEBUG)
 logger.addHandler(ch)
 
 app = Flask(__name__)
@@ -33,9 +33,7 @@ def index():
     logger.debug(request.args.to_dict())
     for node in nodes:
         key=node['name']+"_color"
-        print key
         if key in request.args:
-            print 'got it'
             # this can probably be done more simply
             newcolor = struct.unpack('4B',struct.pack('>L',int(request.args[key],16)))[1:]
             if 'color' not in node or node['color'] != newcolor:
@@ -74,6 +72,7 @@ def start_callback(xbee):
 if __name__ == '__main__':
     serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600)
     xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
+    xbee.start()
     xbee.send("at",command='ND',frame_id='1')
     queryThread = threading.Thread(target=do_queries)
     queryThread.daemon = True
