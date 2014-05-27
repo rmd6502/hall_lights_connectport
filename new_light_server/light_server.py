@@ -8,10 +8,7 @@ from flask import Flask
 from flask import render_template
 from flask import jsonify
 from flask import request,redirect,url_for
-import struct
-import threading
-import time
-import logging
+import struct, re, threading, time, logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -67,7 +64,7 @@ def query():
 def add_node(data): 
     logger.debug('%s',data)
     if data['id'] == 'at_response' and data['command'] == 'ND':
-        key = '{0:08x}'.format(struct.unpack('>Q',data['parameter']['source_addr_long'])[0])
+        key = '{0:016x}'.format(struct.unpack('>Q',data['parameter']['source_addr_long'])[0])
         if key not in nodes:
             nodes[key] = ({'address': data['parameter']['source_addr_long'], 'string_address': key, 'name': data['parameter']['node_identifier'], 'colorvalue': '000000'})
     elif data['id'] == 'at_response' and data['command'] == 'SH':
@@ -79,19 +76,23 @@ def add_node(data):
 
 def parse_query_response(source_addr, data):
     if data[0] != 'Q': return
-    if source_addr not in nodes: return
+    key = '{0:016x}'.format(struct.unpack('>Q',source_addr)[0])
+    if key not in nodes: return
     m = expr.match(data)
     if not m: return
     g = map(int, m.groups())
-    node = nodes[source_addr]
+    node = nodes[key]
     node['color'] = g[0:3]
+    node['colorvalue'] = '{0[0]:02x}{0[1]:02x}{0[2]:02x}'.format(g)
     node['color2'] = g[4:7]
+    node['colorvalue2'] = '{0[4]:02x}{0[5]:02x}{0[6]:02x}'.format(g)
     node['speed'] = g[3]
     logger.debug(node)
 
 def do_queries():
     time.sleep(5)
     while True:
+        xbee.send("at",command='ND',frame_id='1')
         if localnodeH and localnodeL:
             for key in nodes.keys():
                 node = nodes[key]
@@ -108,7 +109,6 @@ if __name__ == '__main__':
     serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600)
     xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
     xbee.start()
-    xbee.send("at",command='ND',frame_id='1')
     xbee.send("at",command='SH',frame_id='2')
     xbee.send("at",command='SL',frame_id='2')
     queryThread = threading.Thread(target=do_queries)
