@@ -18,14 +18,13 @@ function updateColor(name,button)
         in2.color.fromString(in1.value);
     }
     if (button == cb) {
-        hidden_submit(document.forms[0], null);
+        hidden_submit(button.form, null);
     }
 }
 
 function hidden_submit(form,control)
 {
     if (control && control.color) {
-        control.color.pickerOnFocus = false;
         control.color.hidePicker();
     }
     var action = form.action;
@@ -48,9 +47,8 @@ function hidden_submit(form,control)
     return false;
 }
 
-function setAllLights(color)
+function setAllLights(color,form)
 {
-    var form = document.forms[0];
     var inputs = form.getElementsByTagName("INPUT");
     for (var i=0; i < inputs.length; ++i) {
         var input = inputs.item(i);
@@ -60,22 +58,22 @@ function setAllLights(color)
     }
     hidden_submit(form, null);
 }
+
 </script>
 </head>
 <body bgcolor=black text='gray' font='HelveticaNeue'>
 <form onsubmit='hidden_submit(this,null)' method='PUT'>
 <table>
-{% for key in nodes.keys() -%}
-{% set node = nodes[key] -%}
+{% for node in nodes -%}
 <tr><td>{{ node.name }}</td>
-    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name}}\', this);'}" id="{{ node.name }}_color" name="{{ node.name }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(document.forms[0],this);'></td>
+    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name}}\', this);'}" id="{{ node.name }}_color" name="{{ node.name }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(this.form,this);'></td>
     <td><input type='checkbox' id="{{ node.name }}_check" checked onchange="updateColor('{{node.name}}',this);"></td>
-    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name}}\',this);'}" id="{{ node.name }}_color2" name="{{ node.name }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(document.forms[0],this);'></td>
+    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name}}\',this);'}" id="{{ node.name }}_color2" name="{{ node.name }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(this.form,this);'></td>
     <td>{{ node.string_address }}</td></tr>
 {% endfor -%}
-    <tr><td colspan=2><input type="button" value="All Off" onclick="setAllLights('000000');"/></td>
+    <tr><td colspan=2><input type="button" value="All Off" onclick="setAllLights('000000',this.form);"/></td>
     <td>&nbsp;</td>
-    <td colspan=2><input type="button" value="All On" onclick="setAllLights('FEE8F0');"/></td></tr>
+    <td colspan=2><input type="button" value="All On" onclick="setAllLights('FEE8F0',this.form);"/></td></tr>
 </table>
 </form>
 </body>

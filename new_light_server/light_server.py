@@ -58,7 +58,7 @@ def lights():
                 sendToNode(node,'{0}r{1}g{2}b{3}\n'.format(cmd,newcolor2[0],newcolor2[1],newcolor2[2]))
             node['color2'] = newcolor2
 
-    return render_template('lights.html',nodes=nodes)
+    return render_template('lights.html',nodes=sorted(nodes.values(), key=lambda n: n['name'].lower))
 
 @app.route('/')
 def index():
@@ -130,6 +130,7 @@ if __name__ == '__main__':
     serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600)
     xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
     xbee.start()
+    xbee.send("at",command='ND',frame_id='1')
     queryThread = threading.Thread(target=do_queries)
     queryThread.daemon = True
     queryThread.start()
