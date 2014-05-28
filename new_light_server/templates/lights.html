@@ -1,6 +1,7 @@
 <!doctype html>
 <head>
 <title>Lights</title>
+<link rel="stylesheet" href="/static/lights.css" />
 <script type="text/javascript" src='static/jscolor/jscolor.js'></script>
 <script type="text/javascript">
 function updateColor(name,button) 
@@ -46,9 +47,22 @@ function hidden_submit(form,control)
     xmlhttp.send();
     return false;
 }
+
+function setAllLights(color)
+{
+    var form = document.forms[0];
+    var inputs = form.getElementsByTagName("INPUT");
+    for (var i=0; i < inputs.length; ++i) {
+        var input = inputs.item(i);
+        if (input.color) {
+            input.color.fromString(color);
+        }
+    }
+    hidden_submit(form, null);
+}
 </script>
 </head>
-<body bgcolor=black text='gray'>
+<body bgcolor=black text='gray' font='HelveticaNeue'>
 <form onsubmit='hidden_submit(this,null)' method='PUT'>
 <table>
 {% for key in nodes.keys() -%}
@@ -59,6 +73,9 @@ function hidden_submit(form,control)
     <td><input class="color { onImmediateChange:'updateColor(\'{{node.name}}\',this);'}" id="{{ node.name }}_color2" name="{{ node.name }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(document.forms[0],this);'></td>
     <td>{{ node.string_address }}</td></tr>
 {% endfor -%}
+    <tr><td colspan=2><input type="button" value="All Off" onclick="setAllLights('000000');"/></td>
+    <td>&nbsp;</td>
+    <td colspan=2><input type="button" value="All On" onclick="setAllLights('FEE8F0');"/></td></tr>
 </table>
 </form>
 </body>
