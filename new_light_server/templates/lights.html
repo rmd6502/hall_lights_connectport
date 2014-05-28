@@ -3,30 +3,60 @@
 <title>Lights</title>
 <script type="text/javascript" src='static/jscolor/jscolor.js'></script>
 <script type="text/javascript">
-function updateColor(name,button) {
+function updateColor(name,button) 
+{
     var cb = document.getElementById(name+"_check");
     if (!cb || !cb.checked) {
         return;
     }
     var in1=document.getElementById(name+"_color");
-    if (button.valueElement.id == name+"_color2") {
+    if (button.valueElement && button.valueElement.id == name+"_color2") {
         in1.color.fromString(button.toString());
     } else {
         var in2=document.getElementById(name+"_color2");
         in2.color.fromString(in1.value);
     }
+    if (button == cb) {
+        hidden_submit(document.forms[0], null);
+    }
+}
+
+function hidden_submit(form,control)
+{
+    if (control && control.color) {
+        control.color.pickerOnFocus = false;
+        control.color.hidePicker();
+    }
+    var action = form.action;
+    if (action.length == 0) {
+        action = window.location.href;
+    }
+    var inputs = form.getElementsByTagName("INPUT");
+    var conjunct="?";
+    for (var i=0; i < inputs.length; ++i) {
+        var input = inputs.item(i);
+        if (input.name) {
+            action = action + conjunct;
+            conjunct='&';
+            action = action+input.name + "=" + input.value;
+        }
+    }
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open(form.method, action, false);
+    xmlhttp.send();
+    return false;
 }
 </script>
 </head>
 <body bgcolor=black text='gray'>
-<form>
+<form onsubmit='hidden_submit(this,null)' method='PUT'>
 <table>
 {% for key in nodes.keys() -%}
 {% set node = nodes[key] -%}
 <tr><td>{{ node.name }}</td>
-    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name}}\', this);'}" id="{{ node.name }}_color" name="{{ node.name }}_color" value="{{ node.colorvalue }}" onChange='document.forms[0].submit();'></td>
-    <td><input type='checkbox' id="{{ node.name }}_check" checked onchange='updateColor(\'{{node.name}}\',this);'></td>
-    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name}}\',this);'}" id="{{ node.name }}_color2" name="{{ node.name }}_color2" value="{{ node.colorvalue2 }}" onChange='document.forms[0].submit();'></td>
+    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name}}\', this);'}" id="{{ node.name }}_color" name="{{ node.name }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(document.forms[0],this);'></td>
+    <td><input type='checkbox' id="{{ node.name }}_check" checked onchange="updateColor('{{node.name}}',this);"></td>
+    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name}}\',this);'}" id="{{ node.name }}_color2" name="{{ node.name }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(document.forms[0],this);'></td>
     <td>{{ node.string_address }}</td></tr>
 {% endfor -%}
 </table>

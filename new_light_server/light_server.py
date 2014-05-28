@@ -11,7 +11,7 @@ from flask import request,redirect,url_for
 import struct, re, threading, time, logging
 
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 logger.addHandler(ch)
@@ -38,13 +38,26 @@ def lights():
     for nodekey in nodes.keys():
         node = nodes[nodekey]
         key=node['name']+"_color"
+        key2=node['name']+"_color2"
         if key in request.args:
             # this can probably be done more simply
             newcolor = struct.unpack('4B',struct.pack('>L',int(request.args[key],16)))[1:]
+            newcolor2 = newcolor
+            if key2 in request.args:
+                newcolor2 = struct.unpack('4B',struct.pack('>L',int(request.args[key2],16)))[1:]
+                node['colorvalue2'] = request.args[key2]
+            cmd = 'A'
+            if newcolor != newcolor2: 
+                cmd = 'F'
             if ('color' not in node and sum(newcolor) > 0) or ('color' in node and node['color'] != newcolor):
                 node['color'] = newcolor
                 node['colorvalue'] = request.args[key]
-                sendToNode(node,'r{0}g{1}b{2}\n'.format(newcolor[0],newcolor[1],newcolor[2]))
+                sendToNode(node,'{0}r{1}g{2}b{3}\n'.format(cmd,newcolor[0],newcolor[1],newcolor[2]))
+            if newcolor != newcolor2 and (('color2' not in node and sum(newcolor2) > 0) or ('color2' in node and node['color2'] != newcolor2)):
+                cmd='C'
+                sendToNode(node,'{0}r{1}g{2}b{3}\n'.format(cmd,newcolor2[0],newcolor2[1],newcolor2[2]))
+            node['color2'] = newcolor2
+
     return render_template('lights.html',nodes=nodes)
 
 @app.route('/')
@@ -59,6 +72,7 @@ def query():
         retnode = {'address': node['string_address'], 'name': node['name']}
         if 'color' in node:
             retnode['color'] = '{0[0]:02x}{0[1]:02x}{0[2]:02x}'.format(node['color'])
+            retnode['color2'] = '{0[0]:02x}{0[1]:02x}{0[2]:02x}'.format(node['color2'])
         retnodes.append(retnode)
     return jsonify(nodes=retnodes)
 
