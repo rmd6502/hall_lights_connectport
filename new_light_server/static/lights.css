@@ -1,0 +1,4 @@
+body { background-color:black; color:Lavender; font-family:"Helvetica Neue"; }
+table { border: solid 2px DarkGray; border-collapse: collapse; }
+td { border: solid 1px CornflowerBlue; font-size: smaller; text-align: center; }
+input[type=button] { background-color: DarkGray; }
