@@ -58,7 +58,7 @@ def lights():
                 sendToNode(node,'{0}r{1}g{2}b{3}\n'.format(cmd,newcolor2[0],newcolor2[1],newcolor2[2]))
             node['color2'] = newcolor2
 
-    return render_template('lights.html',nodes=sorted(nodes.values(), key=lambda n: n['name'].lower))
+    return render_template('lights.html',nodes=sorted(nodes.values(), key=lambda n: n['name'].lower()))
 
 @app.route('/')
 def index():
