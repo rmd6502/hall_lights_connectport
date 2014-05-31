@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 #
 # Light Server, to replace the connectport
 #
@@ -181,12 +181,14 @@ def do_queries():
 def start_callback(xbee):
     print "starting"
 
+app.config.from_pyfile('lightserver.cfg')
+serial_port = Serial(app.config['PORT'], 9600,rtscts=True)
+xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
+xbee.start()
+xbee.send("at",command='ND',frame_id='1')
+queryThread = threading.Thread(target=do_queries)
+queryThread.daemon = True
+queryThread.start()
+
 if __name__ == '__main__':
-    serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600,rtscts=True)
-    xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
-    xbee.start()
-    xbee.send("at",command='ND',frame_id='1')
-    queryThread = threading.Thread(target=do_queries)
-    queryThread.daemon = True
-    queryThread.start()
     app.run(host='0.0.0.0')
