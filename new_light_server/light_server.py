@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python
 #
 # Light Server, to replace the connectport
 #
@@ -127,7 +127,7 @@ def start_callback(xbee):
     print "starting"
 
 if __name__ == '__main__':
-    serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600)
+    serial_port = Serial('/dev/tty.usbserial-A901LVJC', 9600,rtscts=True)
     xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
     xbee.start()
     xbee.send("at",command='ND',frame_id='1')
