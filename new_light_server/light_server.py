@@ -107,30 +107,33 @@ def parse_query_response(source_addr, data):
     node['speed'] = g[3]
     logger.info(node)
 
-@app.route('/sequence/<light>',methods=["GET"])
-def define_sequence(light):
+def findNode(name):
     node = None
     for key in nodes.keys():
         mynode=nodes[key]
-        if mynode['name'] == light: break;
+        if mynode['name'] == name: 
+            node = mynode
+            break
+    return node
+
+@app.route('/sequence/<light>',methods=["GET"])
+def define_sequence(light):
+    node = findNode(light)
     if node is not None:
-        return render_template('sequence.html',node)
+        return render_template('sequence.html',node=node)
     else:
         return redirect(url_for('lights'))
 
-@app.route('/sequence/<light>',methods=["PUT","POST"])
+@app.route('/sequence/<light>',methods=["POST"])
 def save_sequence(light):
-    pass
+    logger.info('\n\n%s', request.form.getlist('sequence_time[]'))
+    logger.info('\n\n%s', request.form.getlist('sequence_color[]'))
+    return redirect(url_for('lights'))
 
 @app.route('/playsequence',methods=['PUT'])
 def playSequence():
-    node = None
     light = str(request.args['name'])
-    for key in nodes.keys():
-        mynode=nodes[key]
-        if mynode['name'] == light: 
-            node = mynode
-            break
+    node = findNode(light)
     if node is not None:
         sendToNode(node,'p1')
     return ''
@@ -138,12 +141,7 @@ def playSequence():
 @app.route('/stopsequence',methods=['PUT'])
 def stopSequence():
     light = str(request.args['name'])
-    node = None
-    for key in nodes.keys():
-        mynode=nodes[key]
-        if mynode['name'] == light:
-            node = mynode
-            break
+    node = findNode(light)
     if node is not None:
         sendToNode(node,'p0')
     return ''

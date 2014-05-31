@@ -71,7 +71,7 @@ function playSequence(name)
 
 function recordSequence(name)
 {
-    var action = "/record/"+name;
+    var action = "/sequence/"+name;
     window.location=action;
 }
 

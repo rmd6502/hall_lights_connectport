@@ -6,10 +6,10 @@ function insert_row(button)
     if (!tbody) {
         return;
     }
-    tbody.insertBefore(tr,tr.cloneNode(true));
+    tbody.insertBefore(tr.cloneNode(true),tr);
 }
 
-function delete_row(button)
+function remove_row(button)
 {
              //     TD         TR
     tr=button.parentNode.parentNode;
@@ -17,7 +17,7 @@ function delete_row(button)
     if (!tbody) {
         return;
     }
-    if (tbody.getElementsByTagName("TR").length == 1) {
+    if (tbody.getElementsByTagName("TR").length == 3) {
         alert("Can't delete last row!");
     } else {
         tbody.removeChild(tr);
