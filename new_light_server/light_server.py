@@ -126,8 +126,23 @@ def define_sequence(light):
 
 @app.route('/sequence/<light>',methods=["POST"])
 def save_sequence(light):
-    logger.info('\n\n%s', request.form.getlist('sequence_time[]'))
-    logger.info('\n\n%s', request.form.getlist('sequence_color[]'))
+    node = findNode(light)
+    if node is not None:
+        command='m1'
+        times = request.form.getlist('sequence_time[]')
+        colors1 = request.form.getlist('sequence_color1[]')
+        colors2 = request.form.getlist('sequence_color2[]')
+        for idx in range(len(times)):
+            newcolor1 = struct.unpack('4B',struct.pack('>L',int(colors1[idx],16)))[1:]
+            newcolor2 = struct.unpack('4B',struct.pack('>L',int(colors2[idx],16)))[1:]
+            for cindex in range(3):
+                command += ',' + str(newcolor1[cindex])
+                if newcolor1[cindex] != newcolor2[cindex]:
+                    command += "/" + str(newcolor2[cindex])
+            command += ',' + times[idx]
+        logger.debug(command)
+        sendToNode(node,command)
+        
     return redirect(url_for('lights'))
 
 @app.route('/playsequence',methods=['PUT'])

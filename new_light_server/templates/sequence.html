@@ -8,14 +8,16 @@
 <BODY>
 <FORM method="POST">
 <TABLE id='sequence' class="sequence">
-    <TR><TH>Time</TH><TH>Color</TH><TH colspan="2">&nbsp;</TH></TR>
+    <TR><TH>Time</TH><TH colspan="2">Color</TH><TH colspan="3">&nbsp;</TH></TR>
     <TR>
-        <TD><INPUT name="sequence_time[]" type="text" value="0"/></TD>
-        <TD><INPUT name="sequence_color[]" class="color"/></TD>
+        <TD><INPUT name="sequence_time[]" type="text" value="0 "/></TD>
+        <TD><INPUT name="sequence_color1[]" class="color {onImmediateChange:'copyColor(this.valueElement);'}"/></TD>
+        <TD><INPUT type='checkbox' id='cb' onchange='copyColor(this);' checked /></TD>
+        <TD><INPUT name="sequence_color2[]" class="color {onImmediateChange:'copyColor(this.valueElement);'}"/></TD>
         <TD><INPUT type="button" onclick="insert_row(this)" value="+"/></TD>
         <TD><INPUT type="button" onclick="remove_row(this)" value="-"/></TD>
     </TR>
-    <TR><TD colspan="4"><INPUT name="submit_sequence" type="submit" value="Submit"/></TD></TR>
+    <TR><TD colspan="6"><INPUT name="submit_sequence" type="submit" value="Submit"/></TD></TR>
 </TABLE>
 </FORM>
 </BODY>
