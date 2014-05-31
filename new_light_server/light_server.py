@@ -25,7 +25,7 @@ localNodeL = []
 expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n.*r(\d+)g(\d+)b(\d+)\r\n', re.M)
 
 def sendToNode(node,data,frame_id='A'):
-    logger.debug("sending %s to %s", data, node['string_address'])
+    logger.info("sending %s to %s", data, node['string_address'])
     xbee.send("tx", dest_addr_long=node['address'], dest_addr='\xff\xfe', data=data, frame_id=frame_id)
 
 def atToNode(node,command,parameter,frame_id='B'):
@@ -121,6 +121,33 @@ def define_sequence(light):
 @app.route('/sequence/<light>',methods=["PUT","POST"])
 def save_sequence(light):
     pass
+
+@app.route('/playsequence',methods=['PUT'])
+def playSequence():
+    node = None
+    light = str(request.args['name'])
+    for key in nodes.keys():
+        mynode=nodes[key]
+        if mynode['name'] == light: 
+            node = mynode
+            break
+    if node is not None:
+        sendToNode(node,'p1')
+    return ''
+
+@app.route('/stopsequence',methods=['PUT'])
+def stopSequence():
+    light = str(request.args['name'])
+    node = None
+    for key in nodes.keys():
+        mynode=nodes[key]
+        if mynode['name'] == light:
+            node = mynode
+            break
+    if node is not None:
+        sendToNode(node,'p0')
+    return ''
+
 
 def do_queries():
     time.sleep(5)
