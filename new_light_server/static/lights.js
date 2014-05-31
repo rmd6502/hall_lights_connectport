@@ -52,3 +52,26 @@ function setAllLights(color,form)
     }
     hidden_submit(form, null);
 }
+
+function stopSequence(name)
+{
+    var action = "/stopsequence?name="+name;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("PUT", action, false);
+    xmlhttp.send();
+}
+
+function playSequence(name)
+{
+    var action = "/playsequence?name="+name;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("PUT", action, false);
+    xmlhttp.send();
+}
+
+function recordSequence(name)
+{
+    var action = "/record/"+name;
+    window.location=action;
+}
+

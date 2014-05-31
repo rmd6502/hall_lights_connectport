@@ -107,7 +107,7 @@ def parse_query_response(source_addr, data):
     node['speed'] = g[3]
     logger.info(node)
 
-@app.route('/sequence/<light>',method="GET")
+@app.route('/sequence/<light>',methods=["GET"])
 def define_sequence(light):
     node = None
     for key in nodes.keys():

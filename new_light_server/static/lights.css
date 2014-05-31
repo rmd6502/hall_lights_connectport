@@ -2,3 +2,6 @@ body { background-color:black; color:Lavender; font-family:"Helvetica Neue"; }
 table { border: solid 2px DarkGray; border-collapse: collapse; }
 td { border: solid 1px CornflowerBlue; font-size: smaller; text-align: center; }
 input[type=button] { background-color: DarkGray; }
+input[type=button].recordbutton { width: 18; height: 14; background-image: url('/static/rbiconRecord.png'); background-size:12px 12px; background-repeat: no-repeat; }
+input[type=button].stopbutton { width: 18; height: 14; background-image: url('/static/rbiconStop.png'); background-size:12px 12px; background-repeat: no-repeat; }
+input[type=button].playbutton { width: 18; height: 14; background-image: url('/static/rbiconPlay.png'); background-size:12px 12px; background-repeat: no-repeat; }

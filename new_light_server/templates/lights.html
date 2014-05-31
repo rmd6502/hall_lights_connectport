@@ -2,8 +2,8 @@
 <head>
 <title>Lights</title>
 <link   type='text/css' rel="stylesheet" href="/static/lights.css" />
-<script type="text/javascript" src='static/jscolor/jscolor.js'></script>
-<script type="text/javascript" src='static/lights.js'></script>
+<script type="text/javascript" src='/static/jscolor/jscolor.js'></script>
+<script type="text/javascript" src='/static/lights.js'></script>
 </head>
 <body bgcolor=black text='gray' font='HelveticaNeue'>
 <form onsubmit='hidden_submit(this,null)' method='PUT'>
@@ -13,12 +13,13 @@
     <td><input class="color {onImmediateChange:'updateColor(\'{{node.name|urlencode}}\', this);'}" id="{{ node.name|urlencode }}_color" name="{{ node.name|urlencode }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(this.form,this);'></td>
     <td><input type='checkbox' id="{{ node.name|urlencode }}_check" checked onchange="updateColor('{{node.name|urlencode}}',this);"></td>
     <td><input class="color { onImmediateChange:'updateColor(\'{{node.name|urlencode}}\',this);'}" id="{{ node.name|urlencode }}_color2" name="{{ node.name|urlencode }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(this.form,this);'></td>
-    <td><input type='button' onclick='playsequence("{{node.name|urlencode}}");'</td></tr>
-    <td><input type='button' onclick='recordsequence("{{node.name|urlencode}}");'</td></tr>
+    <td><input type='button' class="playbutton" onclick='playSequence("{{node.name|urlencode}}");'/>
+    <input type='button' class="stopbutton" onclick='stopSequence("{{node.name|urlencode}}");'/>
+    <input type='button' class="recordbutton" onclick='recordSequence("{{node.name|urlencode}}");'/></td></tr>
 {% endfor -%}
     <tr><td colspan=2><input type="button" value="All Off" onclick="setAllLights('000000',this.form);"/></td>
     <td>&nbsp;</td>
-    <td colspan=2><input type="button" value="All On" onclick="setAllLights('FEE8F0',this.form);"/></td></tr>
+    <td colspan=3><input type="button" value="All On" onclick="setAllLights('FEE8F0',this.form);"/></td></tr>
 </table>
 </form>
 </body>
