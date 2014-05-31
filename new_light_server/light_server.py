@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/bin/python
 #
 # Light Server, to replace the connectport
 #
@@ -106,6 +106,14 @@ def parse_query_response(source_addr, data):
     node['colorvalue2'] = '{0[4]:02x}{0[5]:02x}{0[6]:02x}'.format(g)
     node['speed'] = g[3]
     logger.info(node)
+
+@app.route('/sequence/<light>',method="GET")
+def define_sequence(light):
+    return render_template('sequence.html',light)
+
+@app.route('/sequence/<light>',methods=["PUT","POST"])
+def save_sequence(light):
+    pass
 
 def do_queries():
     time.sleep(5)
