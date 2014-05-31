@@ -25,7 +25,7 @@ localNodeL = []
 expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n.*r(\d+)g(\d+)b(\d+)\r\n', re.M)
 
 def sendToNode(node,data,frame_id='A'):
-    logger.info("sending %s to %s", data, node['string_address'])
+    logger.debug("sending %s to %s", data, node['string_address'])
     xbee.send("tx", dest_addr_long=node['address'], dest_addr='\xff\xfe', data=data, frame_id=frame_id)
 
 def atToNode(node,command,parameter,frame_id='B'):
@@ -140,8 +140,8 @@ def save_sequence(light):
                 if newcolor1[cindex] != newcolor2[cindex]:
                     command += "/" + str(newcolor2[cindex])
             command += ',' + times[idx]
-        logger.debug(command)
-        sendToNode(node,command)
+        logger.info(command)
+        sendToNode(node,str(command))
         
     return redirect(url_for('lights'))
 
