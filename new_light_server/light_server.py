@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/opt/twitter/bin/python
 #
 # Light Server, to replace the connectport
 #
@@ -22,7 +22,8 @@ xbee = None
 localNodeH = []
 localNodeL = []
 
-expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n.*r(\d+)g(\d+)b(\d+)\r\n', re.M)
+# Expression to match the Query response; Qr128g12b0s1\r\n2r100g200b50
+expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n2r(\d+)g(\d+)b(\d+)\r\n', re.M)
 
 def sendToNode(node,data,frame_id='A'):
     logger.debug("sending %s to %s", data, node['string_address'])
@@ -32,7 +33,7 @@ def atToNode(node,command,parameter,frame_id='B'):
     logger.debug("sending %s %s to %s", command, parameter, node['string_address'])
     xbee.remote_at(command=command, parameter=parameter, dest_addr_long=node['address'], frame_id=frame_id)
     
-@app.route('/lights')
+@app.route('/lights/')
 def lights():
     logger.debug(request.args.to_dict())
     for nodekey in nodes.keys():

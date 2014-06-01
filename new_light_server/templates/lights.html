@@ -11,9 +11,9 @@
 {% for node in nodes -%}
 <tr>
     <td>{{ node.name|e }}</td>
-    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name|urlencode}}\', this);',pickerOnfocus:false}" id="{{ node.name|urlencode }}_color" name="{{ node.name|urlencode }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(this.form,this);'></td>
+    <td><input class="color {onImmediateChange:'updateColor(\'{{node.name|urlencode}}\', this);',pickerOnfocus:false}" id="{{ node.name|urlencode }}_color" name="{{ node.name|urlencode }}_color" value="{{ node.colorvalue }}" onChange='hidden_submit(this.form,this);' onFocus='this.color.showPicker();' onBlur='this.color.hidePicker();' /></td>
     <td><input type='checkbox' id="{{ node.name|urlencode }}_check" checked onchange="updateColor('{{node.name|urlencode}}',this);"></td>
-    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name|urlencode}}\',this);',pickerOnfocus:false}" id="{{ node.name|urlencode }}_color2" name="{{ node.name|urlencode }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(this.form,this);'></td>
+    <td><input class="color { onImmediateChange:'updateColor(\'{{node.name|urlencode}}\',this);',pickerOnfocus:false}" id="{{ node.name|urlencode }}_color2" name="{{ node.name|urlencode }}_color2" value="{{ node.colorvalue2 }}" onChange='hidden_submit(this.form,this);' onFocus='this.color.showPicker();' onBlur='this.color.hidePicker();' /></td>
     <td><input type='button' class="playbutton" onclick='playSequence("{{node.name|urlencode}}");'/>
     <input type='button' class="stopbutton" onclick='stopSequence("{{node.name|urlencode}}");'/>
     <input type='button' class="recordbutton" onclick='recordSequence("{{node.name|urlencode}}");'/></td>
