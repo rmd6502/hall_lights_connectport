@@ -9,19 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "ColorPickerViewController.h"
 
-@class TBXML;
-@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate, UINavigationControllerDelegate,UIAlertViewDelegate> {
-    NSMutableDictionary *lightColors;
-    NSTimer *refreshTimer;
-    NSTimer *touchTimer;
-    ColorPickerViewController *cpvc;
-}
+@interface Light : NSObject
 
-@property (nonatomic, unsafe_unretained) IBOutlet UITableView *tableView;
-@property (nonatomic, unsafe_unretained) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, strong) TBXML *tbxml;
-@property (nonatomic, strong) UIBarButtonItem *refresh;
-@property (nonatomic, strong) NSMutableDictionary *node;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic) UIColor *color1;
+@property (nonatomic) UIColor *color2;
+@property (nonatomic) NSString *nodeID;
+@property (nonatomic) NSDate *lastActive;
+
+@end
+
+@interface ChooseLightViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ColorPickerViewControllerDelegate, UINavigationControllerDelegate,UIAlertViewDelegate>
+
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic) UIBarButtonItem *refresh;
+@property (nonatomic) NSMutableDictionary *node;
+@property (nonatomic) NSArray *lights;
 
 - (IBAction)doRefresh:(id)sender;
 - (IBAction)allLightsOn:(id)sender;

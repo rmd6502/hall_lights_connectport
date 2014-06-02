@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		83173CD6150FC31500227E21 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83173CD5150FC31500227E21 /* Entitlements.plist */; };
 		83201BEA1512619700F6CA42 /* lamp icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83201BE91512619700F6CA42 /* lamp icon.png */; };
-		83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
 		83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798815055860002AC1DA /* rainbow_lamp.png */; };
 		83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2x.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
@@ -36,55 +35,14 @@
 		9CEEB794153202D100A7DBB8 /* ConnectportDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB793153202D100A7DBB8 /* ConnectportDiscovery.m */; };
 		9CEEB79815320ACB00A7DBB8 /* ADDPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB79715320ACB00A7DBB8 /* ADDPPacket.m */; };
 		9CEEB79B1532265F00A7DBB8 /* rainbow_lamp_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CEEB79A1532265F00A7DBB8 /* rainbow_lamp_ipad.png */; };
+		D6FCE052193BF36900BAF6C1 /* APIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FCE051193BF36900BAF6C1 /* APIHandler.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		83ED0A6E15040A190096A20C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 829FA09C14D5B52A00D18697;
-			remoteInfo = TBXML;
-		};
-		83ED0A7015040A190096A20C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 829FA0B014D5B52A00D18697;
-			remoteInfo = TBXMLTests;
-		};
-		83ED0A7215040A190096A20C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8290352514D9F5B200ACF7E4;
-			remoteInfo = "TBXML-iOS";
-		};
-		83ED0A7415040A190096A20C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8290353314D9F5B200ACF7E4;
-			remoteInfo = "TBXML-iOSTests";
-		};
-		83ED0A7815043C050096A20C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8290352414D9F5B200ACF7E4;
-			remoteInfo = "TBXML-iOS";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		83173CD5150FC31500227E21 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		83201BE91512619700F6CA42 /* lamp icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lamp icon.png"; sourceTree = "<group>"; };
 		83B4798815055860002AC1DA /* rainbow_lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp.png; sourceTree = "<group>"; };
 		83B4798915055860002AC1DA /* rainbow_lamp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2x.png"; sourceTree = "<group>"; };
-		83ED0A6415040A190096A20C /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
-		83ED0A7C15043D960096A20C /* TBXML+Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+Compression.h"; sourceTree = "<group>"; };
-		83ED0A7D15043D960096A20C /* TBXML+HTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+HTTP.h"; sourceTree = "<group>"; };
-		83ED0A7E15043D960096A20C /* TBXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLightViewController.h; sourceTree = "<group>"; };
 		83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLightViewController.m; sourceTree = "<group>"; };
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
@@ -125,6 +83,8 @@
 		9CEEB79615320ACB00A7DBB8 /* ADDPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDPPacket.h; sourceTree = "<group>"; };
 		9CEEB79715320ACB00A7DBB8 /* ADDPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADDPPacket.m; sourceTree = "<group>"; };
 		9CEEB79A1532265F00A7DBB8 /* rainbow_lamp_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp_ipad.png; sourceTree = "<group>"; };
+		D6FCE050193BF36900BAF6C1 /* APIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHandler.h; sourceTree = "<group>"; };
+		D6FCE051193BF36900BAF6C1 /* APIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +92,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */,
 				9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */,
 				9CE4EED614CBA53300DFAD4A /* Foundation.framework in Frameworks */,
 				9CE4EED814CBA53300DFAD4A /* CoreGraphics.framework in Frameworks */,
@@ -142,33 +101,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		83ED0A6515040A190096A20C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				83ED0A6F15040A190096A20C /* libTBXML.a */,
-				83ED0A7115040A190096A20C /* TBXMLTests.octest */,
-				83ED0A7315040A190096A20C /* libTBXML-iOS.a */,
-				83ED0A7515040A190096A20C /* TBXML-iOSTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		83ED0A7B15043D960096A20C /* TBXML-Headers */ = {
-			isa = PBXGroup;
-			children = (
-				83ED0A7C15043D960096A20C /* TBXML+Compression.h */,
-				83ED0A7D15043D960096A20C /* TBXML+HTTP.h */,
-				83ED0A7E15043D960096A20C /* TBXML.h */,
-			);
-			name = "TBXML-Headers";
-			path = "../TBXML/TBXML-Headers";
-			sourceTree = "<group>";
-		};
 		9CE4EEC414CBA53200DFAD4A = {
 			isa = PBXGroup;
 			children = (
 				9C6CBD18179211B500D3D21C /* Default-568h@2x.png */,
-				83ED0A7B15043D960096A20C /* TBXML-Headers */,
 				9CE4EED914CBA53300DFAD4A /* color_picker */,
 				9CE4EED214CBA53300DFAD4A /* Frameworks */,
 				9CE4EED014CBA53300DFAD4A /* Products */,
@@ -188,7 +124,6 @@
 			children = (
 				9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */,
 				9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */,
-				83ED0A6415040A190096A20C /* TBXML.xcodeproj */,
 				9CE4EED314CBA53300DFAD4A /* UIKit.framework */,
 				9CE4EED514CBA53300DFAD4A /* Foundation.framework */,
 				9CE4EED714CBA53300DFAD4A /* CoreGraphics.framework */,
@@ -257,6 +192,8 @@
 				83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */,
 				83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */,
 				83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */,
+				D6FCE050193BF36900BAF6C1 /* APIHandler.h */,
+				D6FCE051193BF36900BAF6C1 /* APIHandler.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -286,7 +223,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				83ED0A7915043C050096A20C /* PBXTargetDependency */,
 			);
 			name = color_picker;
 			productName = color_picker;
@@ -316,49 +252,12 @@
 			mainGroup = 9CE4EEC414CBA53200DFAD4A;
 			productRefGroup = 9CE4EED014CBA53300DFAD4A /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 83ED0A6515040A190096A20C /* Products */;
-					ProjectRef = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9CE4EECE14CBA53300DFAD4A /* color_picker */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		83ED0A6F15040A190096A20C /* libTBXML.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libTBXML.a;
-			remoteRef = 83ED0A6E15040A190096A20C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		83ED0A7115040A190096A20C /* TBXMLTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = TBXMLTests.octest;
-			remoteRef = 83ED0A7015040A190096A20C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		83ED0A7315040A190096A20C /* libTBXML-iOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libTBXML-iOS.a";
-			remoteRef = 83ED0A7215040A190096A20C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		83ED0A7515040A190096A20C /* TBXML-iOSTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "TBXML-iOSTests.octest";
-			remoteRef = 83ED0A7415040A190096A20C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9CE4EECD14CBA53300DFAD4A /* Resources */ = {
@@ -396,6 +295,7 @@
 				9CE4EF1514CBA68200DFAD4A /* ColorSwatchView.m in Sources */,
 				9CE4EF1614CBA68200DFAD4A /* GradientView.m in Sources */,
 				9CE4EF1714CBA68200DFAD4A /* UIColor-Expanded.m in Sources */,
+				D6FCE052193BF36900BAF6C1 /* APIHandler.m in Sources */,
 				9CE4EF1814CBA68200DFAD4A /* UIColor-HSVAdditions.m in Sources */,
 				83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */,
 				9CEEB794153202D100A7DBB8 /* ConnectportDiscovery.m in Sources */,
@@ -404,14 +304,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		83ED0A7915043C050096A20C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "TBXML-iOS";
-			targetProxy = 83ED0A7815043C050096A20C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9CE4EEDC14CBA53300DFAD4A /* InfoPlist.strings */ = {

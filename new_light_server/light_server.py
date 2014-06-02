@@ -16,12 +16,6 @@ ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 logger.addHandler(ch)
 
-app = Flask(__name__)
-nodes = {}
-xbee = None
-localNodeH = []
-localNodeL = []
-
 # Expression to match the Query response; Qr128g12b0s1\r\n2r100g200b50
 expr = re.compile('Qr(\d+)g(\d+)b(\d+)s(\d+)\r\n2r(\d+)g(\d+)b(\d+)\r\n', re.M)
 
@@ -182,14 +176,27 @@ def do_queries():
 def start_callback(xbee):
     print "starting"
 
-app.config.from_pyfile('lightserver.cfg')
-serial_port = Serial(app.config['PORT'], 9600,rtscts=True)
-xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
-xbee.start()
-xbee.send("at",command='ND',frame_id='1')
-queryThread = threading.Thread(target=do_queries)
-queryThread.daemon = True
-queryThread.start()
+
+def createApp():
+    app = Flask(__name__)
+    nodes = {}
+    xbee = None
+    localNodeH = []
+    localNodeL = []
+
+    app.config.from_pyfile('lightserver.cfg')
+    serial_port = Serial(app.config['PORT'], 9600,rtscts=True)
+    xbee = ZigBee(serial_port, callback=add_node, start_callback=start_callback)
+    xbee.start()
+    xbee.send("at",command='ND',frame_id='1')
+    queryThread = threading.Thread(target=do_queries)
+    queryThread.daemon = True
+    queryThread.start()
+    g.xbee = xbee
+    g.nodes = nodes
+    g.localNodeH = localNodeH
+    g.localNodeL = localNodeL
+    return app
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

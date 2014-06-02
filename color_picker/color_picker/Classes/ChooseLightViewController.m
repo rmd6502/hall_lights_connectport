@@ -6,15 +6,18 @@
 //  Copyright (c) 2012 Robert Diamond. All rights reserved.
 //
 
+#import "APIHandler.h"
 #import "ChooseLightViewController.h"
 #import "ColorPickerViewController.h"
 #import "ColorPickerView.h"
-#import "TBXML.h"
-#import "TBXML+HTTP.h"
 #import "com_robertdiamondAppDelegate.h"
 #import <objc/objc.h>
 
-@interface ChooseLightViewController(Private)
+@interface ChooseLightViewController()
+
+@property (nonatomic) NSTimer *refreshTimer;
+@property (nonatomic) NSTimer *touchTimer;
+@property (nonatomic) ColorPickerViewController *cpvc;
 
 - (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node;
 - (void)hideSpinner;
@@ -22,19 +25,15 @@
 @end
 
 @implementation ChooseLightViewController
-@synthesize tbxml;
-@synthesize tableView;
-@synthesize spinner;
-@synthesize refresh;
-@synthesize node;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.navigationItem.title = @"Choose a Light";
-        lightColors = [[NSMutableDictionary alloc] init];
-        cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
+        _lights = [[NSMutableArray alloc] init];
+        _cpvc = [[ColorPickerViewController alloc]initWithNibName:nil bundle:nil];
+        _cpvc.delegate = self;
     }
     return self;
 }
@@ -52,10 +51,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    spinner.hidden = NO;
+    _spinner.hidden = NO;
     
-    refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doRefresh:)];
-    self.navigationItem.rightBarButtonItem = refresh;
+    _refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doRefresh:)];
+    self.navigationItem.rightBarButtonItem = _refresh;
     [self doRefresh:nil];
 }
 
@@ -68,28 +67,38 @@
     __block NSURL *url = [NSURL URLWithString:req];
     if (sender != nil) {
         if ([sender class] != [NSTimer class]) {
-            spinner.hidden = NO;
+            _spinner.hidden = NO;
         } else {
-            refreshTimer = nil;
+            _refreshTimer = nil;
         }
     }
     @synchronized (self) {
-        [refreshTimer invalidate];
-        refreshTimer = nil;
+        [_refreshTimer invalidate];
+        _refreshTimer = nil;
         NSLog(@"cleared timer");
     }
     NSLog(@"url %@", url);
-    [TBXML tbxmlWithURL:url success:^(TBXML *result) {
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    __weak ChooseLightViewController *weakSelf = self;
+    [[APIHandler sharedAPIHandler] handleRequest:request withCallback:^(NSURLResponse *response, NSError *error, NSData *data) {
         //NSLog(@"got result %@", result);
-        self.tbxml = result;
-        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
-    } failure:^(TBXML *result, NSError *error) {
-        [self performSelectorOnMainThread:@selector(hideSpinner) withObject:nil waitUntilDone:NO];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Problem" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Retry", nil];
-        [av performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-        NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
-        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
-    }]; 
+        ChooseLightViewController *strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf hideSpinner];
+            _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:strongSelf selector:@selector(doRefresh:) userInfo:nil repeats:NO];
+            if (!error) {
+                id JSONData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                if (!error) {
+                    [strongSelf _parseLights:JSONData];
+                }
+            }
+            if (error) {
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Problem" message:error.localizedDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Retry", nil];
+                [av show];
+                NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
+            }
+        }
+    }];
     //NSLog(@"dorefresh exit");
 }
 
@@ -104,14 +113,14 @@
 {
     [super viewDidUnload];
     @synchronized(self) {
-        [refreshTimer invalidate];
-        refreshTimer = nil;
+        [_refreshTimer invalidate];
+        _refreshTimer = nil;
     }
-    refresh = nil;
+    _refresh = nil;
 }
 
 - (void)hideSpinner {
-    [spinner setHidden:YES];
+    [_spinner setHidden:YES];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -119,100 +128,67 @@
     return (YES);
 }
 
-- (void)setTbxml:(TBXML *)tbxml_ {
-    CGFloat r,g,b;
-    CGFloat r2,g2,b2;
-    
-    tbxml = tbxml_;
-    NSMutableDictionary *hosts = [NSMutableDictionary dictionary];
-    
-    TBXMLElement *element = nil;
-    for (element = [TBXML childElementNamed:@"light" parentElement:tbxml.rootXMLElement]; 
-         element != nil; element = element->nextSibling) {
-        //NSLog(@"light %@", element);
-        NSString *nodeId = [TBXML valueOfAttributeNamed:@"node" forElement:element];
-        r = [[TBXML textForElement:[TBXML childElementNamed:@"red" parentElement:element]] floatValue]/255.;
-        g = [[TBXML textForElement:[TBXML childElementNamed:@"green" parentElement:element]] floatValue]/255.;
-        b = [[TBXML textForElement:[TBXML childElementNamed:@"blue" parentElement:element]] floatValue]/255.;
-        r2 = [[TBXML textForElement:[TBXML childElementNamed:@"red2" parentElement:element]] floatValue]/255.;
-        g2 = [[TBXML textForElement:[TBXML childElementNamed:@"green2" parentElement:element]] floatValue]/255.;
-        b2 = [[TBXML textForElement:[TBXML childElementNamed:@"blue2" parentElement:element]] floatValue]/255.;
-        UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
-        UIColor *currentColor2 = [UIColor colorWithRed:r2 green:g2 blue:b2 alpha:1.0];
-        if ([[node objectForKey:@"node"] isEqualToString:nodeId]) {
-            [(ColorPickerView *)cpvc.view setColor:cpvc.node == 2 ? currentColor2 : currentColor];
-        }
-        NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
-        unsigned long lastActive = strtoul([[TBXML textForElement:[TBXML childElementNamed:@"lastActive" parentElement:element]] UTF8String], NULL, 10);
-        unsigned long la = [[hosts valueForKey:nodeId] longValue];
-        if (la) {
-            NSLog(@"we have a dup");
-            if (la > lastActive) {
-                NSLog(@"current entry is older, skipping");
-                continue;
-            }
-            NSSet *k = [lightColors keysOfEntriesPassingTest:^BOOL(id key, id obj, BOOL *stop) {
-                return *stop = [[(NSDictionary *)obj valueForKey:@"node"] isEqualToString:nodeId];
-                }];
-            NSLog(@"removing object for key %@", k);
-            [lightColors removeObjectForKey:[k anyObject]];
-        }
-        [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               currentColor, @"color",
-                              currentColor2, @"color2",
-                               nodeId, @"node",
-                               [NSNumber numberWithLong:lastActive], @"lastActive",
-                               nil] 
-                       forKey:lightName];
+- (void)_parseLights:(id)jsonData {
+    if (![jsonData isKindOfClass:[NSArray class]]) {
+        return;
     }
-    
-    [self performSelectorOnMainThread:@selector(updateTable) withObject:self waitUntilDone:NO];
+    NSMutableSet *lightSet = [NSMutableSet setWithArray:_lights];
+    for (NSDictionary *lightDict in jsonData) {
+        Light *newLight = [Light new];
+        newLight.name = lightDict[@"name"];
+        newLight.nodeID = lightDict[@"string_address"];
+        union {
+            NSUInteger color;
+            Byte rgb[4];
+        } color;
+        color.color = strtoul([lightDict[@"color"] UTF8String], nil, 16);
+        newLight.color1 = [UIColor colorWithRed:color.rgb[2]/255.0 green:color.rgb[1]/255.0 blue:color.rgb[0]/255.0 alpha:1.0];
+        color.color = strtoul([lightDict[@"color2"] UTF8String], nil, 16);
+        newLight.color2 = [UIColor colorWithRed:color.rgb[2]/255.0 green:color.rgb[1]/255.0 blue:color.rgb[0]/255.0 alpha:1.0];
+        [lightSet addObject:newLight];
+    }
+    _lights = [[lightSet allObjects] sortedArrayUsingComparator:^NSComparisonResult(Light *obj1, Light *obj2) {
+        return [obj1.name compare:obj2.name];
+    }];
+
+    [self updateTable];
 }
 
 - (void)updateTable {
     if (![NSThread isMainThread]) return;
-    spinner.hidden = YES;
-    [tableView reloadData];
-    if ([self tableView:tableView numberOfRowsInSection:0] == 0) {
+    _spinner.hidden = YES;
+    [self.tableView reloadData];
+    if ([self tableView:self.tableView numberOfRowsInSection:0] == 0) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"No Lights" message:@"No lights defined" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [av show];
     }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [lightColors count];
+    return [_lights count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *lights = [[lightColors allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [(NSString *)obj1 compare:(NSString *)obj2];
-    } ];
-    NSString *lightName = [lights objectAtIndex:indexPath.row];
-    
+    Light *light = [_lights objectAtIndex:indexPath.row];
+
     UITableViewCell *ret = [tableView_ dequeueReusableCellWithIdentifier:@"lightCell"];
     if (ret == nil) {
         ret = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"lightCell"];
     }
     
-    long lastActive = [[[lightColors objectForKey:lightName] objectForKey:@"lastActive"] longValue];
-    time_t now = time(NULL);
-    time_t local = mktime(localtime(&now));
-    if (lastActive > 0 && local - lastActive > 90) {
+    NSDate *lastActive = light.lastActive;
+    if ([[NSDate date] timeIntervalSinceDate:lastActive] > 90.0 * 60.0) {
         ret.textLabel.textColor = [UIColor redColor];
-        ret.textLabel.text = lightName;
-        ret.detailTextLabel.text = [NSString stringWithFormat:@"Last Seen %@", [NSDateFormatter 
-                                    localizedStringFromDate:[NSDate 
-                                                             dateWithTimeIntervalSince1970:lastActive] 
-                                    dateStyle:NSDateFormatterShortStyle 
-                                    timeStyle:NSDateFormatterMediumStyle]];
+        ret.textLabel.text = light.name;
+        ret.detailTextLabel.text = [NSString stringWithFormat:@"Last Seen %@", [NSDateFormatter localizedStringFromDate:lastActive dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle]];
     } else {
         ret.textLabel.textColor = [UIColor blackColor];
-        ret.textLabel.text = lightName;
+        ret.textLabel.text = light.name;
         ret.detailTextLabel.text = nil;
     }
     
     ret.imageView.image = [UIImage imageNamed:@"lamp icon"];
-    ret.imageView.backgroundColor = [[lightColors objectForKey:lightName] objectForKey:@"color"];
+    ret.imageView.backgroundColor = light.color1;
     
     
     return ret;
@@ -220,14 +196,12 @@
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //NSLog(@"color: %@", currentColor);
-    NSString *lightName = [tableView_ cellForRowAtIndexPath:indexPath].textLabel.text;
-    self.node = (NSMutableDictionary *)[lightColors objectForKey:lightName];
-    UIColor *currentColor = [node valueForKey:@"color"];
+    Light *light = [_lights objectAtIndex:indexPath.row];
+    UIColor *currentColor = light.color1;
 
-    cpvc.delegate = self;
-    [(ColorPickerView *)cpvc.view setColor:currentColor];
-    [self.navigationController pushViewController:cpvc animated:YES];
-    cpvc.navigationItem.title = lightName;
+    [(ColorPickerView *)_cpvc.view setColor:currentColor];
+    [self.navigationController pushViewController:_cpvc animated:YES];
+    _cpvc.navigationItem.title = light.name;
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectColor:(UIColor *)color {
@@ -239,7 +213,7 @@
   [self backgroundRequest:req];
   @synchronized(self) {
     [treq invalidate];
-    touchTimer = nil;
+    _touchTimer = nil;
   }
 }
 
@@ -267,11 +241,11 @@
   NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
  
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-  if (touchTimer) @synchronized(self) {
-      [touchTimer invalidate];
-      touchTimer = nil;
+  if (_touchTimer) @synchronized(self) {
+      [_touchTimer invalidate];
+      _touchTimer = nil;
   }
-  touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
+  _touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
 }
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
@@ -283,7 +257,7 @@
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectValue:(NSUInteger)value {
-    [(ColorPickerView *)cpvc.view setColor:[node objectForKey:value == 2 ? @"color2" : @"color"]];
+    [(ColorPickerView *)_cpvc.view setColor:[node objectForKey:value == 2 ? @"color2" : @"color"]];
 }
 
 - (void)backgroundRequest:(NSURLRequest *)req {
@@ -301,7 +275,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  [tableView reloadData];
+  [self.tableView reloadData];
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
@@ -313,7 +287,7 @@
     NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
     [nodeDict setObject:newcolor forKey:@"color"];
   }
-  [tableView reloadData];
+  [self.tableView reloadData];
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
