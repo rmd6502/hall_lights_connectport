@@ -7,8 +7,6 @@
 //
 #import <arpa/inet.h>
 #import "com_robertdiamondAppDelegate.h"
-#import "TBXML.h"
-#import "TBXML+HTTP.h"
 #import "ConnectportDiscovery.h"
 #import "ADDPPacket.h"
 

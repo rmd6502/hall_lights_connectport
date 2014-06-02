@@ -18,6 +18,7 @@
 @property (nonatomic) NSTimer *refreshTimer;
 @property (nonatomic) NSTimer *touchTimer;
 @property (nonatomic) ColorPickerViewController *cpvc;
+@property (nonatomic) Light *currentNode;
 
 - (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node;
 - (void)hideSpinner;
@@ -199,6 +200,7 @@
     Light *light = [_lights objectAtIndex:indexPath.row];
     UIColor *currentColor = light.color1;
 
+    _currentNode = light;
     [(ColorPickerView *)_cpvc.view setColor:currentColor];
     [self.navigationController pushViewController:_cpvc animated:YES];
     _cpvc.navigationItem.title = light.name;
@@ -234,11 +236,11 @@
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
   colorPicker.defaultsColor = color;
-  [node setValue:color forKey:@"color"];
+  [_currentNode setValue:color forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     NSString *tmpl = [self templateForColor:color color2:color andNode:colorPicker.node];
-  NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
+  NSString *request = [NSString stringWithFormat:tmpl, _currentNode.nodeID];
  
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
   if (_touchTimer) @synchronized(self) {
@@ -250,14 +252,13 @@
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    NSString *request = [NSString stringWithFormat:@"http://%@/lights?random=Random&node=%@",host, 
-                         [node objectForKey:@"node"]];
+    NSString *request = [NSString stringWithFormat:@"http://%@/lights?random=Random&node=%@",host,_currentNode.nodeID];
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectValue:(NSUInteger)value {
-    [(ColorPickerView *)_cpvc.view setColor:[node objectForKey:value == 2 ? @"color2" : @"color"]];
+    [(ColorPickerView *)_cpvc.view setColor:(value == 2) ? _currentNode.color2 : _currentNode.color1];
 }
 
 - (void)backgroundRequest:(NSURLRequest *)req {
@@ -283,9 +284,9 @@
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
-  for (NSString *key in [lightColors allKeys]) {
-    NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
-    [nodeDict setObject:newcolor forKey:@"color"];
+  for (Light *light in _lights) {
+      light.color1 = newcolor;
+      light.color2 = newcolor;
   }
   [self.tableView reloadData];
 }
@@ -295,11 +296,15 @@
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
   [self backgroundRequest:req];
-  for (NSString *key in [lightColors allKeys]) {
-    NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
-    [nodeDict setObject:newcolor forKey:@"color"];
-  }
-  [tableView reloadData];
+    for (Light *light in _lights) {
+        light.color1 = newcolor;
+        light.color2 = newcolor;
 }
+  [self.tableView reloadData];
+}
+
+@end
+
+@implementation Light
 
 @end
