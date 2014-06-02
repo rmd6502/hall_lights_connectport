@@ -230,8 +230,8 @@
   r = comps[0]; g = comps[1]; b = comps[2];
     r2 = comps2[0]; g2 = comps2[1]; b2 = comps2[2];
   NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?red=%d&green=%d&blue=%d&red2=%d&green2=%d&blue2=%d&node=%%@",
-                   host,(int)(r*255), (int)(g*255), (int)(b*255),(int)(r2*255), (int)(g2*255), (int)(b2*255)];
+
+  NSString *ret = [NSString stringWithFormat:@"http://%@/lights?%%1$@_color=%02x%02x%02x&%%1$@_color2=%02x%02x%02x", host,(int)(r*255), (int)(g*255), (int)(b*255),(int)(r2*255), (int)(g2*255), (int)(b2*255)];
   return ret;
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
