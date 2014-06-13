@@ -1,13 +1,14 @@
 #include <stdint.h>
 #include <avr/eeprom.h>
 
-const byte r1_control = 3;
-const byte g1_control = 5;
-const byte b1_control = 6;
+// No, I honestly have no idea what I was thinking when I routed them this way.
+const byte r1_control = 6;
+const byte g1_control = 11;
+const byte b1_control = 9;
 
-const byte r2_control = 9;
-const byte g2_control = 10;
-const byte b2_control = 11;
+const byte r2_control = 5;
+const byte g2_control = 3;
+const byte b2_control = 10;
 
 unsigned int buf = 0;
 byte bufPos = 0;
