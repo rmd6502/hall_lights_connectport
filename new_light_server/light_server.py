@@ -1,4 +1,4 @@
-#!/opt/twitter/bin/python
+#!/usr/local/bin/python
 #
 # Light Server, to replace the connectport
 #
@@ -40,13 +40,15 @@ def lights():
         node = nodes[nodekey]
         key=node['name']+"_color"
         key2=node['name']+"_color2"
+        newcolor = None
+        newcolor2 = None
         if key in request.args:
             # this can probably be done more simply
             newcolor = struct.unpack('4B',struct.pack('>L',int(request.args[key],16)))[1:]
-            newcolor2 = newcolor
-            if key2 in request.args:
-                newcolor2 = struct.unpack('4B',struct.pack('>L',int(request.args[key2],16)))[1:]
-                node['colorvalue2'] = request.args[key2]
+        if key2 in request.args:
+            newcolor2 = struct.unpack('4B',struct.pack('>L',int(request.args[key2],16)))[1:]
+            node['colorvalue2'] = request.args[key2]
+        if newcolor is not None and newcolor2 is not None:
             cmd = 'A'
             if newcolor != newcolor2: 
                 cmd = 'F'
