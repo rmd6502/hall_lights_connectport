@@ -289,7 +289,7 @@ void handleDefault(byte d) {
       Serial.println("q - Query");
       Serial.println("n - raNdom (party) mode");
       Serial.println("f=first, c=seCond,a=all lights");
-      Serial.println("m1,ar,ag,ab,bbbb,cr,cg,cb,dddd,... - define sequence x as color aaa, delay bbbb ms, color ccc, delay dddd ms, ...");
+      Serial.println("m1,ar[/r],ag[/g],ab[/b],bbbb,cr[/r],cg[/g],cb[/b],dddd,... - define sequence x as color aaa[/second color aaa], delay bbbb ms, color ccc, delay dddd ms, ...");
       Serial.println("p1 - play sequence.");
       Serial.println("p0 - stop playing sequence");
       break;
