@@ -144,6 +144,7 @@ def save_sequence(light):
                     command += "/" + str(newcolor2[cindex])
             command += ',' + times[idx]
         logger.info(command)
+        command += '\n'
         sendToNode(node,str(command))
         
     return redirect(url_for('lights'))
@@ -153,7 +154,7 @@ def playSequence():
     light = str(request.args['name'])
     node = findNode(light)
     if node is not None:
-        sendToNode(node,'p1')
+        sendToNode(node,'p1\n')
     return ''
 
 @app.route('/stopsequence',methods=['PUT'])
@@ -161,7 +162,7 @@ def stopSequence():
     light = str(request.args['name'])
     node = findNode(light)
     if node is not None:
-        sendToNode(node,'p0')
+        sendToNode(node,'p0\n')
     return ''
 
 
