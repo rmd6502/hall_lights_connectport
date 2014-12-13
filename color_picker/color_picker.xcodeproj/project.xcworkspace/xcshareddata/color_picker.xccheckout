@@ -2,49 +2,51 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>14672C8A-289C-4DE9-B2FF-AC34E61A53E5</string>
 	<key>IDESourceControlProjectName</key>
 	<string>color_picker</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>72DD8D42-C603-42B0-802A-463486ABCC14</key>
+		<key>3ED9338AC504CC2B8EDBAF53DA9DFDA2E33CF98F</key>
+		<string>git://github.com/rmd6502/hall_lights_connectport.git</string>
+		<key>D33C95C0A843CCBB42C08B5806EBF028432E18CD</key>
 		<string>https://github.com/71squared/TBXML.git</string>
-		<key>9B93545D-D089-4A1F-B5F3-A4CED985E888</key>
-		<string>ssh://github.com/rmd6502/hall_lights_connectport.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>color_picker/color_picker.xcodeproj/project.xcworkspace</string>
+	<string>color_picker/color_picker.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>72DD8D42-C603-42B0-802A-463486ABCC14</key>
-		<string>../../../TBXML</string>
-		<key>9B93545D-D089-4A1F-B5F3-A4CED985E888</key>
+		<key>3ED9338AC504CC2B8EDBAF53DA9DFDA2E33CF98F</key>
 		<string>../../..</string>
+		<key>D33C95C0A843CCBB42C08B5806EBF028432E18CD</key>
+		<string>../../..TBXML</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/rmd6502/hall_lights_connectport.git</string>
+	<string>git://github.com/rmd6502/hall_lights_connectport.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9B93545D-D089-4A1F-B5F3-A4CED985E888</string>
+	<string>3ED9338AC504CC2B8EDBAF53DA9DFDA2E33CF98F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>72DD8D42-C603-42B0-802A-463486ABCC14</string>
+			<string>3ED9338AC504CC2B8EDBAF53DA9DFDA2E33CF98F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>TBXML</string>
+			<string>hall_lights_connectport</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9B93545D-D089-4A1F-B5F3-A4CED985E888</string>
+			<string>D33C95C0A843CCBB42C08B5806EBF028432E18CD</string>
 			<key>IDESourceControlWCCName</key>
-			<string>hall_lights_connectport</string>
+			<string>hall_lights_connectportTBXML</string>
 		</dict>
 	</array>
 </dict>

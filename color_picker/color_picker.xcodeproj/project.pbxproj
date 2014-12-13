@@ -9,13 +9,22 @@
 /* Begin PBXBuildFile section */
 		83173CD6150FC31500227E21 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83173CD5150FC31500227E21 /* Entitlements.plist */; };
 		83201BEA1512619700F6CA42 /* lamp icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83201BE91512619700F6CA42 /* lamp icon.png */; };
-		83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
 		83B4798A15055860002AC1DA /* rainbow_lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798815055860002AC1DA /* rainbow_lamp.png */; };
 		83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2x.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
+		9C3B608819C291340089DBF6 /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3B608519C291210089DBF6 /* libTBXML-iOS.a */; };
 		9C6CBD19179211B500D3D21C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CBD18179211B500D3D21C /* Default-568h@2x.png */; };
 		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
+		9C9065FB1A3011B3001651B6 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9065FA1A3011B3001651B6 /* WatchKit.framework */; };
+		9C9066021A3011B3001651B6 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9066011A3011B3001651B6 /* InterfaceController.m */; };
+		9C9066051A3011B3001651B6 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9066041A3011B3001651B6 /* NotificationController.m */; };
+		9C9066071A3011B3001651B6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C9066061A3011B3001651B6 /* Images.xcassets */; };
+		9C90660B1A3011B4001651B6 /* color_picker Watch App.app in Resources */ = {isa = PBXBuildFile; fileRef = 9C90660A1A3011B3001651B6 /* color_picker Watch App.app */; };
+		9C9066121A3011B4001651B6 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9066111A3011B4001651B6 /* Interface.storyboard */; };
+		9C9066141A3011B4001651B6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C9066131A3011B4001651B6 /* Images.xcassets */; };
+		9C9066181A3011B4001651B6 /* color_picker WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9C9065F91A3011B3001651B6 /* color_picker WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9C9066251A301568001651B6 /* LightInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9066241A301568001651B6 /* LightInterfaceController.m */; };
 		9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED314CBA53300DFAD4A /* UIKit.framework */; };
 		9CE4EED614CBA53300DFAD4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED514CBA53300DFAD4A /* Foundation.framework */; };
 		9CE4EED814CBA53300DFAD4A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE4EED714CBA53300DFAD4A /* CoreGraphics.framework */; };
@@ -39,59 +48,95 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		83ED0A6E15040A190096A20C /* PBXContainerItemProxy */ = {
+		9C3B608019C291210089DBF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+			containerPortal = 9C3B607919C291210089DBF6 /* TBXML.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 829FA09C14D5B52A00D18697;
 			remoteInfo = TBXML;
 		};
-		83ED0A7015040A190096A20C /* PBXContainerItemProxy */ = {
+		9C3B608219C291210089DBF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+			containerPortal = 9C3B607919C291210089DBF6 /* TBXML.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 829FA0B014D5B52A00D18697;
 			remoteInfo = TBXMLTests;
 		};
-		83ED0A7215040A190096A20C /* PBXContainerItemProxy */ = {
+		9C3B608419C291210089DBF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+			containerPortal = 9C3B607919C291210089DBF6 /* TBXML.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8290352514D9F5B200ACF7E4;
 			remoteInfo = "TBXML-iOS";
 		};
-		83ED0A7415040A190096A20C /* PBXContainerItemProxy */ = {
+		9C3B608619C291210089DBF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+			containerPortal = 9C3B607919C291210089DBF6 /* TBXML.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8290353314D9F5B200ACF7E4;
 			remoteInfo = "TBXML-iOSTests";
 		};
-		83ED0A7815043C050096A20C /* PBXContainerItemProxy */ = {
+		9C90660C1A3011B4001651B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+			containerPortal = 9CE4EEC614CBA53200DFAD4A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8290352414D9F5B200ACF7E4;
-			remoteInfo = "TBXML-iOS";
+			remoteGlobalIDString = 9C9066091A3011B3001651B6;
+			remoteInfo = "color_picker Watch App";
+		};
+		9C9066151A3011B4001651B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9CE4EEC614CBA53200DFAD4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9C9065F81A3011B3001651B6;
+			remoteInfo = "color_picker WatchKit Extension";
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9C9066171A3011B4001651B6 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9C9066181A3011B4001651B6 /* color_picker WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		25225A7D9791C4654C519C66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E11CC42380A7402CAD480FB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		7C75CC8A23CAD5E70D982E0C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		83173CD5150FC31500227E21 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		83201BE91512619700F6CA42 /* lamp icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lamp icon.png"; sourceTree = "<group>"; };
 		83B4798815055860002AC1DA /* rainbow_lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_lamp.png; sourceTree = "<group>"; };
 		83B4798915055860002AC1DA /* rainbow_lamp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rainbow_lamp@2x.png"; sourceTree = "<group>"; };
-		83ED0A6415040A190096A20C /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
-		83ED0A7C15043D960096A20C /* TBXML+Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+Compression.h"; sourceTree = "<group>"; };
-		83ED0A7D15043D960096A20C /* TBXML+HTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TBXML+HTTP.h"; sourceTree = "<group>"; };
-		83ED0A7E15043D960096A20C /* TBXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLightViewController.h; sourceTree = "<group>"; };
 		83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLightViewController.m; sourceTree = "<group>"; };
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
 		9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleVendor.framework; sourceTree = "<group>"; };
 		9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleKit.framework; sourceTree = "<group>"; };
+		9C3B607919C291210089DBF6 /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
 		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
+		9C9065F91A3011B3001651B6 /* color_picker WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "color_picker WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C9065FA1A3011B3001651B6 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
+		9C9065FE1A3011B3001651B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C9065FF1A3011B3001651B6 /* PushNotificationPayload.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PushNotificationPayload.json; sourceTree = "<group>"; };
+		9C9066001A3011B3001651B6 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		9C9066011A3011B3001651B6 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		9C9066031A3011B3001651B6 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		9C9066041A3011B3001651B6 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		9C9066061A3011B3001651B6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9C90660A1A3011B3001651B6 /* color_picker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "color_picker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C9066101A3011B4001651B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C9066111A3011B4001651B6 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
+		9C9066131A3011B4001651B6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9C9066231A301568001651B6 /* LightInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightInterfaceController.h; sourceTree = "<group>"; };
+		9C9066241A301568001651B6 /* LightInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightInterfaceController.m; sourceTree = "<group>"; };
 		9CE4EECF14CBA53300DFAD4A /* color_picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = color_picker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE4EED314CBA53300DFAD4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9CE4EED514CBA53300DFAD4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -128,11 +173,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9C9065F61A3011B3001651B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C9065FB1A3011B3001651B6 /* WatchKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9CE4EECC14CBA53300DFAD4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83B4792215045A5E002AC1DA /* libTBXML-iOS.a in Frameworks */,
+				9C3B608819C291340089DBF6 /* libTBXML-iOS.a in Frameworks */,
 				9CE4EED414CBA53300DFAD4A /* UIKit.framework in Frameworks */,
 				9CE4EED614CBA53300DFAD4A /* Foundation.framework in Frameworks */,
 				9CE4EED814CBA53300DFAD4A /* CoreGraphics.framework in Frameworks */,
@@ -142,36 +195,78 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		83ED0A6515040A190096A20C /* Products */ = {
+		1DB192B9278C762D0DDF230C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				83ED0A6F15040A190096A20C /* libTBXML.a */,
-				83ED0A7115040A190096A20C /* TBXMLTests.octest */,
-				83ED0A7315040A190096A20C /* libTBXML-iOS.a */,
-				83ED0A7515040A190096A20C /* TBXML-iOSTests.octest */,
+				7C75CC8A23CAD5E70D982E0C /* Pods.debug.xcconfig */,
+				3E11CC42380A7402CAD480FB /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9C3B607A19C291210089DBF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9C3B608119C291210089DBF6 /* libTBXML.a */,
+				9C3B608319C291210089DBF6 /* TBXMLTests.octest */,
+				9C3B608519C291210089DBF6 /* libTBXML-iOS.a */,
+				9C3B608719C291210089DBF6 /* TBXML-iOSTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		83ED0A7B15043D960096A20C /* TBXML-Headers */ = {
+		9C9065FC1A3011B3001651B6 /* color_picker WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				83ED0A7C15043D960096A20C /* TBXML+Compression.h */,
-				83ED0A7D15043D960096A20C /* TBXML+HTTP.h */,
-				83ED0A7E15043D960096A20C /* TBXML.h */,
+				9C9066001A3011B3001651B6 /* InterfaceController.h */,
+				9C9066011A3011B3001651B6 /* InterfaceController.m */,
+				9C9066031A3011B3001651B6 /* NotificationController.h */,
+				9C9066041A3011B3001651B6 /* NotificationController.m */,
+				9C9066061A3011B3001651B6 /* Images.xcassets */,
+				9C9065FD1A3011B3001651B6 /* Supporting Files */,
+				9C9066231A301568001651B6 /* LightInterfaceController.h */,
+				9C9066241A301568001651B6 /* LightInterfaceController.m */,
 			);
-			name = "TBXML-Headers";
-			path = "../TBXML/TBXML-Headers";
+			path = "color_picker WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		9C9065FD1A3011B3001651B6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C9065FE1A3011B3001651B6 /* Info.plist */,
+				9C9065FF1A3011B3001651B6 /* PushNotificationPayload.json */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C90660E1A3011B4001651B6 /* color_picker Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				9C9066111A3011B4001651B6 /* Interface.storyboard */,
+				9C9066131A3011B4001651B6 /* Images.xcassets */,
+				9C90660F1A3011B4001651B6 /* Supporting Files */,
+			);
+			path = "color_picker Watch App";
+			sourceTree = "<group>";
+		};
+		9C90660F1A3011B4001651B6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C9066101A3011B4001651B6 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		9CE4EEC414CBA53200DFAD4A = {
 			isa = PBXGroup;
 			children = (
 				9C6CBD18179211B500D3D21C /* Default-568h@2x.png */,
-				83ED0A7B15043D960096A20C /* TBXML-Headers */,
 				9CE4EED914CBA53300DFAD4A /* color_picker */,
+				9C9065FC1A3011B3001651B6 /* color_picker WatchKit Extension */,
+				9C90660E1A3011B4001651B6 /* color_picker Watch App */,
 				9CE4EED214CBA53300DFAD4A /* Frameworks */,
 				9CE4EED014CBA53300DFAD4A /* Products */,
+				1DB192B9278C762D0DDF230C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,6 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				9CE4EECF14CBA53300DFAD4A /* color_picker.app */,
+				9C9065F91A3011B3001651B6 /* color_picker WatchKit Extension.appex */,
+				9C90660A1A3011B3001651B6 /* color_picker Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,12 +283,14 @@
 		9CE4EED214CBA53300DFAD4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C3B607919C291210089DBF6 /* TBXML.xcodeproj */,
 				9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */,
 				9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */,
-				83ED0A6415040A190096A20C /* TBXML.xcodeproj */,
 				9CE4EED314CBA53300DFAD4A /* UIKit.framework */,
 				9CE4EED514CBA53300DFAD4A /* Foundation.framework */,
 				9CE4EED714CBA53300DFAD4A /* CoreGraphics.framework */,
+				25225A7D9791C4654C519C66 /* libPods.a */,
+				9C9065FA1A3011B3001651B6 /* WatchKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -275,18 +374,54 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9CE4EECE14CBA53300DFAD4A /* color_picker */ = {
+		9C9065F81A3011B3001651B6 /* color_picker WatchKit Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9CE4EEED14CBA53300DFAD4A /* Build configuration list for PBXNativeTarget "color_picker" */;
+			buildConfigurationList = 9C9066221A3011B4001651B6 /* Build configuration list for PBXNativeTarget "color_picker WatchKit Extension" */;
 			buildPhases = (
-				9CE4EECB14CBA53300DFAD4A /* Sources */,
-				9CE4EECC14CBA53300DFAD4A /* Frameworks */,
-				9CE4EECD14CBA53300DFAD4A /* Resources */,
+				9C9065F51A3011B3001651B6 /* Sources */,
+				9C9065F61A3011B3001651B6 /* Frameworks */,
+				9C9065F71A3011B3001651B6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				83ED0A7915043C050096A20C /* PBXTargetDependency */,
+				9C90660D1A3011B4001651B6 /* PBXTargetDependency */,
+			);
+			name = "color_picker WatchKit Extension";
+			productName = "color_picker WatchKit Extension";
+			productReference = 9C9065F91A3011B3001651B6 /* color_picker WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		9C9066091A3011B3001651B6 /* color_picker Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C9066211A3011B4001651B6 /* Build configuration list for PBXNativeTarget "color_picker Watch App" */;
+			buildPhases = (
+				9C9066081A3011B3001651B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "color_picker Watch App";
+			productName = "color_picker Watch App";
+			productReference = 9C90660A1A3011B3001651B6 /* color_picker Watch App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
+		9CE4EECE14CBA53300DFAD4A /* color_picker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CE4EEED14CBA53300DFAD4A /* Build configuration list for PBXNativeTarget "color_picker" */;
+			buildPhases = (
+				EB74DDDC077DAD6FA8EA7E5E /* Check Pods Manifest.lock */,
+				9CE4EECB14CBA53300DFAD4A /* Sources */,
+				9CE4EECC14CBA53300DFAD4A /* Frameworks */,
+				9CE4EECD14CBA53300DFAD4A /* Resources */,
+				843EE657DA9E6B3E8C4B474D /* Copy Pods Resources */,
+				9C9066171A3011B4001651B6 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9C9066161A3011B4001651B6 /* PBXTargetDependency */,
 			);
 			name = color_picker;
 			productName = color_picker;
@@ -301,8 +436,15 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				TargetAttributes = {
+					9C9065F81A3011B3001651B6 = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = QVSQY52MWK;
+					};
+					9C9066091A3011B3001651B6 = {
+						CreatedOnToolsVersion = 6.2;
+					};
 					9CE4EECE14CBA53300DFAD4A = {
-						DevelopmentTeam = 38X99FNWLE;
+						DevelopmentTeam = QVSQY52MWK;
 					};
 				};
 			};
@@ -318,49 +460,69 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 83ED0A6515040A190096A20C /* Products */;
-					ProjectRef = 83ED0A6415040A190096A20C /* TBXML.xcodeproj */;
+					ProductGroup = 9C3B607A19C291210089DBF6 /* Products */;
+					ProjectRef = 9C3B607919C291210089DBF6 /* TBXML.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				9CE4EECE14CBA53300DFAD4A /* color_picker */,
+				9C9065F81A3011B3001651B6 /* color_picker WatchKit Extension */,
+				9C9066091A3011B3001651B6 /* color_picker Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		83ED0A6F15040A190096A20C /* libTBXML.a */ = {
+		9C3B608119C291210089DBF6 /* libTBXML.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libTBXML.a;
-			remoteRef = 83ED0A6E15040A190096A20C /* PBXContainerItemProxy */;
+			remoteRef = 9C3B608019C291210089DBF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		83ED0A7115040A190096A20C /* TBXMLTests.octest */ = {
+		9C3B608319C291210089DBF6 /* TBXMLTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = TBXMLTests.octest;
-			remoteRef = 83ED0A7015040A190096A20C /* PBXContainerItemProxy */;
+			remoteRef = 9C3B608219C291210089DBF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		83ED0A7315040A190096A20C /* libTBXML-iOS.a */ = {
+		9C3B608519C291210089DBF6 /* libTBXML-iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libTBXML-iOS.a";
-			remoteRef = 83ED0A7215040A190096A20C /* PBXContainerItemProxy */;
+			remoteRef = 9C3B608419C291210089DBF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		83ED0A7515040A190096A20C /* TBXML-iOSTests.octest */ = {
+		9C3B608719C291210089DBF6 /* TBXML-iOSTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "TBXML-iOSTests.octest";
-			remoteRef = 83ED0A7415040A190096A20C /* PBXContainerItemProxy */;
+			remoteRef = 9C3B608619C291210089DBF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9C9065F71A3011B3001651B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C9066071A3011B3001651B6 /* Images.xcassets in Resources */,
+				9C90660B1A3011B4001651B6 /* color_picker Watch App.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C9066081A3011B3001651B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C9066121A3011B4001651B6 /* Interface.storyboard in Resources */,
+				9C9066141A3011B4001651B6 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9CE4EECD14CBA53300DFAD4A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,7 +546,50 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		843EE657DA9E6B3E8C4B474D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB74DDDC077DAD6FA8EA7E5E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		9C9065F51A3011B3001651B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C9066051A3011B3001651B6 /* NotificationController.m in Sources */,
+				9C9066021A3011B3001651B6 /* InterfaceController.m in Sources */,
+				9C9066251A301568001651B6 /* LightInterfaceController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9CE4EECB14CBA53300DFAD4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -406,10 +611,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		83ED0A7915043C050096A20C /* PBXTargetDependency */ = {
+		9C90660D1A3011B4001651B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "TBXML-iOS";
-			targetProxy = 83ED0A7815043C050096A20C /* PBXContainerItemProxy */;
+			target = 9C9066091A3011B3001651B6 /* color_picker Watch App */;
+			targetProxy = 9C90660C1A3011B4001651B6 /* PBXContainerItemProxy */;
+		};
+		9C9066161A3011B4001651B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9C9065F81A3011B3001651B6 /* color_picker WatchKit Extension */;
+			targetProxy = 9C9066151A3011B4001651B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -425,6 +635,154 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9C9066191A3011B4001651B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "color_picker WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		9C90661A1A3011B4001651B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "color_picker WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		9C90661B1A3011B4001651B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = color_picker_WatchKit_Extension;
+				INFOPLIST_FILE = "color_picker Watch App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		9C90661C1A3011B4001651B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = color_picker_WatchKit_Extension;
+				INFOPLIST_FILE = "color_picker Watch App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		9CE4EEEB14CBA53300DFAD4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -448,7 +806,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -469,7 +827,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -478,6 +836,7 @@
 		};
 		9CE4EEEE14CBA53300DFAD4A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C75CC8A23CAD5E70D982E0C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -487,11 +846,9 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "color_picker/color_picker-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -501,12 +858,14 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${TARGET_BUILD_DIR}/usr/local/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		9CE4EEEF14CBA53300DFAD4A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E11CC42380A7402CAD480FB /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = color_picker/Entitlements.plist;
@@ -517,11 +876,9 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "color_picker/color_picker-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "color_picker/color_picker-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -531,6 +888,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${TARGET_BUILD_DIR}/usr/local/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -538,6 +896,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9C9066211A3011B4001651B6 /* Build configuration list for PBXNativeTarget "color_picker Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C90661B1A3011B4001651B6 /* Debug */,
+				9C90661C1A3011B4001651B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C9066221A3011B4001651B6 /* Build configuration list for PBXNativeTarget "color_picker WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C9066191A3011B4001651B6 /* Debug */,
+				9C90661A1A3011B4001651B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9CE4EEC914CBA53200DFAD4A /* Build configuration list for PBXProject "color_picker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
