@@ -79,7 +79,7 @@
         NSLog(@"cleared timer");
     }
     NSLog(@"url %@", url);
-    [TBXML tbxmlWithURL:url success:^(TBXML *result) {
+    [TBXML newTBXMLWithURL:url success:^(TBXML *result) {
         //NSLog(@"got result %@", result);
         self.tbxml = result;
         refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
@@ -301,7 +301,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  [tableView reloadData];
+    [super viewWillAppear:animated];
+    [tableView reloadData];
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
