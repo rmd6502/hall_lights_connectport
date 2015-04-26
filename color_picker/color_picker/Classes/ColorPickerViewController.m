@@ -120,6 +120,7 @@ NSString *keyForBright = @"bright";
 
 // Housekeeping actions when a view as unloaded
 - (void)viewDidUnload {
+    [super viewDidUnload];
   // Release any retained subviews of the main view.
 #if ___IPHONE_OS_VERSION_MAX_ALLOWED >= 30000
   [super viewDidUnload];  // First super, from iOS 3 on

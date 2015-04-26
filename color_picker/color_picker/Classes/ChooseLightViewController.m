@@ -14,6 +14,28 @@
 #import "com_robertdiamondAppDelegate.h"
 #import <objc/objc.h>
 
+@interface UIColor(hex)
+- (NSString *)hexString;
++ (instancetype)colorWithHexString:(NSString *)hexString;
+@end
+
+@implementation UIColor(hex)
+
+- (NSString *)hexString {
+    CGFloat red, green, blue, alpha;
+    [self getRed:&red green:&green blue:&blue alpha:&alpha];
+    return [NSString stringWithFormat:@"%02x%02x%02x", (UInt16)(red*255.0), (UInt16)(green*255.0), (UInt16)(blue*255.0)];
+}
+
++ (instancetype)colorWithHexString:(NSString *)hexString {
+    int red, green, blue;
+    const char *hexCString = [hexString cStringUsingEncoding:NSUTF8StringEncoding];
+    sscanf(hexCString, "%02x%02x%02x", &red, &green, &blue);
+    return [UIColor colorWithRed:(CGFloat)red/255.0 green:(CGFloat)green/255.0 blue:(CGFloat)blue/255.0 alpha:1.0];
+}
+
+@end
+
 @interface ChooseLightViewController(Private)
 
 - (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node;
@@ -89,6 +111,9 @@
         [av performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
         NSLog(@"Failed to retrieve or parse query results, %@", error.localizedDescription);
         refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(doRefresh:) userInfo:nil repeats:NO];
+        if (self.didRefresh) {
+            self.didRefresh(nil, error);
+        }
     }]; 
     //NSLog(@"dorefresh exit");
 }
@@ -158,14 +183,17 @@
             [lightColors removeObjectForKey:[k anyObject]];
         }
         [lightColors setValue:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               currentColor, @"color",
-                              currentColor2, @"color2",
+                               currentColor.hexString, @"color",
+                              currentColor2.hexString, @"color2",
                                nodeId, @"node",
                                [NSNumber numberWithLong:lastActive], @"lastActive",
                                nil] 
                        forKey:lightName];
     }
-    
+    if (self.didRefresh) {
+        self.didRefresh(lightColors, nil);
+    }
+
     [self performSelectorOnMainThread:@selector(updateTable) withObject:self waitUntilDone:NO];
 }
 
@@ -212,7 +240,7 @@
     }
     
     ret.imageView.image = [UIImage imageNamed:@"lamp icon"];
-    ret.imageView.backgroundColor = [[lightColors objectForKey:lightName] objectForKey:@"color"];
+    ret.imageView.backgroundColor = [UIColor colorWithHexString:[[lightColors objectForKey:lightName] objectForKey:@"color"]];
     
     
     return ret;
@@ -222,7 +250,7 @@
     //NSLog(@"color: %@", currentColor);
     NSString *lightName = [tableView_ cellForRowAtIndexPath:indexPath].textLabel.text;
     self.node = (NSMutableDictionary *)[lightColors objectForKey:lightName];
-    UIColor *currentColor = [node valueForKey:@"color"];
+    UIColor *currentColor = [UIColor colorWithHexString:[node valueForKey:@"color"]];
 
     cpvc.delegate = self;
     [(ColorPickerView *)cpvc.view setColor:currentColor];
@@ -260,7 +288,7 @@
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
   colorPicker.defaultsColor = color;
-  [node setValue:color forKey:@"color"];
+  [node setValue:color.hexString forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     NSString *tmpl = [self templateForColor:color color2:color andNode:colorPicker.node];
@@ -283,7 +311,7 @@
 }
 
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didSelectValue:(NSUInteger)value {
-    [(ColorPickerView *)cpvc.view setColor:[node objectForKey:value == 2 ? @"color2" : @"color"]];
+    [(ColorPickerView *)cpvc.view setColor:[UIColor colorWithHexString:[node objectForKey:value == 2 ? @"color2" : @"color"]]];
 }
 
 - (void)backgroundRequest:(NSURLRequest *)req {
@@ -312,7 +340,7 @@
     [self backgroundRequest:req];
   for (NSString *key in [lightColors allKeys]) {
     NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
-    [nodeDict setObject:newcolor forKey:@"color"];
+    [nodeDict setObject:newcolor.hexString forKey:@"color"];
   }
   [tableView reloadData];
 }
@@ -324,7 +352,7 @@
   [self backgroundRequest:req];
   for (NSString *key in [lightColors allKeys]) {
     NSMutableDictionary *nodeDict = [lightColors objectForKey:key];
-    [nodeDict setObject:newcolor forKey:@"color"];
+    [nodeDict setObject:newcolor.hexString forKey:@"color"];
   }
   [tableView reloadData];
 }

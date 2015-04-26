@@ -55,7 +55,7 @@ CFSocketRef sock = nil;
     CFRunLoopAddSource(CFRunLoopGetCurrent(), rlr, kCFRunLoopCommonModes);
     CFRelease(rlr);
     
-    [NSTimer scheduledTimerWithTimeInterval:3.0 target:[ConnectportDiscovery class] selector:@selector(timeoutFinished:) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:15.0 target:[ConnectportDiscovery class] selector:@selector(timeoutFinished:) userInfo:nil repeats:NO];
 }
 
 + (void)timeoutFinished:(NSTimer *)t {
@@ -76,7 +76,7 @@ CFSocketRef sock = nil;
 
 void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
     CFDataRef rcvd = (CFDataRef)data;
-    //NSLog(@"received %@", rcvd);
+    NSLog(@"received %@", rcvd);
     ADDPPacket *p = [[ADDPPacket alloc] init];
     p.bytes = (__bridge NSData *)rcvd;
     struct in_addr ina;

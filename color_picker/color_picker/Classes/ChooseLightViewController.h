@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UIBarButtonItem *refresh;
 @property (nonatomic, strong) NSMutableDictionary *node;
 
+@property (nonatomic, copy) void (^didRefresh)(NSDictionary *lights, NSError *error);
+
 - (IBAction)doRefresh:(id)sender;
 - (IBAction)allLightsOn:(id)sender;
 - (IBAction)allLightsOff:(id)sender;

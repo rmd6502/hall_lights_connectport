@@ -90,4 +90,27 @@
      */
 }
 
+#pragma mark - watchkit
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply
+{
+    NSString *request = userInfo[@"request"];
+    if ([request isEqualToString:@"lights"]) {
+        __weak typeof(clvc) weakClvc = clvc;
+        clvc.didRefresh = ^(NSDictionary *lights, NSError *error) {
+            if (lights == nil && error == nil) {
+                error = [NSError errorWithDomain:@"lights" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"No lights"}];
+            }
+            if (reply) {
+                if (lights) {
+                    reply(@{@"lights": lights});
+                } else {
+                    reply(@{@"error": error});
+                }
+            }
+            weakClvc.didRefresh = nil;
+        };
+        [clvc doRefresh:nil];
+    }
+}
+
 @end
