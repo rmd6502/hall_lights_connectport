@@ -6,7 +6,9 @@
 //
 //
 
+#import <UIKit/UIKit.h>
 #import "SetColorInterfaceController.h"
+#import "UIColor+Hex.h"
 
 @interface SetColorInterfaceController ()
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *lightNameLabel;
@@ -14,24 +16,53 @@
 @property (weak, nonatomic) IBOutlet WKInterfaceSlider *greenSlider;
 @property (weak, nonatomic) IBOutlet WKInterfaceSlider *blueSlider;
 
+@property (nonatomic) CGFloat red;
+@property (nonatomic) CGFloat green;
+@property (nonatomic) CGFloat blue;
+
 @end
 
 @implementation SetColorInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-    
-    // Configure interface objects here.
+    if ([context isKindOfClass:[NSDictionary class]]) {
+        self.color = [UIColor colorWithHexString:context[@"color"]];
+        [self.lightNameLabel setText:context[@"name"]];
+    }
 }
 
 - (void)willActivate {
-    // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    CGFloat alpha;
+
+    [self.color getRed:&_red green:&_green blue:&_blue alpha:&alpha];
+    [self.redSlider setValue:self.red];
+    [self.greenSlider setValue:self.green];
+    [self.blueSlider setValue:self.blue];
 }
 
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
+    self.color = [UIColor colorWithRed:self.red green:self.green blue:self.blue alpha:1.0];
+}
+
+- (IBAction)updateRed:(float)value {
+    self.red = value;
+    [self updateColor];
+}
+- (IBAction)updateGreen:(float)value {
+    self.green = value;
+    [self updateColor];
+}
+- (IBAction)updateBlue:(float)value {
+    self.blue = value;
+    [self updateColor];
+}
+
+- (void)updateColor {
+    NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
 }
 
 @end

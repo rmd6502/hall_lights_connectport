@@ -9,10 +9,12 @@
 #import "ErrorRow.h"
 #import "LampRow.h"
 #import "LightListInterfaceController.h"
+#import "UIColor+Hex.h"
 
 @interface LightListInterfaceController()
 @property (weak, nonatomic) IBOutlet WKInterfaceTable *lightListTable;
 @property (nonatomic) NSDictionary *lights;
+@property (nonatomic) NSArray *lightNames;
 @end
 
 
@@ -50,10 +52,9 @@
 }
 
 - (void)updateTable {
-    NSArray *lightNames = nil;
     if (self.lights.count) {
         [self.lightListTable setNumberOfRows:self.lights.count withRowType:@"Lamp"];
-        lightNames = [[self.lights allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        self.lightNames = [[self.lights allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [(NSString *)obj1 compare:(NSString *)obj2];
         }];
     } else {
@@ -63,12 +64,21 @@
         NSObject *controller = [self.lightListTable rowControllerAtIndex:row];
         if ([controller isKindOfClass:[LampRow class]]) {
             LampRow *lampRow = (LampRow *)controller;
-            [lampRow.lightColorGroup setBackgroundColor:[UIColor whiteColor]];
-            [lampRow.lightColorLabel setText:(NSString *)lightNames[row]];
+            NSString *key = self.lightNames[row];
+            NSDictionary *light = self.lights[key];
+            UIColor *lightColor = [UIColor colorWithHexString:light[@"color"]];
+            [lampRow.lightColorGroup setBackgroundColor:lightColor];
+            [lampRow.lightColorLabel setText:(NSString *)self.lightNames[row]];
         } else if ([controller isKindOfClass:[ErrorRow class]]) {
             [[(ErrorRow *)controller errorLabel] setText:@"Failed to retrieve lights"];
         }
     }
+}
+
+- (id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex
+{
+    NSString *name = self.lightNames[rowIndex];
+    return @{@"name":name, @"color": self.lights[name][@"color"]};
 }
 
 @end

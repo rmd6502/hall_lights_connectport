@@ -13,15 +13,15 @@
                         <table alignment="left" id="b6F-Sz-YKC">
                             <items>
                                 <tableRow identifier="Lamp" id="qPp-jm-alD" customClass="LampRow">
-                                    <group key="rootItem" width="1" alignment="left" radius="0.0" spacing="2" id="v5f-TG-Ty0">
+                                    <group key="rootItem" width="1" alignment="left" radius="0.0" spacing="4" id="v5f-TG-Ty0">
                                         <items>
-                                            <group width="30" alignment="left" radius="20" id="6O9-MJ-TB6" userLabel="Light Color">
-                                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                            <group width="20" height="0.59999999999999998" alignment="left" verticalAlignment="center" radius="10" id="6O9-MJ-TB6" userLabel="Light Color">
+                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </group>
                                             <label alignment="left" verticalAlignment="center" text="Label" id="Obb-Xc-K8c"/>
                                         </items>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                        <edgeInsets key="margins" left="5" right="5" top="0.0" bottom="0.0"/>
                                         <connections>
                                             <segue destination="vbQ-jR-WSd" kind="modal" identifier="ChangeColor" id="85b-ae-Xgd"/>
                                         </connections>
@@ -63,25 +63,31 @@
                                 <label width="1" alignment="left" text="Light Name" textAlignment="center" id="Muv-F8-6un"/>
                                 <group width="1" alignment="left" id="mwa-2t-2Wt">
                                     <items>
-                                        <label width="50" alignment="left" verticalAlignment="center" text="Red" id="ihg-Uu-DWX"/>
-                                        <slider alignment="left" value="1" maximum="255" steps="255" id="qub-Rb-vGb">
+                                        <slider width="1" alignment="left" value="1" steps="255" id="qub-Rb-vGb">
                                             <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="updateRed:" destination="vbQ-jR-WSd" id="r4q-tV-LVp"/>
+                                            </connections>
                                         </slider>
                                     </items>
                                 </group>
                                 <group width="1" alignment="left" id="De2-6C-8MF">
                                     <items>
-                                        <label width="50" alignment="left" verticalAlignment="center" text="Green" id="uue-Et-YIK"/>
-                                        <slider alignment="left" value="1" maximum="255" steps="255" id="dmN-CJ-K7K">
+                                        <slider alignment="left" value="1" steps="255" id="dmN-CJ-K7K">
                                             <color key="color" red="0.38562459020000001" green="0.88091856059999996" blue="0.56593448970000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="updateGreen:" destination="vbQ-jR-WSd" id="rGh-Ej-PdW"/>
+                                            </connections>
                                         </slider>
                                     </items>
                                 </group>
                                 <group width="1" alignment="left" id="kAy-pM-ufr">
                                     <items>
-                                        <label width="50" alignment="left" verticalAlignment="center" text="Blue" id="maP-v4-3gj"/>
-                                        <slider alignment="left" value="1" maximum="255" steps="255" id="M6v-Al-gq8">
-                                            <color key="color" red="0.0" green="0.061019419540000001" blue="0.94919902150000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <slider alignment="left" value="1" steps="255" id="M6v-Al-gq8">
+                                            <color key="color" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="updateBlue:" destination="vbQ-jR-WSd" id="DEM-ES-ydu"/>
+                                            </connections>
                                         </slider>
                                     </items>
                                 </group>
@@ -89,10 +95,10 @@
                         </group>
                     </items>
                     <connections>
-                        <outlet property="blueSlider" destination="M6v-Al-gq8" id="8WZ-NV-DXD"/>
-                        <outlet property="greenSlider" destination="dmN-CJ-K7K" id="y8X-lI-k9H"/>
+                        <outlet property="blueSlider" destination="M6v-Al-gq8" id="p6h-uU-b7M"/>
+                        <outlet property="greenSlider" destination="dmN-CJ-K7K" id="ZbC-tS-xwT"/>
                         <outlet property="lightNameLabel" destination="Muv-F8-6un" id="itr-g4-XJC"/>
-                        <outlet property="redSlider" destination="qub-Rb-vGb" id="IVB-Vl-hVv"/>
+                        <outlet property="redSlider" destination="qub-Rb-vGb" id="2Uy-va-HbC"/>
                     </connections>
                 </controller>
             </objects>

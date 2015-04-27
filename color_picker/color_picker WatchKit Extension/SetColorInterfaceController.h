@@ -11,4 +11,6 @@
 
 @interface SetColorInterfaceController : WKInterfaceController
 
+@property (nonatomic) UIColor *color;
+
 @end

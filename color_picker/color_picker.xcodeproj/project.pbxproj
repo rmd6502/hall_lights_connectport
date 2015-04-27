@@ -13,6 +13,8 @@
 		83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B4798915055860002AC1DA /* rainbow_lamp@2x.png */; };
 		83ED0A8515044B3D0096A20C /* ChooseLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */; };
 		83ED0A8615044B3D0096A20C /* ChooseLightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */; };
+		9C1140C61AEDA85200E3ED92 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */; };
+		9C1140C71AEDA93700E3ED92 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */; };
 		9C6CBD19179211B500D3D21C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CBD18179211B500D3D21C /* Default-568h@2x.png */; };
 		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
 		9C9C67C61ADAC19500110CF7 /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
@@ -156,6 +158,8 @@
 		83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLightViewController.xib; sourceTree = "<group>"; };
 		9C0B7DED17C053B400CB8945 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleVendor.framework; sourceTree = "<group>"; };
 		9C0B7DF217C0540F00CB8945 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleKit.framework; sourceTree = "<group>"; };
+		9C1140C41AEDA85200E3ED92 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		9C9C67B31ADAC01F00110CF7 /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
@@ -255,6 +259,15 @@
 			path = "../TBXML/TBXML-Headers";
 			sourceTree = "<group>";
 		};
+		9C1140C31AEDA80A00E3ED92 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9C1140C41AEDA85200E3ED92 /* UIColor+Hex.h */,
+				9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9C9C67B41ADAC01F00110CF7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +364,7 @@
 		9CE4EED914CBA53300DFAD4A /* color_picker */ = {
 			isa = PBXGroup;
 			children = (
+				9C1140C31AEDA80A00E3ED92 /* Extensions */,
 				9CE4EEFF14CBA68200DFAD4A /* Classes */,
 				9CE4EEE214CBA53300DFAD4A /* com_robertdiamondAppDelegate.h */,
 				9CE4EEE314CBA53300DFAD4A /* com_robertdiamondAppDelegate.m */,
@@ -637,6 +651,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CC6F5261AEC9BD100321413 /* SetColorInterfaceController.m in Sources */,
+				9C1140C71AEDA93700E3ED92 /* UIColor+Hex.m in Sources */,
 				9CC6F4FF1AEC95F200321413 /* LightListInterfaceController.m in Sources */,
 				9CC6F5291AEC9C6200321413 /* LampRow.m in Sources */,
 				9CC6F52C1AEC9C7100321413 /* ErrorRow.m in Sources */,
@@ -649,6 +664,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CE4EEE014CBA53300DFAD4A /* main.m in Sources */,
+				9C1140C61AEDA85200E3ED92 /* UIColor+Hex.m in Sources */,
 				9CE4EEE414CBA53300DFAD4A /* com_robertdiamondAppDelegate.m in Sources */,
 				9CE4EF1314CBA68200DFAD4A /* ColorPickerView.m in Sources */,
 				9CE4EF1414CBA68200DFAD4A /* ColorPickerViewController.m in Sources */,
