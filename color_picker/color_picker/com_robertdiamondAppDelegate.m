@@ -110,6 +110,12 @@
             weakClvc.didRefresh = nil;
         };
         [clvc doRefresh:nil];
+    } else if ([request isEqualToString:@"color"]) {
+        UIColor *color = [UIColor colorWithRed:[userInfo[@"red"] doubleValue] green:[userInfo[@"green"] doubleValue] blue:[userInfo[@"blue"] doubleValue] alpha:1.0];
+        [clvc node:[userInfo[@"node"] unsignedIntegerValue] didTouchColor:color];
+        reply(@{@"response": @"color changed"});
+    } else {
+        reply(@{@"error": @"unknown request"});
     }
 }
 

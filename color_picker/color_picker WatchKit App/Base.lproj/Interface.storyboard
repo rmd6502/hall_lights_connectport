@@ -15,7 +15,7 @@
                                 <tableRow identifier="Lamp" id="qPp-jm-alD" customClass="LampRow">
                                     <group key="rootItem" width="1" alignment="left" radius="0.0" spacing="4" id="v5f-TG-Ty0">
                                         <items>
-                                            <group width="20" height="0.59999999999999998" alignment="left" verticalAlignment="center" radius="10" id="6O9-MJ-TB6" userLabel="Light Color">
+                                            <group width="20" height="0.59999999999999998" alignment="left" verticalAlignment="center" radius="5" id="6O9-MJ-TB6" userLabel="Light Color">
                                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </group>
                                             <label alignment="left" verticalAlignment="center" text="Label" id="Obb-Xc-K8c"/>

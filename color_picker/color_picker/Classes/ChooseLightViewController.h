@@ -25,6 +25,7 @@
 
 @property (nonatomic, copy) void (^didRefresh)(NSDictionary *lights, NSError *error);
 
+- (void)node:(NSUInteger)nodeName didTouchColor:(UIColor *)color;
 - (IBAction)doRefresh:(id)sender;
 - (IBAction)allLightsOn:(id)sender;
 - (IBAction)allLightsOff:(id)sender;

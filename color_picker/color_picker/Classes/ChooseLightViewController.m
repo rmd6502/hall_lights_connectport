@@ -270,15 +270,20 @@
   [node setValue:color.hexString forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-    NSString *tmpl = [self templateForColor:color color2:color andNode:colorPicker.node];
-  NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
- 
-  NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-  if (touchTimer) @synchronized(self) {
-      [touchTimer invalidate];
-      touchTimer = nil;
-  }
-  touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
+    [self node:colorPicker.node didTouchColor:color];
+}
+
+- (void)node:(NSUInteger)nodeName didTouchColor:(UIColor *)color
+{
+    NSString *tmpl = [self templateForColor:color color2:color andNode:nodeName];
+    NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
+
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    if (touchTimer) @synchronized(self) {
+        [touchTimer invalidate];
+        touchTimer = nil;
+    }
+    touchTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(doSetColor:) userInfo:req repeats:NO];
 }
 
 - (void)colorPickerViewControllerRandom:(ColorPickerViewController *)colorPicker {
