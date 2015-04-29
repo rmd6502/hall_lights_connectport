@@ -64,7 +64,7 @@
 }
 
 - (void)updateColor {
-    NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
+    //NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
     [WKInterfaceController openParentApplication:@{@"request": @"color", @"node": @(self.node), @"red": @(self.red), @"green": @(self.green), @"blue": @(self.blue)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"reply %@ error %@", replyInfo, error);
     }];
