@@ -20,7 +20,7 @@
 @property (nonatomic) CGFloat green;
 @property (nonatomic) CGFloat blue;
 
-@property (nonatomic) NSUInteger node;
+@property (nonatomic) NSString *node;
 
 @end
 
@@ -31,6 +31,7 @@
     if ([context isKindOfClass:[NSDictionary class]]) {
         self.color = [UIColor colorWithHexString:context[@"color"]];
         [self.lightNameLabel setText:context[@"name"]];
+        self.node = context[@"node"];
     }
 }
 
@@ -65,7 +66,7 @@
 
 - (void)updateColor {
     //NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
-    [WKInterfaceController openParentApplication:@{@"request": @"color", @"node": @(self.node), @"red": @(self.red), @"green": @(self.green), @"blue": @(self.blue)} reply:^(NSDictionary *replyInfo, NSError *error) {
+    [WKInterfaceController openParentApplication:@{@"request": @"color", @"node": self.node, @"red": @(self.red), @"green": @(self.green), @"blue": @(self.blue)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"reply %@ error %@", replyInfo, error);
     }];
 }

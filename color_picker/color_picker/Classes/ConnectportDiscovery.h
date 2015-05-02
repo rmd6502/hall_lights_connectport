@@ -21,5 +21,6 @@
 + (void)findDigis;
 + (CFDataRef)newDiscoveryPacket;
 + (void)setDelegate:(id<ConnectportDiscoveryDelegate>)newDel;
++ (BOOL)isBusy;
 
 @end

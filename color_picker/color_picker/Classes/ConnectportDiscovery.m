@@ -105,4 +105,9 @@ void gotData(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const 
 + (void)setDelegate:(id<ConnectportDiscoveryDelegate>)newDel {
     delegate = newDel;
 }
+
++ (BOOL)isBusy
+{
+    return sock != nil;
+}
 @end

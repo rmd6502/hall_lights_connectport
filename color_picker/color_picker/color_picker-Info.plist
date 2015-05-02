@@ -14,7 +14,7 @@
 		<string>rainbow_lamp_ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.colorpicker</string>
+	<string>com.robertdiamond.colorpicker</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

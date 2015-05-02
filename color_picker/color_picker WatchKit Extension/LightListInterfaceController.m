@@ -24,6 +24,7 @@
     [super awakeWithContext:context];
 
     // Configure interface objects here.
+    [self.lightListTable setRowTypes:@[@"Waiting"]];
 }
 
 - (void)willActivate {
@@ -78,7 +79,7 @@
 - (id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex
 {
     NSString *name = self.lightNames[rowIndex];
-    return @{@"name":name, @"color": self.lights[name][@"color"]};
+    return @{@"name":name, @"color": self.lights[name][@"color"], @"node": self.lights[name][@"node"]};
 }
 
 @end

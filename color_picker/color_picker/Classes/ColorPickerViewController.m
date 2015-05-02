@@ -19,7 +19,7 @@
 #else
 @synthesize defaultsColor;
 #endif
-@synthesize node = _node;
+@synthesize channel = _channel;
 
 NSString *keyForHue = @"hue";
 NSString *keyForSat = @"sat";
@@ -43,7 +43,7 @@ NSString *keyForBright = @"bright";
 #endif
     
     [self moveToDefault];   // Move the crosshair to the default setting
-    _node = 1;
+    _channel = 1;
 }
 
 -(void) moveToDefault {
@@ -104,8 +104,8 @@ NSString *keyForBright = @"bright";
     [delegate colorPickerViewController:self didTouchColor:[self getSelectedColor]];
 }
 - (IBAction)valueChosen:(id)sender {
-    _node = [(UISegmentedControl *)sender selectedSegmentIndex] + 1;
-    [delegate colorPickerViewController:self didSelectValue:_node];
+    _channel = [(UISegmentedControl *)sender selectedSegmentIndex] + 1;
+    [delegate colorPickerViewController:self didSelectValue:_channel];
 }
 
 - (IBAction) randomizeSelection {

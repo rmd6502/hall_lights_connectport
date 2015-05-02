@@ -17,7 +17,7 @@
 
 @interface ChooseLightViewController(Private)
 
-- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node;
+- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andChannel:(NSUInteger)channel;
 - (void)hideSpinner;
 
 @end
@@ -64,7 +64,14 @@
     //NSLog(@"dorefresh enter sender %@", sender);
     // TODO: Handle if the URL open fails
     NSString *host = [[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"];
-    if (host == nil) return;
+    if (host == nil) {
+        if ([ConnectportDiscovery isBusy]) {
+            return;
+        }
+        spinner.hidden = NO;
+        [ConnectportDiscovery findDigis];
+        return;
+    }
     __block NSString *req = [NSString stringWithFormat:@"http://%@/query", host];
     __block NSURL *url = [NSURL URLWithString:req];
     if (sender != nil) {
@@ -144,7 +151,7 @@
         UIColor *currentColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
         UIColor *currentColor2 = [UIColor colorWithRed:r2 green:g2 blue:b2 alpha:1.0];
         if ([[node objectForKey:@"node"] isEqualToString:nodeId]) {
-            [(ColorPickerView *)cpvc.view setColor:cpvc.node == 2 ? currentColor2 : currentColor];
+            [(ColorPickerView *)cpvc.view setColor:cpvc.channel == 2 ? currentColor2 : currentColor];
         }
         NSString *lightName = [TBXML textForElement:[TBXML childElementNamed:@"nodeId" parentElement:element]];
         unsigned long lastActive = strtoul([[TBXML textForElement:[TBXML childElementNamed:@"lastActive" parentElement:element]] UTF8String], NULL, 10);
@@ -250,13 +257,13 @@
   }
 }
 
-- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andNode:(NSUInteger)node_ {
+- (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andChannel:(NSUInteger)channel_ {
   CGFloat r,g,b,r2,g2,b2;
   const CGFloat *comps = CGColorGetComponents(color.CGColor);
     const CGFloat *comps2 = CGColorGetComponents(color2.CGColor);
 //    NSString *nodeStr = @"";
-//    if (node_ != 1) {
-//        nodeStr = [NSString stringWithFormat:@"%d",node_];
+//    if (channel_ != 1) {
+//        nodeStr = [NSString stringWithFormat:@"%d",channel_];
 //    }
   r = comps[0]; g = comps[1]; b = comps[2];
     r2 = comps2[0]; g2 = comps2[1]; b2 = comps2[2];
@@ -270,13 +277,13 @@
   [node setValue:color.hexString forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-    [self node:colorPicker.node didTouchColor:color];
+    [self node:node[@"node"] didTouchColor:color];
 }
 
-- (void)node:(NSUInteger)nodeName didTouchColor:(UIColor *)color
+- (void)node:(NSString *)nodeName didTouchColor:(UIColor *)color
 {
-    NSString *tmpl = [self templateForColor:color color2:color andNode:nodeName];
-    NSString *request = [NSString stringWithFormat:tmpl, [node objectForKey:@"node"]];
+    NSString *tmpl = [self templateForColor:color color2:color andChannel:1];
+    NSString *request = [NSString stringWithFormat:tmpl, nodeName];
 
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     if (touchTimer) @synchronized(self) {
@@ -318,7 +325,7 @@
 }
 - (IBAction)allLightsOn:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:1.0 green:.95 blue:.97 alpha:1.0];
-    NSString *tmpl = [self templateForColor:newcolor color2:newcolor andNode:1];
+    NSString *tmpl = [self templateForColor:newcolor color2:newcolor andChannel:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     [self backgroundRequest:req];
@@ -330,7 +337,7 @@
 }
 - (IBAction)allLightsOff:(id)sender {
   UIColor *newcolor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-  NSString *tmpl = [self templateForColor:newcolor color2:newcolor andNode:1];
+  NSString *tmpl = [self templateForColor:newcolor color2:newcolor andChannel:1];
   NSString *request = [NSString stringWithFormat:tmpl, @"all"];
   NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
   [self backgroundRequest:req];

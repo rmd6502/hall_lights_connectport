@@ -91,8 +91,26 @@
 }
 
 #pragma mark - watchkit
-- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))wkreply
 {
+    __block UIBackgroundTaskIdentifier identifier = UIBackgroundTaskInvalid;
+    void (^endBlock)() = ^{
+        if (identifier != UIBackgroundTaskInvalid) {
+            [application endBackgroundTask:identifier];
+        }
+        identifier = UIBackgroundTaskInvalid;
+    };
+
+    identifier = [application beginBackgroundTaskWithExpirationHandler:endBlock];
+
+    // Wacky but the block will capture the outer reply inside but then later we can still simply call reply - Thanks Dave D!
+    void (^reply)(NSDictionary *) = ^(NSDictionary *replyInfo){
+        wkreply(replyInfo);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_global_queue(0, 0), ^{
+            endBlock();
+        });
+    };
+
     NSString *request = userInfo[@"request"];
     if ([request isEqualToString:@"lights"]) {
         __weak typeof(clvc) weakClvc = clvc;
@@ -112,8 +130,8 @@
         [clvc doRefresh:nil];
     } else if ([request isEqualToString:@"color"]) {
         UIColor *color = [UIColor colorWithRed:[userInfo[@"red"] doubleValue] green:[userInfo[@"green"] doubleValue] blue:[userInfo[@"blue"] doubleValue] alpha:1.0];
-        [clvc node:[userInfo[@"node"] unsignedIntegerValue] didTouchColor:color];
-        reply(@{@"response": @"color changed"});
+        [clvc node:userInfo[@"node"] didTouchColor:color];
+        reply(@{@"response": @"color changed", @"node": userInfo[@"node"] });
     } else {
         reply(@{@"error": @"unknown request"});
     }

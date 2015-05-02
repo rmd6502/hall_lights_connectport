@@ -42,7 +42,7 @@
 
 
 @property(nonatomic,unsafe_unretained)	id<ColorPickerViewControllerDelegate> delegate;
-@property(nonatomic,assign) NSUInteger node;
+@property(nonatomic,assign) NSUInteger channel;
 
 #ifdef IPHONE_COLOR_PICKER_SAVE_DEFAULT
   @property(readwrite,nonatomic,retain) NSString *defaultsKey;

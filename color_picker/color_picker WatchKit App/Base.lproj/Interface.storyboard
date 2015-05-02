@@ -42,6 +42,14 @@
                                         <outlet property="errorLabel" destination="0Hk-te-jJS" id="QOS-vh-Xuz"/>
                                     </connections>
                                 </tableRow>
+                                <tableRow identifier="Waiting" selectable="NO" id="Lzr-lX-cJp">
+                                    <group key="rootItem" width="1" alignment="left" layout="vertical" id="hzj-qZ-ZYk">
+                                        <items>
+                                            <imageView alignment="center" id="Ddh-du-TsL"/>
+                                            <label alignment="center" text="Loading" textAlignment="left" id="Qgj-kR-Uvp"/>
+                                        </items>
+                                    </group>
+                                </tableRow>
                             </items>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </table>
@@ -63,7 +71,7 @@
                                 <label width="1" alignment="left" text="Light Name" textAlignment="center" id="Muv-F8-6un"/>
                                 <group width="1" alignment="left" id="mwa-2t-2Wt">
                                     <items>
-                                        <slider width="1" alignment="left" value="1" steps="255" id="qub-Rb-vGb">
+                                        <slider width="1" alignment="left" value="1" steps="20" id="qub-Rb-vGb">
                                             <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="updateRed:" destination="vbQ-jR-WSd" id="r4q-tV-LVp"/>
@@ -73,7 +81,7 @@
                                 </group>
                                 <group width="1" alignment="left" id="De2-6C-8MF">
                                     <items>
-                                        <slider alignment="left" value="1" steps="255" id="dmN-CJ-K7K">
+                                        <slider alignment="left" value="1" steps="20" id="dmN-CJ-K7K">
                                             <color key="color" red="0.38562459020000001" green="0.88091856059999996" blue="0.56593448970000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="updateGreen:" destination="vbQ-jR-WSd" id="rGh-Ej-PdW"/>
@@ -83,7 +91,7 @@
                                 </group>
                                 <group width="1" alignment="left" id="kAy-pM-ufr">
                                     <items>
-                                        <slider alignment="left" value="1" steps="255" id="M6v-Al-gq8">
+                                        <slider alignment="left" value="1" steps="20" id="M6v-Al-gq8">
                                             <color key="color" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="updateBlue:" destination="vbQ-jR-WSd" id="DEM-ES-ydu"/>
