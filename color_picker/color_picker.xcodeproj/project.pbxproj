@@ -21,10 +21,10 @@
 		9CC6F4FF1AEC95F200321413 /* LightListInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F4FE1AEC95F200321413 /* LightListInterfaceController.m */; };
 		9CC6F5021AEC95F200321413 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F5011AEC95F200321413 /* GlanceController.m */; };
 		9CC6F5041AEC95F200321413 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CC6F5031AEC95F200321413 /* Images.xcassets */; };
-		9CC6F5081AEC95F200321413 /* color_picker WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 9CC6F5071AEC95F200321413 /* color_picker WatchKit App.app */; };
+		9CC6F5081AEC95F200321413 /* Color Picker.app in Resources */ = {isa = PBXBuildFile; fileRef = 9CC6F5071AEC95F200321413 /* Color Picker.app */; };
 		9CC6F5101AEC95F200321413 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CC6F50E1AEC95F200321413 /* Interface.storyboard */; };
 		9CC6F5121AEC95F200321413 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CC6F5111AEC95F200321413 /* Images.xcassets */; };
-		9CC6F5151AEC95F200321413 /* color_picker WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9CC6F4F91AEC95F200321413 /* color_picker WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9CC6F5151AEC95F200321413 /* Color Picker.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9CC6F4F91AEC95F200321413 /* Color Picker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9CC6F5261AEC9BD100321413 /* SetColorInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F5251AEC9BD100321413 /* SetColorInterfaceController.m */; };
 		9CC6F5291AEC9C6200321413 /* LampRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F5281AEC9C6200321413 /* LampRow.m */; };
 		9CC6F52C1AEC9C7100321413 /* ErrorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F52B1AEC9C7100321413 /* ErrorRow.m */; };
@@ -137,7 +137,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9CC6F5151AEC95F200321413 /* color_picker WatchKit Extension.appex in Embed App Extensions */,
+				9CC6F5151AEC95F200321413 /* Color Picker.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,14 +163,14 @@
 		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		9C9C67B31ADAC01F00110CF7 /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
-		9CC6F4F91AEC95F200321413 /* color_picker WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "color_picker WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CC6F4F91AEC95F200321413 /* Color Picker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Color Picker.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CC6F4FC1AEC95F200321413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CC6F4FD1AEC95F200321413 /* LightListInterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightListInterfaceController.h; sourceTree = "<group>"; };
 		9CC6F4FE1AEC95F200321413 /* LightListInterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightListInterfaceController.m; sourceTree = "<group>"; };
 		9CC6F5001AEC95F200321413 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
 		9CC6F5011AEC95F200321413 /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
 		9CC6F5031AEC95F200321413 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9CC6F5071AEC95F200321413 /* color_picker WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "color_picker WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CC6F5071AEC95F200321413 /* Color Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CC6F50D1AEC95F200321413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CC6F50F1AEC95F200321413 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		9CC6F5111AEC95F200321413 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -342,8 +342,8 @@
 			isa = PBXGroup;
 			children = (
 				9CE4EECF14CBA53300DFAD4A /* color_picker.app */,
-				9CC6F4F91AEC95F200321413 /* color_picker WatchKit Extension.appex */,
-				9CC6F5071AEC95F200321413 /* color_picker WatchKit App.app */,
+				9CC6F4F91AEC95F200321413 /* Color Picker.appex */,
+				9CC6F5071AEC95F200321413 /* Color Picker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -456,7 +456,7 @@
 			);
 			name = "color_picker WatchKit Extension";
 			productName = "color_picker WatchKit Extension";
-			productReference = 9CC6F4F91AEC95F200321413 /* color_picker WatchKit Extension.appex */;
+			productReference = 9CC6F4F91AEC95F200321413 /* Color Picker.appex */;
 			productType = "com.apple.product-type.watchkit-extension";
 		};
 		9CC6F5061AEC95F200321413 /* color_picker WatchKit App */ = {
@@ -471,7 +471,7 @@
 			);
 			name = "color_picker WatchKit App";
 			productName = "color_picker WatchKit App";
-			productReference = 9CC6F5071AEC95F200321413 /* color_picker WatchKit App.app */;
+			productReference = 9CC6F5071AEC95F200321413 /* Color Picker.app */;
 			productType = "com.apple.product-type.application.watchapp";
 		};
 		9CE4EECE14CBA53300DFAD4A /* color_picker */ = {
@@ -609,7 +609,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CC6F5081AEC95F200321413 /* color_picker WatchKit App.app in Resources */,
+				9CC6F5081AEC95F200321413 /* Color Picker.app in Resources */,
 				9CC6F5041AEC95F200321413 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -741,7 +741,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "${TARGET_NAME}";
+				PRODUCT_NAME = "Color Picker";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -755,7 +756,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -766,7 +767,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "${TARGET_NAME}";
+				PRODUCT_NAME = "Color Picker";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -794,7 +796,7 @@
 				INFOPLIST_FILE = "color_picker WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Color Picker";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -823,7 +825,7 @@
 				INFOPLIST_FILE = "color_picker WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Color Picker";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -880,7 +882,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -924,7 +926,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7257da14-6175-4ad0-8445-9b02ed4509aa";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "83242569-f7f6-4a78-b389-0c0dabe688d7";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -936,8 +938,8 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = color_picker/Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
