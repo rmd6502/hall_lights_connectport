@@ -112,6 +112,7 @@
     };
 
     NSString *request = userInfo[@"request"];
+    NSLog(@"Got request %@", request);
     if ([request isEqualToString:@"lights"]) {
         __weak typeof(clvc) weakClvc = clvc;
         clvc.didRefresh = ^(NSDictionary *lights, NSError *error) {

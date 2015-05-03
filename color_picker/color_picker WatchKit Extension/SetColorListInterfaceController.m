@@ -32,9 +32,11 @@
     }
 }
 
-- (void)updateColorToRed:(NSNumber *)red green:(NSNumber *)green blue:(NSNumber *)blue {
+- (void)updateColorToColor:(UIColor *)newColor {
+    CGFloat red, green, blue, alpha;
+    [newColor getRed:&red green:&green blue:&blue alpha:&alpha];
     //NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
-    [WKInterfaceController openParentApplication:@{@"request": @"color", @"node": self.node, @"red": red, @"green": green, @"blue": blue} reply:^(NSDictionary *replyInfo, NSError *error) {
+    [WKInterfaceController openParentApplication:@{@"request": @"color", @"node": self.node, @"red": @(red), @"green": @(green), @"blue": @(blue)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"reply %@ error %@", replyInfo, error);
     }];
 }
@@ -45,9 +47,9 @@
         return;
     }
     NSString *colorName = self.handler.allColorNames[rowIndex];
-    NSArray *components = self.handler.allColors[colorName];
-    if ([components isKindOfClass:[NSArray class]]) {
-        [self updateColorToRed:components[0] green:components[1] blue:components[2]];
+    UIColor *newColor = self.handler.allColors[colorName];
+    if ([newColor isKindOfClass:[UIColor class]]) {
+        [self updateColorToColor:newColor];
     }
 }
 

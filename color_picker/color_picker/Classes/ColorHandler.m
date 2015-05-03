@@ -43,7 +43,7 @@ static dispatch_once_t once = 0;
 - (void)readColorList
 {
     dispatch_async(self.workQ, ^{
-        NSMutableDictionary *allColors = [@{@"Black": @[@0,@0,@0]} mutableCopy];
+        NSMutableDictionary *allColors = [@{@"Black": [UIColor blackColor]} mutableCopy];
         NSMutableArray *allColorNames = [@[@"Black"] mutableCopy];
 
         NSString *path = [[NSBundle mainBundle] pathForResource:@"rgb" ofType:@"txt"];
@@ -59,7 +59,7 @@ static dispatch_once_t once = 0;
         if (rgbData.length) {
             NSArray *rgbLines = [[[NSString alloc] initWithData:rgbData encoding:NSUTF8StringEncoding] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             for (NSString *rgbDatum in rgbLines) {
-                if (rgbDatum.length) {  // skip empty lines caused by adjacent newline chars
+                if (rgbDatum.length && ![rgbDatum hasPrefix:@"#"]) {  // skip empty lines caused by adjacent newline chars
                     CGFloat red = [[rgbDatum substringWithRange:redRange] doubleValue]/255.0;
                     CGFloat green = [[rgbDatum substringWithRange:greenRange] doubleValue]/255.0;
                     CGFloat blue = [[rgbDatum substringWithRange:blueRange] doubleValue]/255.0;
@@ -67,7 +67,7 @@ static dispatch_once_t once = 0;
                     if (name.length && ![name isEqualToString:@"black"] && [name rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet] options:0].location != 0) {
                         name = [name capitalizedString];
                         [allColorNames addObject:name];
-                        allColors[name] = @[@(red), @(green), @(blue)];
+                        allColors[name] = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
                     }
                 }
             }
@@ -82,8 +82,7 @@ static dispatch_once_t once = 0;
     dispatch_sync(self.workQ, ^{
         // just need to wait until the readColors block has finished
     });
-    NSMutableArray *components = self.allColors[name];
-    return [UIColor colorWithRed:[components[0] doubleValue] green:[components[1] doubleValue] blue:[components[2] doubleValue] alpha:1.0];
+    return self.allColors[name];
 }
 
 - (NSArray *)allColorNames
