@@ -55,7 +55,7 @@ CFSocketRef sock = nil;
     CFRunLoopAddSource(CFRunLoopGetCurrent(), rlr, kCFRunLoopCommonModes);
     CFRelease(rlr);
     
-    [NSTimer scheduledTimerWithTimeInterval:15.0 target:[ConnectportDiscovery class] selector:@selector(timeoutFinished:) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:[ConnectportDiscovery class] selector:@selector(timeoutFinished:) userInfo:nil repeats:NO];
 }
 
 + (void)timeoutFinished:(NSTimer *)t {

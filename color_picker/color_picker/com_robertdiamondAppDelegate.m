@@ -77,6 +77,10 @@
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Discovery" message:@"No Connectports Found" delegate:clvc cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
             clvc.spinner.hidden = YES;
+            if (clvc.didRefresh) {
+                clvc.didRefresh(nil, [NSError errorWithDomain:@"digi" code:-2222 userInfo:@{NSLocalizedDescriptionKey: @"No Connectports Found"}]);
+                clvc.didRefresh = nil;
+            }
         }
     }
 }
@@ -114,6 +118,12 @@
     NSString *request = userInfo[@"request"];
     NSLog(@"Got request %@", request);
     if ([request isEqualToString:@"lights"]) {
+        [ConnectportDiscovery setDelegate:self];
+        if (clvc == nil) {
+            NSLog(@"creating clvc for request");
+            [ConnectportDiscovery setDelegate:self];
+            clvc = [[ChooseLightViewController alloc] initWithNibName:@"ChooseLightViewController" bundle:nil];
+        }
         __weak typeof(clvc) weakClvc = clvc;
         clvc.didRefresh = ^(NSDictionary *lights, NSError *error) {
             if (lights == nil && error == nil) {

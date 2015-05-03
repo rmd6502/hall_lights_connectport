@@ -173,6 +173,7 @@
                               currentColor2.hexString, @"color2",
                                nodeId, @"node",
                                [NSNumber numberWithLong:lastActive], @"lastActive",
+                               lightName, @"name",
                                nil] 
                        forKey:lightName];
     }
@@ -274,7 +275,6 @@
 }
 - (void)colorPickerViewController:(ColorPickerViewController *)colorPicker didTouchColor:(UIColor *)color {
   colorPicker.defaultsColor = color;
-  [node setValue:color.hexString forKey:@"color"];
   //NSLog(@"setting color %@", color);
   //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     [self node:node[@"node"] didTouchColor:color];
@@ -284,6 +284,19 @@
 {
     NSString *tmpl = [self templateForColor:color color2:color andChannel:1];
     NSString *request = [NSString stringWithFormat:tmpl, nodeName];
+    if ([nodeName isEqualToString:node[@"node"]]) {
+        [node setValue:color.hexString forKey:@"color"];
+        [(ColorPickerView *)cpvc.view setColor:color];
+    } else {
+        for (NSMutableDictionary *lightDict in lightColors.allValues) {
+            if ([nodeName isEqualToString:lightDict[@"node"]]) {
+                lightDict[@"color"] = color.hexString;
+            }
+        }
+    }
+    if (lightColors.count) {
+        [self.tableView reloadData];
+    }
 
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:request] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     if (touchTimer) @synchronized(self) {

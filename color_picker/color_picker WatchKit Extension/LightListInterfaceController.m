@@ -30,7 +30,11 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    [self _reloadTable];
+}
 
+- (void)_reloadTable {
+    [self.lightListTable setRowTypes:@[@"Waiting"]];
     __weak typeof(self) weakSelf = self;
     [WKInterfaceController openParentApplication:@{@"request": @"lights"} reply:^(NSDictionary *replyInfo, NSError *error) {
         typeof (self) strongSelf = weakSelf;
@@ -73,6 +77,15 @@
         } else if ([controller isKindOfClass:[ErrorRow class]]) {
             [[(ErrorRow *)controller errorLabel] setText:@"Failed to retrieve lights"];
         }
+    }
+}
+
+- (void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex
+{
+    [super table:table didSelectRowAtIndex:rowIndex];
+    ErrorRow *row = [table rowControllerAtIndex:rowIndex];
+    if ([row isKindOfClass:[ErrorRow class]]) {
+        [self _reloadTable];
     }
 }
 
