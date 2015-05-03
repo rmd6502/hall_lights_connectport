@@ -17,6 +17,12 @@
 		9C1140C71AEDA93700E3ED92 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */; };
 		9C6CBD19179211B500D3D21C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CBD18179211B500D3D21C /* Default-568h@2x.png */; };
 		9C7451EE1525512A000C8275 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7451ED1525512A000C8275 /* frame.png */; };
+		9C75EBAA1AF5774600131679 /* rgb.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9C75EBA91AF5774600131679 /* rgb.txt */; };
+		9C75EBAD1AF5778500131679 /* ColorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C75EBAC1AF5778500131679 /* ColorHandler.m */; };
+		9C75EBAE1AF58A9700131679 /* ColorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C75EBAC1AF5778500131679 /* ColorHandler.m */; };
+		9C75EBB11AF5954A00131679 /* SetColorListInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C75EBB01AF5954A00131679 /* SetColorListInterfaceController.m */; };
+		9C75EBB41AF595FD00131679 /* ColorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C75EBB31AF595FD00131679 /* ColorRow.m */; };
+		9C75EBB51AF59A9700131679 /* rgb.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9C75EBA91AF5774600131679 /* rgb.txt */; };
 		9C9C67C61ADAC19500110CF7 /* libTBXML-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A7315040A190096A20C /* libTBXML-iOS.a */; };
 		9CC6F4FF1AEC95F200321413 /* LightListInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F4FE1AEC95F200321413 /* LightListInterfaceController.m */; };
 		9CC6F5021AEC95F200321413 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6F5011AEC95F200321413 /* GlanceController.m */; };
@@ -162,6 +168,13 @@
 		9C1140C51AEDA85200E3ED92 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		9C6CBD18179211B500D3D21C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C7451ED1525512A000C8275 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
+		9C75EBA91AF5774600131679 /* rgb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rgb.txt; sourceTree = "<group>"; };
+		9C75EBAB1AF5778500131679 /* ColorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorHandler.h; sourceTree = "<group>"; };
+		9C75EBAC1AF5778500131679 /* ColorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorHandler.m; sourceTree = "<group>"; };
+		9C75EBAF1AF5954A00131679 /* SetColorListInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetColorListInterfaceController.h; sourceTree = "<group>"; };
+		9C75EBB01AF5954A00131679 /* SetColorListInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetColorListInterfaceController.m; sourceTree = "<group>"; };
+		9C75EBB21AF595FD00131679 /* ColorRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorRow.h; sourceTree = "<group>"; };
+		9C75EBB31AF595FD00131679 /* ColorRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorRow.m; sourceTree = "<group>"; };
 		9C9C67B31ADAC01F00110CF7 /* TBXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TBXML.xcodeproj; path = ../TBXML/TBXML.xcodeproj; sourceTree = "<group>"; };
 		9CC6F4F91AEC95F200321413 /* Color Picker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Color Picker.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CC6F4FC1AEC95F200321413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -294,6 +307,10 @@
 				9CC6F5281AEC9C6200321413 /* LampRow.m */,
 				9CC6F52A1AEC9C7100321413 /* ErrorRow.h */,
 				9CC6F52B1AEC9C7100321413 /* ErrorRow.m */,
+				9C75EBAF1AF5954A00131679 /* SetColorListInterfaceController.h */,
+				9C75EBB01AF5954A00131679 /* SetColorListInterfaceController.m */,
+				9C75EBB21AF595FD00131679 /* ColorRow.h */,
+				9C75EBB31AF595FD00131679 /* ColorRow.m */,
 			);
 			path = "color_picker WatchKit Extension";
 			sourceTree = "<group>";
@@ -364,6 +381,7 @@
 		9CE4EED914CBA53300DFAD4A /* color_picker */ = {
 			isa = PBXGroup;
 			children = (
+				9C75EBA91AF5774600131679 /* rgb.txt */,
 				9C1140C31AEDA80A00E3ED92 /* Extensions */,
 				9CE4EEFF14CBA68200DFAD4A /* Classes */,
 				9CE4EEE214CBA53300DFAD4A /* com_robertdiamondAppDelegate.h */,
@@ -423,6 +441,8 @@
 				83ED0A8115044B3D0096A20C /* ChooseLightViewController.h */,
 				83ED0A8215044B3D0096A20C /* ChooseLightViewController.m */,
 				83ED0A8315044B3D0096A20C /* ChooseLightViewController.xib */,
+				9C75EBAB1AF5778500131679 /* ColorHandler.h */,
+				9C75EBAC1AF5778500131679 /* ColorHandler.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -609,6 +629,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C75EBB51AF59A9700131679 /* rgb.txt in Resources */,
 				9CC6F5081AEC95F200321413 /* Color Picker.app in Resources */,
 				9CC6F5041AEC95F200321413 /* Images.xcassets in Resources */,
 			);
@@ -639,6 +660,7 @@
 				83B4798B15055860002AC1DA /* rainbow_lamp@2x.png in Resources */,
 				83173CD6150FC31500227E21 /* Entitlements.plist in Resources */,
 				83201BEA1512619700F6CA42 /* lamp icon.png in Resources */,
+				9C75EBAA1AF5774600131679 /* rgb.txt in Resources */,
 				9C7451EE1525512A000C8275 /* frame.png in Resources */,
 				9CEEB79B1532265F00A7DBB8 /* rainbow_lamp_ipad.png in Resources */,
 			);
@@ -651,10 +673,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C75EBB11AF5954A00131679 /* SetColorListInterfaceController.m in Sources */,
 				9CC6F5261AEC9BD100321413 /* SetColorInterfaceController.m in Sources */,
 				9C1140C71AEDA93700E3ED92 /* UIColor+Hex.m in Sources */,
 				9CC6F4FF1AEC95F200321413 /* LightListInterfaceController.m in Sources */,
 				9CC6F5291AEC9C6200321413 /* LampRow.m in Sources */,
+				9C75EBAE1AF58A9700131679 /* ColorHandler.m in Sources */,
+				9C75EBB41AF595FD00131679 /* ColorRow.m in Sources */,
 				9CC6F52C1AEC9C7100321413 /* ErrorRow.m in Sources */,
 				9CC6F5021AEC95F200321413 /* GlanceController.m in Sources */,
 			);
@@ -665,6 +690,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CE4EEE014CBA53300DFAD4A /* main.m in Sources */,
+				9C75EBAD1AF5778500131679 /* ColorHandler.m in Sources */,
 				9C1140C61AEDA85200E3ED92 /* UIColor+Hex.m in Sources */,
 				9CE4EEE414CBA53300DFAD4A /* com_robertdiamondAppDelegate.m in Sources */,
 				9CE4EF1314CBA68200DFAD4A /* ColorPickerView.m in Sources */,

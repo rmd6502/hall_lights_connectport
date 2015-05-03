@@ -15,7 +15,7 @@
 #import "com_robertdiamondAppDelegate.h"
 #import <objc/objc.h>
 
-@interface ChooseLightViewController(Private)
+@interface ChooseLightViewController()
 
 - (NSString *)templateForColor:(UIColor *)color color2:(UIColor *)color2 andChannel:(NSUInteger)channel;
 - (void)hideSpinner;

@@ -57,7 +57,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
         [ConnectportDiscovery setDelegate:self];
-        [ConnectportDiscovery findDigis];
+        //[ConnectportDiscovery findDigis];
     } 
 }
 
