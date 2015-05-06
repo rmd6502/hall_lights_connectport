@@ -12,5 +12,6 @@
 @interface ColorRow : NSObject
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *colorName;
 @property (weak, nonatomic) IBOutlet WKInterfaceGroup *colorGroup;
+@property (weak, nonatomic) IBOutlet WKInterfaceGroup *outlineGroup;
 
 @end

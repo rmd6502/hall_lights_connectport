@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *lightNameLabel;
 @property (nonatomic) NSString *node;
 @property (weak, nonatomic) IBOutlet WKInterfaceTable *colorListTable;
+@property (nonatomic) NSUInteger selectedRow;
 
 @end
 
@@ -30,9 +31,11 @@
         [self.lightNameLabel setText:context[@"name"]];
         self.node = context[@"node"];
     }
+    self.selectedRow = NSNotFound;
 }
 
 - (void)updateColorToColor:(UIColor *)newColor {
+    self.color = newColor;
     CGFloat red, green, blue, alpha;
     [newColor getRed:&red green:&green blue:&blue alpha:&alpha];
     //NSLog(@"red %f green %f blue %f", self.red, self.green, self.blue);
@@ -46,9 +49,24 @@
     if (rowIndex >= self.handler.allColorNames.count) {
         return;
     }
+    if (rowIndex != self.selectedRow) {
+        if (self.selectedRow != NSNotFound) {
+            ColorRow *row = [self.colorListTable rowControllerAtIndex:self.selectedRow];
+            [row.outlineGroup setBackgroundColor:[UIColor clearColor]];
+        }
+        self.selectedRow = rowIndex;
+    }
     NSString *colorName = self.handler.allColorNames[rowIndex];
     UIColor *newColor = self.handler.allColors[colorName];
     if ([newColor isKindOfClass:[UIColor class]]) {
+        CGFloat level, alpha;
+        [newColor getWhite:&level alpha:&alpha];
+        ColorRow *row = [self.colorListTable rowControllerAtIndex:self.selectedRow];
+        if (level > 0.5) {
+            [row.outlineGroup setBackgroundColor:[UIColor darkGrayColor]];
+        } else {
+            [row.outlineGroup setBackgroundColor:[UIColor whiteColor]];
+        }
         [self updateColorToColor:newColor];
     }
 }
@@ -59,7 +77,8 @@
     for (NSUInteger index = 0; index < self.colorListTable.numberOfRows; ++index) {
         ColorRow *row = [self.colorListTable rowControllerAtIndex:index];
         NSString *name = self.handler.allColorNames[index];
-        UIColor *backgroundColor = [self.handler colorForName:name];
+        UIColor *cellColor = [self.handler colorForName:name];
+        UIColor *backgroundColor = cellColor;
         [row.colorGroup setBackgroundColor:backgroundColor];
         CGFloat level, alpha;
         [backgroundColor getWhite:&level alpha:&alpha];
@@ -68,6 +87,18 @@
             [row.colorName setTextColor:[UIColor blackColor]];
         } else {
             [row.colorName setTextColor:[UIColor whiteColor]];
+        }
+        if ([self.color isEqual:cellColor]) {
+            if (self.selectedRow == NSNotFound) {
+                self.selectedRow = index;
+            }
+            if (level > 0.5) {
+                [row.outlineGroup setBackgroundColor:[UIColor darkGrayColor]];
+            } else {
+                [row.outlineGroup setBackgroundColor:[UIColor whiteColor]];
+            }
+        } else {
+            [row.outlineGroup setBackgroundColor:[UIColor clearColor]];
         }
     }
 }

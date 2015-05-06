@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7703" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
@@ -133,15 +133,23 @@
                                 <table alignment="left" id="beJ-eg-pAU">
                                     <items>
                                         <tableRow identifier="Color" id="0Rl-un-iTy" customClass="ColorRow">
-                                            <group key="rootItem" width="1" height="0.0" alignment="left" id="UD2-G8-ogB">
+                                            <group key="rootItem" width="1" height="0.0" alignment="left" radius="6" id="UD2-G8-ogB">
                                                 <items>
-                                                    <label width="1" alignment="center" text="Label" textAlignment="center" id="pBd-52-b04"/>
+                                                    <group width="1" alignment="center" radius="6" id="7EK-Ff-srR">
+                                                        <items>
+                                                            <label width="1" alignment="center" text="Label" textAlignment="center" id="pBd-52-b04"/>
+                                                        </items>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <edgeInsets key="margins" left="4" right="4" top="6" bottom="6"/>
+                                                    </group>
                                                 </items>
-                                                <edgeInsets key="margins" left="4" right="4" top="3" bottom="3"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
                                             </group>
                                             <connections>
-                                                <outlet property="colorGroup" destination="UD2-G8-ogB" id="PUX-jy-1Sx"/>
+                                                <outlet property="colorGroup" destination="7EK-Ff-srR" id="gyf-dz-Jzd"/>
                                                 <outlet property="colorName" destination="pBd-52-b04" id="aFx-Hr-Yln"/>
+                                                <outlet property="outlineGroup" destination="UD2-G8-ogB" id="JAl-r6-Rce"/>
                                             </connections>
                                         </tableRow>
                                     </items>

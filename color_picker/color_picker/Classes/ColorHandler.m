@@ -43,8 +43,8 @@ static dispatch_once_t once = 0;
 - (void)readColorList
 {
     dispatch_async(self.workQ, ^{
-        NSMutableDictionary *allColors = [@{@"Black": [UIColor blackColor]} mutableCopy];
-        NSMutableArray *allColorNames = [@[@"Black"] mutableCopy];
+        NSMutableDictionary *allColors = [NSMutableDictionary new];
+        NSMutableArray *allColorNames = [NSMutableArray new];
 
         NSString *path = [[NSBundle mainBundle] pathForResource:@"rgb" ofType:@"txt"];
         NSData *rgbData = nil;
@@ -63,8 +63,8 @@ static dispatch_once_t once = 0;
                     CGFloat red = [[rgbDatum substringWithRange:redRange] doubleValue]/255.0;
                     CGFloat green = [[rgbDatum substringWithRange:greenRange] doubleValue]/255.0;
                     CGFloat blue = [[rgbDatum substringWithRange:blueRange] doubleValue]/255.0;
-                    NSString *name = [rgbDatum substringFromIndex:nameRange.location];
-                    if (name.length && ![name isEqualToString:@"black"] && [name rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet] options:0].location != 0) {
+                    NSString *name = [[rgbDatum substringFromIndex:nameRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    if (name.length && [name rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet] options:0].location != 0) {
                         name = [name capitalizedString];
                         [allColorNames addObject:name];
                         allColors[name] = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];

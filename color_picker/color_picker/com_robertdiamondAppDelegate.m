@@ -110,7 +110,7 @@
     // Wacky but the block will capture the outer reply inside but then later we can still simply call reply - Thanks Dave D!
     void (^reply)(NSDictionary *) = ^(NSDictionary *replyInfo){
         wkreply(replyInfo);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_global_queue(0, 0), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 15 * NSEC_PER_SEC), dispatch_get_global_queue(0, 0), ^{
             endBlock();
         });
     };

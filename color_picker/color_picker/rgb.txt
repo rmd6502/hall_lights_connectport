@@ -1,3 +1,5 @@
+  0   0   0		black
+  8   0   0     night red
 255 250 250		snow
 #248 248 255		ghost white
 #248 248 255		GhostWhite
@@ -38,7 +40,6 @@
 #255 228 225		misty rose
 #255 228 225		MistyRose
 255 255 255		white
-  0   0   0		black
  47  79  79		dark slate gray
  47  79  79		DarkSlateGray
  47  79  79		dark slate grey
