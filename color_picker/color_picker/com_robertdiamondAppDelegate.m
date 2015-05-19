@@ -12,6 +12,12 @@
 #import "ConnectportDiscovery.h"
 #import "ADDPPacket.h"
 
+@interface com_robertdiamondAppDelegate ()
+
+@property (nonatomic,strong) UIAlertController *displayedAlert;
+
+@end
+
 @implementation com_robertdiamondAppDelegate
 
 @synthesize window = _window;
@@ -74,9 +80,15 @@
         [clvc doRefresh:nil];
     } else {
         if ([[NSUserDefaults standardUserDefaults] stringForKey:@"arduino"].length == 0) {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Discovery" message:@"No Connectports Found" delegate:clvc cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [av show];
-            clvc.spinner.hidden = YES;
+            UIApplicationState state = [UIApplication sharedApplication].applicationState;
+            if (state == UIApplicationStateActive) {
+                self.displayedAlert = [UIAlertController alertControllerWithTitle:@"Discovery" message:@"No Connectports Found" preferredStyle:UIAlertControllerStyleAlert];
+                [self.displayedAlert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    self.displayedAlert = nil;
+                }]];
+                [self.window.rootViewController presentViewController:self.displayedAlert animated:YES completion:nil];
+                clvc.spinner.hidden = YES;
+            }
             if (clvc.didRefresh) {
                 clvc.didRefresh(nil, [NSError errorWithDomain:@"digi" code:-2222 userInfo:@{NSLocalizedDescriptionKey: @"No Connectports Found"}]);
                 clvc.didRefresh = nil;
@@ -126,6 +138,7 @@
         }
         __weak typeof(clvc) weakClvc = clvc;
         clvc.didRefresh = ^(NSDictionary *lights, NSError *error) {
+            NSLog(@"Lights %@ error %@", lights, error);
             if (lights == nil && error == nil) {
                 error = [NSError errorWithDomain:@"lights" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"No lights"}];
             }
