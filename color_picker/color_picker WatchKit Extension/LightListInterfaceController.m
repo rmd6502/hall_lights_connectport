@@ -34,7 +34,6 @@
 }
 
 - (void)_reloadTable {
-    [self.lightListTable setRowTypes:@[@"Waiting"]];
     __weak typeof(self) weakSelf = self;
     [WKInterfaceController openParentApplication:@{@"request": @"lights"} reply:^(NSDictionary *replyInfo, NSError *error) {
         typeof (self) strongSelf = weakSelf;
